@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Text;
 
-namespace WebUI.Services
+namespace WarehouseDB.Services
 {
   public static class PasswordHash {
     private static string goodSymbols = @"[\w\d\!\@\#\$\%\^|&\*\?\+\=\-]*";

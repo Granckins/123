@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.Security;
 using Warehouse.Core;
 using Warehouse.Core.Repositories;
-namespace WebUI.Services
+namespace WarehouseDB.Services
 {
-    public class PrimaRoles : RoleProvider
+    public class WarehoseRoles : RoleProvider
     {
         WarehouseRequestsRepository rep = new WarehouseRequestsRepository();
 

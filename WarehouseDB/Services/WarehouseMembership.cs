@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
-using Prima.Core.Repositories;
+using Warehouse.Core.Repositories;
 
-namespace WebUI.Services
+namespace WarehouseDB.Services
 {
-    public class PrimaMembership : MembershipProvider
+    public class WarehouseMembership : MembershipProvider
     {
-        MongoRequestsRepository rep = new MongoRequestsRepository();
+        WarehouseRequestsRepository rep = new WarehouseRequestsRepository();
 
         public override string ApplicationName
         {

@@ -9,13 +9,16 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using WarehouseDB.Filters;
 using WarehouseDB.Models;
-using LoveSeat; 
+using LoveSeat;
+using WarehouseDB.Services;
+using System.Web;
+using Warehouse.Core.Repositories; 
 namespace WarehouseDB.Controllers
 {
     public class AccountController : Controller
     {
 
-        PrimaMembership membership = new PrimaMembership();
+        WarehouseMembership membership = new WarehouseMembership();
 
         //[HttpGet]
         //public ActionResult LogOn() {
@@ -26,19 +29,19 @@ namespace WarehouseDB.Controllers
         {
             if (string.IsNullOrWhiteSpace(key))
             {
-                CLogger.WriteLog(ELogLevel.DEBUG, "null key");
+            //    CLogger.WriteLog(ELogLevel.DEBUG, "null key");
                 return View();
             }
             try
             {
-                CLogger.WriteLog(ELogLevel.DEBUG, "key: " + key);
+              //  CLogger.WriteLog(ELogLevel.DEBUG, "key: " + key);
                 var phrase = PasswordHash.Decrypt(key);
-                CLogger.WriteLog(ELogLevel.DEBUG, "phrase: " + phrase);
+              //  CLogger.WriteLog(ELogLevel.DEBUG, "phrase: " + phrase);
                 var phrases = phrase.Split("@".ToCharArray()).Select(x => HttpUtility.UrlDecode(x)).ToList();
                 var userName = phrases[0];
                 var password = phrases[1];
                 var date = DateTime.Parse(phrases[2]);
-                CLogger.WriteLog(ELogLevel.DEBUG, "phrase" + phrase);
+             //   CLogger.WriteLog(ELogLevel.DEBUG, "phrase" + phrase);
                 if (date.AddSeconds(45) > DateTime.Now && membership.ValidateUser(userName, password))
                 {
                     FormsAuthentication.SetAuthCookie(userName, false);
@@ -54,7 +57,7 @@ namespace WarehouseDB.Controllers
             }
             catch (Exception exc)
             {
-                CLogger.WriteLog(ELogLevel.DEBUG, exc.ToString());
+               // CLogger.WriteLog(ELogLevel.DEBUG, exc.ToString());
                 return View("LogOn");
             }
         }
@@ -78,21 +81,19 @@ namespace WarehouseDB.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Prima");
+                        return RedirectToAction("Index", "Home");
                         //return RedirectToAction("Index", "Home");
                     }
                 }
                 else
                 {
-                    var rep = new MongoRequestsRepository();
-                    var us = rep.GetUserIdentityByName(model.UserName);
-                    ModelState.AddModelError("",
-                        us.UserId == "000000000000000000000000" ? "Доступ закрыт." : "Неверные логин и пароль.");
+                    var rep = new WarehouseRequestsRepository(); 
+                    ModelState.AddModelError("",  "Неверные логин и пароль.");
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("Index", "Home",model);
         }
 
 
@@ -114,8 +115,8 @@ namespace WarehouseDB.Controllers
         {
             FormsAuthentication.SignOut();
 
-            var logoffUrl = ConfigurationManager.AppSettings["logoff-url"] ?? "http://www.prima-inform.ru";
-
+            //var logoffUrl = ConfigurationManager.AppSettings["logoff-url"] ?? "http://www.prima-inform.ru";
+             var logoffUrl =  "http://www.prima-inform.ru";
             return Redirect(logoffUrl);
         }
 
