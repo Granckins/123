@@ -2,7 +2,15 @@
     ViewBag.Title = "LogOn";
 }
 
-<div class="login-page" ls-closed>
+<div class="login-page" ls-closed ng-app="app"   ng-controller="appCtrl">
+    <div ng-repeat="panel in panels">
+        test
+        <div class="panelContainer">
+            <p>{{panel.category}}</p>
+            <p>{{panel.date}}</p>
+            <a href="/#/routeOne">Route One</a>
+        </div>
+    </div>
     <div class="login-box">
         <div class="logo">
             <a href="javascript:void(0);">Warehouse<b>DB</b></a>
@@ -11,41 +19,42 @@
         <div class="card">
             <div class="body">
                 @*<form id="loginForm" method="POST">
-                    <div class="msg">Авторизируйтесь для начала рабочего сеанса</div>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">person</i>
-                        </span>
-                        <div class="form-line">
-                            <input type="text" class="form-control" name="username" placeholder="Логин" id="loginName" required autofocus>
+                        <div class="msg">Авторизируйтесь для начала рабочего сеанса</div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">person</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="text" class="form-control" name="username" placeholder="Логин" id="loginName" required autofocus>
+                            </div>
                         </div>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">lock</i>
-                        </span>
-                        <div class="form-line">
-                            <input type="password" class="form-control" name="password" placeholder="Пароль" required>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">lock</i>
+                            </span>
+                            <div class="form-line">
+                                <input type="password" class="form-control" name="password" placeholder="Пароль" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 p-t-5">
-                            <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">
-                            <label for="rememberme">Запомнить меня</label>
+                        <div class="row">
+                            <div class="col-xs-8 p-t-5">
+                                <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">
+                                <label for="rememberme">Запомнить меня</label>
+                            </div>
+                            <div class="col-xs-4">
+                                <button class="btn btn-block bg-pink waves-effect" type="submit">Вход</button>
+                            </div>
                         </div>
-                        <div class="col-xs-4">
-                            <button class="btn btn-block bg-pink waves-effect" type="submit">Вход</button>
-                        </div>
-                    </div>
-                    <div class="row m-t-15 m-b--20">
+                        <div class="row m-t-15 m-b--20">
 
-                        <div class="col-xs-6 align-right">
-                            <a href="forgot-password.html">Забыли пароль?</a>
+                            <div class="col-xs-6 align-right">
+                                <a href="forgot-password.html">Забыли пароль?</a>
+                            </div>
                         </div>
-                    </div>
-                </form>*@
-                @using (Html.BeginForm("LogOn", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "loginForm" }))
-                {
+                    </form>*@
+
+
+                <form ng-submit="login()" id="loginForm" method="post" class="ng-pristine ng-valid">
                     @Html.AntiForgeryToken()
 
                     <div class="msg">Авторизируйтесь для начала рабочего сеанса</div>
@@ -54,20 +63,24 @@
                             <i class="material-icons">person</i>
                         </span>
                         <div class="form-line">
-                            <input type="text" class="form-control" name="username" placeholder="Логин" id="loginName" required autofocus>
+                             
+                            <input type="text" ng-model="loginForm.loginName" lass="form-control" name="username" placeholder="Логин" id="loginName" required autofocus>
+
                         </div>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">lock</i>
                         </span>
-                        <div class="form-line">
-                            <input type="password" class="form-control" name="password" placeholder="Пароль" required>
+                        <div class="form-line"> 
+
+                            <input type="password" id="password" ng-model="loginForm.password" class="form-control" name="password" placeholder="Пароль" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-8 p-t-5">
-                            <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">
+                            
+                            <input type="checkbox" ng-model="loginForm.rememberMe" name="rememberme" id="rememberme" class="filled-in chk-col-pink" required />
                             <label for="rememberme">Запомнить меня</label>
                         </div>
                         <div class="col-xs-4">
@@ -80,14 +93,12 @@
                             <a href="forgot-password.html">Забыли пароль?</a>
                         </div>
                     </div>
-                }
+                </form>
 
-            </div>
+</div>
         </div>
     </div>
-
- 
-
+    
     <!-- Validation Plugin Js -->
     <script src="~/plugins/jquery-validation/jquery.validate.js"></script>
 

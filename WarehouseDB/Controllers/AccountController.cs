@@ -12,9 +12,11 @@ using WarehouseDB.Models;
 using LoveSeat;
 using WarehouseDB.Services;
 using System.Web;
-using Warehouse.Core.Repositories; 
+using Warehouse.Core.Repositories;
+using System.Threading.Tasks; 
 namespace WarehouseDB.Controllers
 {
+    [Authorize] 
     public class AccountController : Controller
     {
 
@@ -62,7 +64,36 @@ namespace WarehouseDB.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost]
+
+        public async Task<bool> Login(LogOnModel model)
+        {
+              if (ModelState.IsValid)
+            {
+                if (membership.ValidateUser(model.UserName, model.Password))
+                {
+                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    var MyCookie = FormsAuthentication.GetAuthCookie(User.Identity.Name.ToString(),
+                                                             false);
+                      Response.AppendCookie(MyCookie);
+                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    return true;
+               
+                  
+            }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return false;
+                }
+             }
+              else
+              {
+                  ModelState.AddModelError("", "Invalid login attempt.");
+                  return false;
+              }
+        }
         public ActionResult LogOn(LogOnModel model, string returnUrl)
         {
             if (ModelState.IsValid)
@@ -70,24 +101,25 @@ namespace WarehouseDB.Controllers
                 if (membership.ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    //var MyCookie = FormsAuthentication.GetAuthCookie(User.Identity.Name.ToString(),
-                    //                                         false);
-                    //MyCookie.Domain = "v2.prima-inform.ru";//the second level domain name
-                    //Response.AppendCookie(MyCookie);
+                    var MyCookie = FormsAuthentication.GetAuthCookie(User.Identity.Name.ToString(),
+                                                             false);
+                    MyCookie.Domain = "v2.prima-inform.ru";//the second level domain name
+                    Response.AppendCookie(MyCookie);
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
-                        return Redirect(returnUrl);
+                        FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                           return Redirect(returnUrl);
                     }
                     else
                     {
+                        FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                         return RedirectToAction("Index", "Home");
-                        //return RedirectToAction("Index", "Home");
                     }
                 }
                 else
                 {
-                    var rep = new WarehouseRequestsRepository(); 
+                  
                     ModelState.AddModelError("",  "Неверные логин и пароль.");
                 }
             }
@@ -95,8 +127,8 @@ namespace WarehouseDB.Controllers
             // If we got this far, something failed, redisplay form
             return RedirectToAction("Index", "Home",model);
         }
-
-
+         
+ 
         [HttpPost]
         public void RemoteLogin()
         {
@@ -110,7 +142,8 @@ namespace WarehouseDB.Controllers
         }
         //
         // GET: /Account/LogOff
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
