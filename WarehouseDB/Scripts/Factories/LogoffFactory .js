@@ -1,10 +1,10 @@
-﻿var LoginFactory = function ($http, $q) {
+﻿var LogOffFactory = function ($http, $q) {
     return function (loginName, password, rememberMe) {
 
         var deferredObject = $q.defer();
 
         $http.post(
-            '/Account/Login', {
+            '/Account/LogOff', {
                 UserName: loginName,
                 Password: password,
                 RememberMe: rememberMe
@@ -24,4 +24,4 @@
     }
 }
 
-LoginFactory.$inject = ['$http', '$q'];
+LogOffFactory.$inject = ['$http', '$q'];

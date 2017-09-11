@@ -1,4 +1,9 @@
-﻿@if (@User.Identity.IsAuthenticated)
+﻿@using Warehouse.Model;
+@{
+    var user = (UserIdentity)ViewData["user"];
+   
+}
+@if (@User.Identity.IsAuthenticated)
 {
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
@@ -241,23 +246,40 @@
     <!-- Left Sidebar -->
     <aside id="leftsidebar" class="sidebar">
         <!-- User Info -->
-        <div class="user-info">
-            <div class="image">
-                <img src="images/user.png" width="48" height="48" alt="User" />
+        <style>
+
+            [data-letters]:before {
+  content:attr(data-letters);
+  display:inline-block;
+  font-size:1em;
+  width:3.5em;
+  height:3.5em;
+  line-height:3.5em;
+  text-align:center;
+  border-radius:50%;
+  background:plum;
+  vertical-align:middle;
+  margin-right:1em;
+  color:white;
+  }
+            </style>
+        <div class="user-info" ng-init="init('@user.Name')">
+            <div class="image" data-letters="{{username}}">
+                @*<img src="images/user.png" width="48" height="48" alt="User" />*@
             </div>
             <div class="info-container">
-                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                <div class="email">john.doe@example.com</div>
+                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >@user.Name</div>
+                @*<div class="email">john.doe@example.com</div>*@
                 <div class="btn-group user-helper-dropdown">
                     <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
-                    <ul class="dropdown-menu pull-right">
+                    <ul class="dropdown-menu pull-right" ng-controller="LoginController">
                         <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
                         <li role="seperator" class="divider"></li>
-                        <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
+                        @*<li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
                         <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                        <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
+                        <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>*@
                         <li role="seperator" class="divider"></li>
-                        <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
+                        <li><a ng-click="logoff()"><i class="material-icons">input</i>Sign Out</a></li>
                     </ul>
                 </div>
             </div>

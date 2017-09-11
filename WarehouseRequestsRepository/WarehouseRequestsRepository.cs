@@ -29,6 +29,11 @@ namespace Warehouse.Core.Repositories
                 var reader = new StreamReader(responseStream, Encoding.UTF8);
                 var res = reader.ReadToEnd();
                  var lucene = JsonConvert.DeserializeObject<LuceneRequest<User>>(res);
+
+                 if (lucene.rows.Count <=0)
+                 {
+                     return new UserIdentity { UserId = "000000000000000000000000" };
+                 }
                  user = lucene.rows.First().fields;
                  user.Id = lucene.rows.First().id;
             }

@@ -26,48 +26,49 @@ namespace WarehouseDB.Controllers
         //public ActionResult LogOn() {
         //    return View();
         //}
-        [HttpGet]
-        public ActionResult LogOn(string key)
-        {
-            if (string.IsNullOrWhiteSpace(key))
-            {
-            //    CLogger.WriteLog(ELogLevel.DEBUG, "null key");
-                return View();
-            }
-            try
-            {
-              //  CLogger.WriteLog(ELogLevel.DEBUG, "key: " + key);
-                var phrase = PasswordHash.Decrypt(key);
-              //  CLogger.WriteLog(ELogLevel.DEBUG, "phrase: " + phrase);
-                var phrases = phrase.Split("@".ToCharArray()).Select(x => HttpUtility.UrlDecode(x)).ToList();
-                var userName = phrases[0];
-                var password = phrases[1];
-                var date = DateTime.Parse(phrases[2]);
-             //   CLogger.WriteLog(ELogLevel.DEBUG, "phrase" + phrase);
-                if (date.AddSeconds(45) > DateTime.Now && membership.ValidateUser(userName, password))
-                {
-                    FormsAuthentication.SetAuthCookie(userName, false);
-                    //var cookie = FormsAuthentication.GetAuthCookie(User.Identity.Name.ToString(), false);
-                    //cookie.Domain = "v2.prima-inform.ru";//the second level domain name
-                    //Response.AppendCookie(cookie);
+        //[HttpGet]
+        //public ActionResult LogOn(string key)
+        //{
+        //    if (string.IsNullOrWhiteSpace(key))
+        //    {
+        //    //    CLogger.WriteLog(ELogLevel.DEBUG, "null key");
+        //        return View();
+        //    }
+        //    try
+        //    {
+        //      //  CLogger.WriteLog(ELogLevel.DEBUG, "key: " + key);
+        //        var phrase = PasswordHash.Decrypt(key);
+        //      //  CLogger.WriteLog(ELogLevel.DEBUG, "phrase: " + phrase);
+        //        var phrases = phrase.Split("@".ToCharArray()).Select(x => HttpUtility.UrlDecode(x)).ToList();
+        //        var userName = phrases[0];
+        //        var password = phrases[1];
+        //        var date = DateTime.Parse(phrases[2]);
+        //     //   CLogger.WriteLog(ELogLevel.DEBUG, "phrase" + phrase);
+        //        if (date.AddSeconds(45) > DateTime.Now && membership.ValidateUser(userName, password))
+        //        {
+        //            FormsAuthentication.SetAuthCookie(userName, false);
+        //            //var cookie = FormsAuthentication.GetAuthCookie(User.Identity.Name.ToString(), false);
+        //            //cookie.Domain = "v2.prima-inform.ru";//the second level domain name
+        //            //Response.AppendCookie(cookie);
 
-                    return RedirectToAction("Index", "Home");
+        //            return RedirectToAction("Index", "Home");
 
-                }
-                else throw new Exception("asdfasdf");
+        //        }
+        //        else throw new Exception("asdfasdf");
 
-            }
-            catch (Exception exc)
-            {
-               // CLogger.WriteLog(ELogLevel.DEBUG, exc.ToString());
-                return View("LogOn");
-            }
-        }
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //       // CLogger.WriteLog(ELogLevel.DEBUG, exc.ToString());
+        //        return View("LogOn");
+        //    }
+        //}
 
-        [AllowAnonymous]
+        
         [HttpPost]
 
-        public async Task<bool> Login(LogOnModel model)
+        [AllowAnonymous]
+        public bool Login(LogOnModel model)
         {
               if (ModelState.IsValid)
             {
@@ -78,6 +79,7 @@ namespace WarehouseDB.Controllers
                                                              false);
                       Response.AppendCookie(MyCookie);
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+
                     return true;
                
                   
@@ -94,41 +96,42 @@ namespace WarehouseDB.Controllers
                   return false;
               }
         }
-        public ActionResult LogOn(LogOnModel model, string returnUrl)
-        {
-            if (ModelState.IsValid)
-            {
-                if (membership.ValidateUser(model.UserName, model.Password))
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    var MyCookie = FormsAuthentication.GetAuthCookie(User.Identity.Name.ToString(),
-                                                             false);
-                    MyCookie.Domain = "v2.prima-inform.ru";//the second level domain name
-                    Response.AppendCookie(MyCookie);
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    {
-                        FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                           return Redirect(returnUrl);
-                    }
-                    else
-                    {
-                        FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                else
-                {
+        //public ActionResult LogOn(LogOnModel model, string returnUrl)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (membership.ValidateUser(model.UserName, model.Password))
+        //        {
+        //            FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+        //            var MyCookie = FormsAuthentication.GetAuthCookie(User.Identity.Name.ToString(),
+        //                                                     false);
+        //            MyCookie.Domain = "v2.prima-inform.ru";//the second level domain name
+        //            Response.AppendCookie(MyCookie);
+        //            if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+        //                && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+        //            {
+        //                FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+        //                   return Redirect(returnUrl);
+        //            }
+        //            else
+        //            {
+        //                FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+        //                return RedirectToAction("Index", "Home");
+        //            }
+        //        }
+        //        else
+        //        {
                   
-                    ModelState.AddModelError("",  "Неверные логин и пароль.");
-                }
-            }
+        //            ModelState.AddModelError("",  "Неверные логин и пароль.");
+        //        }
+        //    }
 
-            // If we got this far, something failed, redisplay form
-            return RedirectToAction("Index", "Home",model);
-        }
+        //    // If we got this far, something failed, redisplay form
+        //    return RedirectToAction("Index", "Home",model);
+        //}
          
  
+        
         [HttpPost]
         public void RemoteLogin()
         {
@@ -143,15 +146,15 @@ namespace WarehouseDB.Controllers
         //
         // GET: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
+        
+          [AllowAnonymous] 
+        public bool LogOff (LogOnModel model)
         {
             FormsAuthentication.SignOut();
 
-            //var logoffUrl = ConfigurationManager.AppSettings["logoff-url"] ?? "http://www.prima-inform.ru";
-             var logoffUrl =  "http://www.prima-inform.ru";
-            return Redirect(logoffUrl);
+            return true;
         }
+
 
     }
 }

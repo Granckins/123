@@ -7,12 +7,16 @@ app.controller('LoginController', LoginController);
 
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 app.factory('LoginFactory', LoginFactory);
+
 var configFunction = function ($routeProvider, $httpProvider) {
     $routeProvider.
         when('/home', {
-            templateUrl: '/home'
+            templateUrl: '/Home/Index'
         })
-        .when('/login', {
+   .when('/logoff', {
+       templateUrl: '/Account/LogOff'
+    })
+        .when('/Login', {
             templateUrl: '/Account/Login',
             controller: LoginController
         });

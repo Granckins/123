@@ -66,7 +66,7 @@ namespace WarehouseDB
             bundles.Add(new StyleBundle("~/Content/css").Include(
             
                 "~/css/style.css",
-                "~/css/themes/theme-lime.css"));
+                "~/css/themes/all-themes.css"));
 
 
 
