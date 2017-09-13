@@ -17,6 +17,7 @@
     //    "icon": "leaf",
     //}
     //];
+    $scope.message = "I work....";
     $scope.username = "";
     $scope.count = 0;
     $scope.init = function (user) {

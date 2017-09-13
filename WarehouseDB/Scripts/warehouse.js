@@ -1,27 +1,50 @@
-﻿ 
-var app = angular.module('app',   ['ngRoute']);
+﻿
+var app = angular.module('app', ['ui.router', 'ngMaterial', 'md-steppers'  ]);
 
 app.controller('appCtrl', appCtrl);
+app.controller('ImportController', ImportController);
 
 app.controller('LoginController', LoginController);
 
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 app.factory('LoginFactory', LoginFactory);
+  
+app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
-var configFunction = function ($routeProvider, $httpProvider) {
-    $routeProvider.
-        when('/home', {
-            templateUrl: '/Home/Index'
-        })
-   .when('/logoff', {
-       templateUrl: '/Account/LogOff'
-    })
-        .when('/Login', {
-            templateUrl: '/Account/Login',
-            controller: LoginController
-        });
+    $urlRouterProvider.otherwise('/home');
+
+    $stateProvider
+
+           .state('home', {
+               url: '/home',
+               templateUrl: 'Scripts/Templates/home.html',
+               controller: appCtrl
+           })
+           .state('default', {
+               url: '/',
+               templateUrl: 'Scripts/Templates/home.html',
+               controller: appCtrl
+           })
+            .state('import', {
+                url: '/import',
+                templateUrl: 'Scripts/Templates/import.html',
+                controller: ImportController
+            })
+          .state('logoff', {
+              url: '/logoff',
+              templateUrl: '/Account/LogOff'
+          })
+           .state('Login', {
+               url: '/Login',
+               templateUrl: '/Account/Login',
+               controller: LoginController
+           })
+           
+         .state('upload', {
+             url: '/upload',
+             templateUrl: '/Upload/UploadFile' 
+         })
+    ;
+
     $httpProvider.interceptors.push('AuthHttpResponseInterceptor');
-}
-configFunction.$inject = ['$routeProvider', '$httpProvider'];
-
-app.config(configFunction);
+});

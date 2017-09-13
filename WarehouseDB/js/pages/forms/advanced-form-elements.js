@@ -2,9 +2,10 @@ $(function () {
     $('.colorpicker').colorpicker();
 
     //Dropzone
-    Dropzone.options.frmFileUpload = {
+    Dropzone.options.uploader = {
         paramName: "file",
-        maxFilesize: 2
+        maxFilesize: 2 
+     
     };
 
     //Masked Input ============================================================================================================================

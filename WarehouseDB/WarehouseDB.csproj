@@ -259,12 +259,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TodoController.cs" />
     <Compile Include="Controllers\TodoListController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\FineUpload.cs" />
+    <Compile Include="Models\FineUploadResult.cs" />
     <Compile Include="Models\LogOnModel.cs" />
     <Compile Include="Models\TodoItemDto.cs" />
     <Compile Include="Models\TodoListDto.cs" />
@@ -501,6 +504,7 @@
     <Content Include="plugins\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="plugins\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="plugins\tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="package.json" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="js\admin.js" />
     <Content Include="js\demo.js" />
@@ -3760,8 +3764,13 @@
     <Content Include="plugins\waitme\waitMe.js" />
     <Content Include="plugins\waitme\waitMe.min.css" />
     <Content Include="plugins\waitme\waitMe.min.js" />
+    <Content Include="Scripts\AngularUI\ui-router.js" />
+    <Content Include="Scripts\AngularUI\ui-router.min.js" />
     <Content Include="Scripts\Controllers\appController.js" />
+    <Content Include="Scripts\Controllers\ImportController.js" />
     <Content Include="Scripts\Controllers\LoginController.js" />
+    <Content Include="Scripts\Directives\xmdWizard.directive.js" />
+    <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\Factories\AuthHttpResponseInterceptor.js" />
     <Content Include="Scripts\Factories\LogoffFactory .js" />
     <Content Include="Scripts\Factories\LoginFactory.js" />
@@ -3778,7 +3787,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
+    <Content Include="Scripts\md-steppers.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Templates\import.html" />
+    <Content Include="Scripts\Templates\InputChose.html" />
+    <Content Include="Scripts\Warehouse.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -3905,9 +3918,12 @@
     <Content Include="scss\_tooltippopovers.scss" />
     <Content Include="scss\_variables.scss" />
     <Content Include="scss\_waveseffect.scss" />
+    <Content Include="Scripts\Templates\home.html" />
+    <Content Include="Scripts\version.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

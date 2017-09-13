@@ -42,18 +42,21 @@ namespace WarehouseDB
   ));
              bundles.Add(new ScriptBundle("~/bundles/sparkline").Include(
   "~/plugins/jquery-sparkline/jquery.sparkline.js"));
-
+             bundles.Add(new ScriptBundle("~/bundles/md-stepper").Include(
+ "~/plugins/md-steppers/dist/md-steppers.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                 "~/js/admin.js",
                 "~/js/pages/index.js" 
                 ));
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
-             "~/Scripts/angular.min.js" 
+             "~/Scripts/angular.min.js" ,
+                  "~/Scripts/AngularUI/ui-router.min.js" 
              ));
             bundles.Add(new ScriptBundle("~/bundles/Warehouse")
     .IncludeDirectory("~/Scripts/Controllers", "*.js")
 
    .IncludeDirectory("~/Scripts/Factories", "*.js")
+    .IncludeDirectory("~/Scripts/Directives", "*.js")
     .Include("~/Scripts/Warehouse.js")
     );
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
@@ -74,7 +77,11 @@ namespace WarehouseDB
                      "~/plugins/bootstrap/css/bootstrap.css",
                      "~/plugins/node-waves/waves.css",
                      "~/plugins/animate-css/animate.css",
-                     "~/plugins/morrisjs/morris.css"));
+                     "~/plugins/morrisjs/morris.css",
+                     "~/plugins/md-steppers/dist/md-steppers.css",
+                      "~/plugins/angular-material/angular-material.min.css",
+                      "~/plugins/Materialize-stepper-master/materialize-stepper.min.css" 
+                   ));
         }
     }
 }

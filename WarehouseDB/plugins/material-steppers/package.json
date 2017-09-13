@@ -1,0 +1,96 @@
+{
+  "_args": [
+    [
+      "material-steppers",
+      "D:\\Project\\WarehouseDB\\WarehouseDB"
+    ]
+  ],
+  "_from": "material-steppers@latest",
+  "_id": "material-steppers@2.0.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/material-steppers",
+  "_nodeVersion": "6.9.2",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/material-steppers-2.0.0.tgz_1491412696014_0.07923524640500546"
+  },
+  "_npmUser": {
+    "email": "eberlitz@gmail.com",
+    "name": "eberlitz"
+  },
+  "_npmVersion": "4.0.5",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "material-steppers",
+    "raw": "material-steppers",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/material-steppers/-/material-steppers-2.0.0.tgz",
+  "_shasum": "a624a77fa8da5545a3b8d4cd3706f773b8da2e49",
+  "_shrinkwrap": null,
+  "_spec": "material-steppers",
+  "_where": "D:\\Project\\WarehouseDB\\WarehouseDB",
+  "author": {
+    "email": "eberlitz@gmail.com",
+    "name": "Eduardo Eidelwein Berlitz"
+  },
+  "bugs": {
+    "url": "https://github.com/eberlitz/material-steppers/issues"
+  },
+  "dependencies": {},
+  "description": "Angular Steppers directive for Angular Material",
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "browser-sync": "^2.12.7",
+    "cssnano": "^3.5.2",
+    "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^1.8.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-less": "^3.1.0",
+    "gulp-postcss": "^6.1.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-typescript": "^2.13.4",
+    "gulp-uglify": "^1.5.3",
+    "ordered-merge-stream": "^1.0.0"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "a624a77fa8da5545a3b8d4cd3706f773b8da2e49",
+    "tarball": "https://registry.npmjs.org/material-steppers/-/material-steppers-2.0.0.tgz"
+  },
+  "gitHead": "3b63d3e13a00774e535122ca0d46bd1e1661d97a",
+  "homepage": "https://github.com/eberlitz/material-steppers#readme",
+  "keywords": [
+    "steppers",
+    "md-steppers",
+    "angular",
+    "angular-material",
+    "material"
+  ],
+  "license": "MIT",
+  "main": "dist/material-steppers.min.js",
+  "maintainers": [
+    {
+      "email": "eberlitz@gmail.com",
+      "name": "eberlitz"
+    }
+  ],
+  "name": "material-steppers",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eberlitz/material-steppers.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "2.0.0"
+}

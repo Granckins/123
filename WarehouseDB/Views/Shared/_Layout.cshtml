@@ -9,12 +9,17 @@
     <!-- Favicon-->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
+  
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     @*<link href="~/css/themes/all-themes.css" rel="stylesheet" />*@
     @Styles.Render("~/Content/material")
     @Styles.Render("~/Content/plugins")
     @Styles.Render("~/Content/css")
+    <!-- Dropzone Css -->
+    <link href="~/plugins/fine-uploader/fine-uploader/fine-uploader-gallery.css" rel="stylesheet">
+    <link href="~/plugins/dropzone/dropzone.css" rel="stylesheet">
+    
 </head>
 
 <body class="theme-red" ng-app="app" ng-controller="appCtrl">
@@ -61,15 +66,28 @@
 
     <!-- Bootstrap Core Js -->
     <script src="~/plugins/bootstrap/js/bootstrap.js"></script>
-    <script src="~/Scripts/angular.min.js"></script>
-    <script src="~/Scripts/angular-resource.min.js"></script>
 
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="~/plugins/angular/angular.min.js"></script>
+    <script src="~/plugins/angular-animate/angular-animate.min.js"></script>
+    <script src="~/plugins/angular-aria/angular-aria.min.js"></script>
+    <script src="~/plugins/angular-messages/angular-messages.min.js"></script> 
+    <!-- Angular Material Library -->
+    <script src="~/plugins/angular-material/angular-material.min.js"></script>  
+    <script src="~/plugins/md-steppers/dist/md-steppers.js"></script>
+
+    <script src="~/plugins/fine-uploader/fine-uploader/fine-uploader.js"></script>
+     
+    <script src="~/Scripts/AngularUI/ui-router.min.js"></script>
+    <script src="~/Scripts/angular-resource.min.js"></script> 
 
     <script src="~/Scripts/angular-route.js"></script>
-
+   
     @Scripts.Render("~/bundles/Warehouse")
     <!-- Select Plugin Js -->
     <script src="~/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    <!-- Dropzone Plugin Js -->
+    <script src="../../plugins/dropzone/dropzone.js"></script>
 
     <!-- Slimscroll Plugin Js -->
     <script src="~/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
@@ -83,6 +101,7 @@
     <!-- Morris Plugin Js -->
     <script src="~/plugins/raphael/raphael.min.js"></script>
     <script src="~/plugins/morrisjs/morris.js"></script>
+
 
     <!-- ChartJs -->
     <script src="~/plugins/chartjs/Chart.bundle.js"></script>
