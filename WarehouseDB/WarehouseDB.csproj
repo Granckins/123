@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net40\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EnsureThat, Version=2.0.0.39118, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
       <Private>True</Private>
@@ -3764,6 +3768,7 @@
     <Content Include="plugins\waitme\waitMe.js" />
     <Content Include="plugins\waitme\waitMe.min.css" />
     <Content Include="plugins\waitme\waitMe.min.js" />
+    <Content Include="Scripts\angular-file-upload.min.js" />
     <Content Include="Scripts\AngularUI\ui-router.js" />
     <Content Include="Scripts\AngularUI\ui-router.min.js" />
     <Content Include="Scripts\Controllers\appController.js" />
@@ -3934,6 +3939,10 @@
     <ProjectReference Include="..\Warehouse.Core\Warehouse.Core.csproj">
       <Project>{5466ca41-d117-4604-bf3a-8435665e0361}</Project>
       <Name>Warehouse.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Warehouse.Model.Db\Warehouse.Model.Db.csproj">
+      <Project>{864ea8d9-1e26-4168-a352-903941b3a0ca}</Project>
+      <Name>Warehouse.Model.Db</Name>
     </ProjectReference>
     <ProjectReference Include="..\Warehouse.Model\Warehouse.Model.csproj">
       <Project>{09ad74d0-6bf9-4b3b-b4df-1522b77c5e65}</Project>

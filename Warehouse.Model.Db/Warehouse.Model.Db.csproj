@@ -32,7 +32,10 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\RedBranch.Hammock\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RedBranch.Hammock">
+      <HintPath>..\packages\RedBranch.Hammock\RedBranch.Hammock.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -44,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventWar.cs" />
     <Compile Include="Loaders\Roles.cs" />
     <Compile Include="LuceneRequest.cs" />
     <Compile Include="Roles.cs" />

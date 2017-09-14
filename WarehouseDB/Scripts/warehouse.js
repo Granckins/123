@@ -1,11 +1,10 @@
 ﻿
-var app = angular.module('app', ['ui.router', 'ngMaterial', 'md-steppers'  ]);
+var app = angular.module('app', ['ui.router', 'ngMaterial', 'md-steppers', 'angularFileUpload']);
 
 app.controller('appCtrl', appCtrl);
 app.controller('ImportController', ImportController);
 
-app.controller('LoginController', LoginController);
-
+app.controller('LoginController', LoginController); 
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 app.factory('LoginFactory', LoginFactory);
   
