@@ -1,25 +1,26 @@
 {
-    "name": "warehouseDB",
-    "version": "1.0.0",
-    "license": "ISC",
-    "dependencies": {
-        "angular2": "2.0.0-beta.3",
-        "systemjs": "0.19.6",
-        "es6-promise": "^3.0.2",
-        "es6-shim": "^0.33.3",
-        "reflect-metadata": "0.1.2",
-        "rxjs": "5.0.0-beta.0",
-        "zone.js": "0.5.11",
-     "angular": "1.5.6",
-    "angular-animate": "^1.5.6",      
+  "name": "warehouseDB",
+  "version": "1.0.0",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "1.5.6",
+    "angular-animate": "^1.5.6",
+    "angular-aria": "^1.5.8",
     "angular-material": "^1.1.1",
-    "angular-aria": "^1.5.8"
-    },
-    "devDependencies": {
-        "typescript": "^1.7.5",
-        "zone.js": "^0.5.11"
-    },
-  "repository": { 
+    "angular-material-data-table": "^0.10.10",
+    "angular2": "2.0.0-beta.3",
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.33.3",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.0",
+    "systemjs": "0.19.6",
+    "zone.js": "0.5.11"
+  },
+  "devDependencies": {
+    "typescript": "^1.7.5",
+    "zone.js": "^0.5.11"
+  },
+  "repository": {
     "type": "git",
     "url": ""
   }
