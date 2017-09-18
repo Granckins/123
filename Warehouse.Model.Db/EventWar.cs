@@ -9,7 +9,7 @@ using System.Text;
 namespace Warehouse.Model.Db
 {
    
-    public class EventWar : Document
+    public class EventWar 
     {
 
            [JsonProperty("Номер_упаковки")]

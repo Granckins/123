@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Warehouse.Model.Db
 {
-    public class SubEvent : Document
-    {
+    public class SubEvent  {
         [JsonProperty("Наименование_составной_единицы")]
         public string Наименование_составной_единицы { get; set; }
         [JsonProperty("Обозначение_составной_единицы")]

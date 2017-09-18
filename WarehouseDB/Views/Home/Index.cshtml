@@ -290,7 +290,7 @@
             <ul class="list">
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="active">
-                    <a href="index.html">
+                    <a ui-sref="home">
                         <i class="material-icons">home</i>
                         <span>Home</span>
                     </a>
@@ -311,6 +311,12 @@
                     <a ui-sref="import">
                         <i class="material-icons">archive</i>
                         <span>Импорт</span>
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="work">
+                        <i class="material-icons">format_list_numbered</i>
+                        <span>Работа с данными</span>
                     </a>
                 </li>
                 <li>
@@ -787,8 +793,7 @@
     <!-- #END# Right Sidebar -->
 </section>
 
-<section class="content">
-    <div class="container-fluid">
+<section class="content"  >
        
         <div ui-view></div>
         @*<div class="block-header">
@@ -1098,7 +1103,7 @@
             </div>
             <!-- #END# Browser Usage -->
         </div>*@
-    </div>
+     
 </section>
 
 }

@@ -152,7 +152,7 @@
                                         </md-content>
                                         <md-step-actions layout="row">
                                             <div flex layout="row" layout-align="end top"> 
-                                                <md-button ng-disabled="vm.showBusyText||!uploader.queue.length" ng-click="vm.NextStep()" class="md-primary md-raised"  >
+                                                <md-button ng-disabled="vm.showBusyText||!uploader.queue.length" ng-click="vm.preview()" class="md-primary md-raised">
                                                     Далее
                                                 </md-button>
                                             </div>
@@ -260,7 +260,9 @@
                                         <form name="step2">
                                             <md-content class="md-padding">
                                                 <div class="row" style="text-align: -webkit-center;">
-                                                    <div class="sweet-alert showSweetAlert visible" data-custom-class="" data-has-cancel-button="false" data-has-confirm-button="true" data-allow-outside-click="false" data-has-done-function="false" data-animation="pop" data-timer="null" style="    display: table-cell;    position: inherit !important; margin-top: -148px;">
+                                                  
+                                                    
+                                                      <div class="sweet-alert showSweetAlert visible" data-custom-class="" data-has-cancel-button="false" data-has-confirm-button="true" data-allow-outside-click="false" data-has-done-function="false" data-animation="pop" data-timer="null" style="    display: table-cell;    position: inherit !important; margin-top: -148px;">
                                                         <div class="sa-icon sa-error" style="display: none;">
                                                             <span class="sa-x-mark">
                                                                 <span class="sa-line sa-left"></span>

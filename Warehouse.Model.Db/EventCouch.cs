@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Warehouse.Model.Db
 {
-    public class EventCouch : Document
+    public class EventCouch  
     {
         [JsonProperty("Номер_упаковки")]
         public int Номер_упаковки { get; set; }

@@ -63,15 +63,30 @@
            
         
     }
-    var uploader = $scope.uploader = new FileUploader({
-        type: "POST",
-        url: 'Upload/Upload'
-    });
     vm.restart = function restart() {
         vm.selectedStep = 0;
         vm.stepProgress = 1;
         uploader.clearQueue();
     }
+    vm.preview = function preview() {
+       
+        vm.showBusyText = false; 
+        vm.enableNextStep();
+
+    }
+    var uploader = $scope.uploader = new FileUploader({
+        type: "POST",
+        url: 'Upload/Upload',
+        headers: [{ name: 'Accept', value: 'application/json' }],
+        
+    });
+    var uploaderpreview = $scope.uploaderpreview = new FileUploader({
+        type: "POST",
+        url: 'Upload/UploadPreview',
+        headers: [{ name: 'Accept', value: 'application/json' }],
+
+    });
+ 
     // FILTERS
 
     // a sync filter
@@ -79,8 +94,7 @@
         name: 'syncFilter',
         fn: function (item /*{File|FileLikeObject}*/, options) {
             console.log('syncFilter');
-            var dsd = this.queue;
-           
+            
             return this.queue.length < 10;
         }
     });
@@ -100,7 +114,7 @@
         console.info('onWhenAddingFileFailed', item, filter, options);
     };
     uploader.onAfterAddingFile = function (fileItem) {
-        console.info('onAfterAddingFile', fileItem);
+      
     };
     uploader.onAfterAddingAll = function (addedFileItems) { 
         console.info('onAfterAddingAll', addedFileItems);

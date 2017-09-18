@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Warehouse.Model;
+using Warehouse.Model.Db;
 
 namespace Warehouse.Core
 {
@@ -65,8 +66,8 @@ namespace Warehouse.Core
       UserIdentity GetUserIdentityByName(string username);
 
        List<string> GetUserRoles(UserIdentity user);
-
-
+      string GetUUID( );
+      List<int> SetDocument(List<EventCouch> CouchDataSet);
         //bool CanRunNewQuery(string userId);
 
         //void ReduceBalanceOne(string userId);

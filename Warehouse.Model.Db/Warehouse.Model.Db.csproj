@@ -52,9 +52,11 @@
     <Compile Include="EventWar.cs" />
     <Compile Include="Loaders\Roles.cs" />
     <Compile Include="LuceneRequest.cs" />
+    <Compile Include="ResponseCouch.cs" />
     <Compile Include="Roles.cs" />
     <Compile Include="SubEvent.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UUID.cs" />
     <Compile Include="WarehouseEntities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

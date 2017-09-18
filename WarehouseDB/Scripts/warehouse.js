@@ -4,10 +4,11 @@ var app = angular.module('app', ['ui.router', 'ngMaterial', 'md-steppers', 'angu
 app.controller('appCtrl', appCtrl);
 app.controller('ImportController', ImportController);
 
-app.controller('LoginController', LoginController); 
+app.controller('LoginController', LoginController);
+app.controller('WorkController', WorkController);
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 app.factory('LoginFactory', LoginFactory);
-  
+app.factory('PreviewFactory', PreviewFactory);
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
     $urlRouterProvider.otherwise('/home');
@@ -43,6 +44,14 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
              url: '/upload',
              templateUrl: '/Upload/UploadFile' 
          })
+    .state('uploadpreview', {
+        url: '/uploadpreview',
+        templateUrl: '/Upload/UploadPreview'
+    }).state('work', {
+        url: '/work',
+        templateUrl: 'Scripts/Templates/work.html',
+        controller: WorkController
+    })
     ;
 
     $httpProvider.interceptors.push('AuthHttpResponseInterceptor');
