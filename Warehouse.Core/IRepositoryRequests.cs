@@ -67,7 +67,7 @@ namespace Warehouse.Core
 
        List<string> GetUserRoles(UserIdentity user);
       string GetUUID( );
-      List<int> SetDocument(List<EventCouch> CouchDataSet);
+      List<ImportResultResponse> SetDocument(List<EventCouch> CouchDataSet);
         //bool CanRunNewQuery(string userId);
 
         //void ReduceBalanceOne(string userId);

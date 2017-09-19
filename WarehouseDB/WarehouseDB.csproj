@@ -339,6 +339,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="css\datatables.bootstrap.css" />
     <Content Include="css\MaterialIcons.css" />
     <Content Include="css\materialize.css" />
     <Content Include="css\Roboto.css" />
@@ -3799,6 +3800,7 @@
     <Content Include="Scripts\Templates\work.html" />
     <Content Include="Scripts\Templates\import.html" />
     <Content Include="Scripts\Templates\InputChose.html" />
+    <Content Include="Scripts\Templates\_childWorkTable.html" />
     <Content Include="Scripts\Warehouse.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

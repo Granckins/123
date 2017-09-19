@@ -81,7 +81,8 @@ namespace WarehouseDB
                      "~/plugins/md-steppers/dist/md-steppers.css",
                       "~/plugins/angular-material/angular-material.min.css",
                       "~/plugins/Materialize-stepper-master/materialize-stepper.min.css" ,
-                      "~/plugins/angular-material-data-table/dist/md-data-table.min.css" 
+                      "~/plugins/angular-material-data-table/dist/md-data-table.min.css" ,
+                        "~/css/datatables.bootstrap.css" 
                    ));
         }
     }

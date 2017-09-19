@@ -3,6 +3,7 @@
     var vm = this;
 
     vm.selectedStep = 0;
+    vm.logimport = [];
     vm.stepProgress =1;
     vm.maxStep = 3;
     vm.showBusyText = false;
@@ -66,7 +67,8 @@
     vm.restart = function restart() {
         vm.selectedStep = 0;
         vm.stepProgress = 1;
-        uploader.clearQueue();
+        uploader.clearQueue(); 
+        vm.logimport = [];
     }
     vm.preview = function preview() {
        
@@ -130,8 +132,33 @@
         console.info('onProgressAll', progress);
     };
     uploader.onSuccessItem = function (fileItem, response, status, headers) {
+        vm.logimport = vm.logimport.concat(response);
         console.info('onSuccessItem', fileItem, response, status, headers);
     };
+   vm.numberToDisplay=5;
+    vm.loadMore = function() {
+        if (vm.logimport + 5 < vm.logimport.length) {
+            vm.logimport += 5;
+        } else {
+            vm.logimport = vm.logimport.length;
+        }
+    };
+    vm.HasErrorResp = function () { 
+        var counter = 0;
+        for (var i = 0; i < vm.logimport.length; i++) {
+            if (vm.logimport[i].result == false) {
+                counter++;
+            }
+        }
+        if (counter == 0)
+            return 1;
+        else {
+            if (counter == vm.logimport.length)
+                return 3;
+            else
+                return 2;
+        }
+        };
     uploader.onErrorItem = function (fileItem, response, status, headers) {
         console.info('onErrorItem', fileItem, response, status, headers);
     };
@@ -141,7 +168,7 @@
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
         console.info('onCompleteItem', fileItem, response, status, headers);
     };
-    uploader.onCompleteAll = function () {
+    uploader.onCompleteAll = function () { 
         vm.selectedStep = 3;
         vm.stepProgress = 3;
         console.info('onCompleteAll');

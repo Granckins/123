@@ -98,15 +98,15 @@ namespace Warehouse.Core.Repositories
            
             return null;
         }
-        public List<int> SetDocument(List<EventCouch> CouchDataSet)
+        public List<ImportResultResponse> SetDocument(List<EventCouch> CouchDataSet)
         {
-            List<int> list = new  List<int>();
+            List<ImportResultResponse> list = new List<ImportResultResponse>();
             
             foreach (var e in CouchDataSet)
             {
                 var json = JsonConvert.SerializeObject(e);
                 var id = GetUUID();
-                var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/users/" + id);
+                var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id);
 
                 ServicePointManager.DefaultConnectionLimit = 1000;
 
@@ -127,7 +127,21 @@ namespace Warehouse.Core.Repositories
 
                     var response = JsonConvert.DeserializeObject<ResponseCouch>(responseText);
                     if (response.ok == null)
-                        list.Add(e.Номер_упаковки);
+                    list.Add(
+                        new   ImportResultResponse(){ result=false,
+                                                      number_pack = e.Номер_упаковки,
+                                                      name = e.Наименование_изделия,
+                                                      Content = e.Содержимое.Select(x => x.Наименование_составной_единицы).ToList() 
+                        });
+                           else
+                        list.Add(
+                            new ImportResultResponse()
+                            {
+                                result = true,
+                                number_pack = e.Номер_упаковки,
+                                name = e.Наименование_изделия,
+                                Content = e.Содержимое.Select(x => x.Наименование_составной_единицы).ToList()
+                            });
                 }
         }
             return list;

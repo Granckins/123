@@ -1,5 +1,5 @@
 ﻿
-var app = angular.module('app', ['ui.router', 'ngMaterial', 'md-steppers', 'angularFileUpload']);
+var app = angular.module('app', ['ui.router', 'ngMaterial', 'md-steppers', 'angularFileUpload', 'datatables']);
 
 app.controller('appCtrl', appCtrl);
 app.controller('ImportController', ImportController);
@@ -9,6 +9,20 @@ app.controller('WorkController', WorkController);
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 app.factory('LoginFactory', LoginFactory);
 app.factory('PreviewFactory', PreviewFactory);
+app.directive('tmpl', testComp);
+  
+function testComp($compile) {
+    console.log('sss');
+    var directive = {};
+
+    directive.restrict = 'A';
+    directive.templateUrl = 'Scripts/Templates/_childWorkTable.html';
+    directive.transclude = true;
+    directive.link = function (scope, element, attrs) {
+
+    }
+    return directive;
+}
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
     $urlRouterProvider.otherwise('/home');
