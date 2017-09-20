@@ -129,22 +129,43 @@ namespace Warehouse.Core.Repositories
                     if (response.ok == null)
                     list.Add(
                         new   ImportResultResponse(){ result=false,
-                                                      number_pack = e.Номер_упаковки,
-                                                      name = e.Наименование_изделия,
-                                                      Content = e.Содержимое.Select(x => x.Наименование_составной_единицы).ToList() 
+                                                      number_pack = e.Nomer_upakovki,
+                                                      name = e.Naimenovanie_izdeliya,
+                                                      Content = e.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList() 
                         });
                            else
                         list.Add(
                             new ImportResultResponse()
                             {
                                 result = true,
-                                number_pack = e.Номер_упаковки,
-                                name = e.Наименование_изделия,
-                                Content = e.Содержимое.Select(x => x.Наименование_составной_единицы).ToList()
+                                number_pack = e.Nomer_upakovki,
+                                name = e.Naimenovanie_izdeliya,
+                                Content = e.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList()
                             });
                 }
         }
             return list;
+        }
+        public  CouchRequest<EventCouch>  GetDocuments(int page = 1, int limit = 10)
+        {
+            CouchRequest<EventCouch>  list = new  CouchRequest<EventCouch> ();
+            var skip = (page-1)*limit;
+            var url = "http://localhost:5984/events/_design/pagindef/_view/foo?skip="+skip+"&limit="+limit;
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+
+            var user = new User();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var couch = JsonConvert.DeserializeObject<CouchRequest<EventCouch>>(res);
+                list = couch;
+            }
+            return list;
+
         }
         public object Clone()
         {

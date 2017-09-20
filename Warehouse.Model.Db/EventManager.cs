@@ -26,7 +26,7 @@ namespace Warehouse.Model.Db
                     {
                         if (e.Наименование_составной_единицы != "")
                         {
-                            EC.Содержимое.Add(ConvertEventWarToSubEvent(e));
+                            EC.Soderzhimoe.Add(ConvertEventWarToSubEvent(e));
                         }
 
                     }
@@ -40,39 +40,38 @@ namespace Warehouse.Model.Db
       private static EventCouch ConvertEventWarToEventCouchParent(EventWar e)
         {
             EventCouch EC = new EventCouch();
-            EC.Номер_упаковки = e.Номер_упаковки;
-            EC.Наименование_изделия = e.Наименование_изделия;
-            EC.Заводской_номер = e.Заводской_номер;
-            EC.Количество = e.Количество;
-            EC.Обозначение = e.Обозначение;
-            EC.Содержимое = new List<SubEvent>();
-            EC.Система = e.Система;
-            EC.Принадлежность = e.Принадлежность;
-            EC.Принадлежность_к_объекту = e.Принадлежность_к_объекту;
-            EC.Стоимость = e.Стоимость;
-            EC.Ответственный = e.Ответственный;
-            EC.Местонахождение_на_складе = e.Местонахождение_на_складе;
-            EC.Вес_брутто = e.Вес_брутто;
-            EC.Вес_нетто = e.Вес_нетто;
-            EC.Длина = e.Длина;
-            EC.Ширина = e.Ширина;
-            EC.Высота = e.Высота;
-            EC.Номер_контейнера = e.Номер_контейнера;
-            EC.Номер_упаковочного_ящика = e.Номер_упаковочного_ящика;
-            EC.Дата_приёма = e.Дата_приёма;
-            EC.Откуда = e.Откуда;
-            EC.Дата_выдачи = e.Дата_выдачи;
-            EC.Куда = e.Куда;
-            EC.Номер_пломбы = e.Номер_пломбы;
-            EC.Примечание = e.Примечание;
+            EC.Nomer_upakovki= e.Номер_упаковки;
+            EC.Naimenovanie_izdeliya = e.Наименование_изделия;
+            EC.Zavodskoj_nomer= e.Заводской_номер;
+            EC.Kolichestvo = e.Количество;
+            EC.Oboznachenie= e.Обозначение;
+            EC.Soderzhimoe = new List<SubEvent>();
+            EC.Sistema= e.Система;
+            EC.Prinadlezhnost= e.Принадлежность;
+            EC.Prinadlezhnost_k_obektu = e.Принадлежность_к_объекту;
+            EC.Stoimost = e.Стоимость;
+            EC.Otvetstvennyj= e.Ответственный;
+            EC.Mestonahozhdenie_na_sklade= e.Местонахождение_на_складе;
+            EC.Ves_brutto = e.Вес_брутто;
+            EC.Ves_netto = e.Вес_нетто;
+            EC.Dlina= e.Длина;
+            EC.Shirina = e.Ширина;
+            EC.Vysota= e.Высота; 
+            EC.Data_priyoma= e.Дата_приёма;
+            EC.Otkuda = e.Откуда;
+            EC.Data_vydachi= e.Дата_выдачи;
+            EC.Kuda= e.Куда;
+            EC.Nomer_plomby= e.Номер_пломбы;
+            EC.Primechanie = e.Примечание;
             return EC;
         }
       private static SubEvent ConvertEventWarToSubEvent(EventWar e)
         {
             SubEvent SE = new SubEvent();
-            SE.Наименование_составной_единицы = e.Наименование_составной_единицы;
-            SE.Обозначение_составной_единицы = e.Обозначение_составной_единицы;
-            SE.Количество_составных_единиц = e.Количество_составных_единиц;
+               
+       SE.Naimenovanie_sostavnoj_edinicy = e.Наименование_составной_единицы;
+        SE.Oboznachenie_sostavnoj_edinicy =  e.Обозначение_составной_единицы;
+         SE.Kolichestvo_sostavnyh_edinic =e.Количество_составных_единиц;
             return SE;
         }
     }

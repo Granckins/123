@@ -264,6 +264,7 @@
     <Compile Include="Controllers\TodoController.cs" />
     <Compile Include="Controllers\TodoListController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="Controllers\WorkController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -3782,6 +3783,7 @@
     <Content Include="Scripts\Factories\LogoffFactory .js" />
     <Content Include="Scripts\Factories\LoginFactory.js" />
     <Content Include="Scripts\Factories\PreviewFactory.js" />
+    <Content Include="Scripts\Factories\WorkFactory.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

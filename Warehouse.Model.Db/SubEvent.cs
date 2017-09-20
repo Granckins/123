@@ -9,10 +9,11 @@ namespace Warehouse.Model.Db
 {
     public class SubEvent  {
         [JsonProperty("Наименование_составной_единицы")]
-        public string Наименование_составной_единицы { get; set; }
+        public string Naimenovanie_sostavnoj_edinicy { get; set; }
         [JsonProperty("Обозначение_составной_единицы")]
-        public string Обозначение_составной_единицы { get; set; }
+        public string Oboznachenie_sostavnoj_edinicy { get; set; }
         [JsonProperty("Количество_составных_единиц")]
-        public int Количество_составных_единиц { get; set; }
+        public int Kolichestvo_sostavnyh_edinic { get; set; }
+         
     }
 }

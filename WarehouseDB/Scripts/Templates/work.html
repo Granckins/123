@@ -25,42 +25,100 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="body table-responsive"> 
-                                <h1>Demo : Simple Demo of angular datatable with Child Rows using Directive</h1>
-                                <table class="table table-striped" datatable="ng" dt-options="vm.dtOptions" dt-instance="vm.dtInstance">
+                        <div class="body table-responsive" >
+                            <h1>Demo : Simple Demo of angular datatable with Child Rows using Directive</h1>
+                            <table class="table table-striped" datatable="ng" dt-options="vm.dtOptions" dt-instance="vm.dtInstance">
 
-                                    <colgroup>
-                                        <col width="" />
-                                        <col width="" />
-                                        <col width="" />
-                                        <col width="" />
-                                        <col width="" />
-                                    </colgroup>
-                                    <thead>
-                                        <tr>
-                                            <th width="60"></th>
-                                            <th width="260">Name</th>
-                                            <th width="160">Position</th>
-                                            <th width="160">Office</th>
-                                            <th width="70">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="user in userList">
-                                            <td><a class="green shortinfo" href="javascript:;" ng-click="childInfo(user, $event)" title="Click to view more"><i class="glyphicon glyphicon-plus-sign"></a></td>
-                                            <td>{{user.name}}</td>
-                                            <td>{{user.position}}</td>
-                                            <td>{{user.office}}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-default btn" ng-click="edit($index);"><i class="glyphicon glyphicon-pencil"></i></button>
-                                                    <button type="button" class="btn btn-default btn" ng-click="delete();"><i class="glyphicon glyphicon-trash"></i></button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                       
+                                <colgroup>
+                                    <col width="" />
+                                    <col width="" />
+                                    <col width="" />
+                                    <col width="" />
+                                    <col width="" />
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th  ></th>
+                                        <th  >Номер_упаковки</th>
+                                        <th >Наименование_изделия</th>
+                                        <th  >Заводской_номер</th>
+                                        <th  >Количество</th>
+                                        <th>Обозначение</th>
+                                        <th>Система</th>
+                                        <th>Принадлежность</th>
+                                        <th>Принадлежность_к_объекту</th>
+                                        <th>Стоимость</th>
+                                        <th>Ответственный</th>
+                                        <th>Местонахождение_на_складе</th>
+                                        <th>Вес_брутто</th>
+                                        <th>Вес_нетто</th>
+                                        <th>Длина</th>
+                                        <th>Ширина</th>
+                                        <th>Высота</th>
+                                        <th>Дата_приёма</th>
+                                        <th>Откуда</th>
+                                        <th>Дата_выдачи</th>
+                                        <th>Куда</th>
+                                        <th>Номер_пломбы</th>
+                                        <th>Примечание</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="user in userList">
+                                        <!--<td><a class="green shortinfo" href="javascript:;" ng-click="childInfo(user.value.Soderzhimoe, $event)" title="Click to view more"><i class="glyphicon glyphicon-plus-sign"></a></td>-->
+                                      <td>
+                                          <table class="table boderless">
+                                              <tr>
+                                                  <th width="150">Наименовани составной единицы :</th>
+                                                  <th>Обозначение составной единицы:</th>
+                                                  <th>Количество составных единиц :</th>
+                                              </tr>
+                                              <tr ng-repeat="user1 in user.value.Soderzhimoe">
+                                                  <td>{{user1.Naimenovanie_sostavnoj_edinicy}}</td>
+
+
+                                                  <td>{{user1.Oboznachenie_sostavnoj_edinicy}}</td>
+
+
+                                                  <td>{{user1.Kolichestvo_sostavnyh_edinic}}</td>
+                                              </tr>
+                                          </table>
+                                          </td>
+                                        
+                                          <td>{{user.value.Nomer_upakovki}}</td>
+                                        <td>{{user.value.Naimenovanie_izdeliya}}</td>
+                                        <td>{{user.value.Zavodskoj_nomer}}</td>
+                                        <td>{{user.value.Kolichestvo}}</td>
+                                        <td>{{user.value.Oboznachenie}}</td>
+                                        <td>{{user.value.Sistema}}</td>
+                                        <td>{{user.value.Prinadlezhnost}}</td>
+                                        <td>{{user.value.Prinadlezhnost_k_obektu}}</td>
+                                        <td>{{user.value.Stoimost}}</td>
+                                        <td>{{user.value.Otvetstvennyj}}</td>
+                                        <td>{{user.value.Mestonahozhdenie_na_sklade}}</td>
+                                        <td>{{user.value.Ves_brutto}}</td>
+                                        <td>{{user.value.Ves_netto}}</td>
+                                        <td>{{user.value.Dlina}}</td>
+                                        <td>{{user.value.Shirina}}</td>
+                                        <td>{{user.value.Vysota}}</td>
+                                        <td>{{user.value.Data_priyoma}}</td>
+                                        <td>{{user.value.Otkuda}}</td>
+                                        <td>{{user.value.Data_vydachi}}</td>
+                                        <td>{{user.value.Kuda}}</td>
+                                        <td>{{user.value.Nomer_plomby}}</td>
+                                        <td>{{user.value.Primechanie}}</td>
+                                        <td>
+                                            
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default btn" ng-click="edit($index);"><i class="glyphicon glyphicon-pencil"></i></button>
+                                                <button type="button" class="btn btn-default btn" ng-click="delete();"><i class="glyphicon glyphicon-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
                         </div>
                         </div>
                 </div>

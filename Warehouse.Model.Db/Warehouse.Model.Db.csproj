@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CouchRequest.cs" />
     <Compile Include="EventCouch.cs" />
     <Compile Include="EventManager.cs" />
     <Compile Include="EventWar.cs" />

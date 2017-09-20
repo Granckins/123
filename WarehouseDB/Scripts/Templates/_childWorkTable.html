@@ -1,14 +1,17 @@
 ﻿<table class="table boderless">
     <tr>
-        <th width="150">Salary :</th>
-        <td>{{user.salary}}</td>
+        <th width="150">Наименовани составной единицы :</th>
+        <th>Обозначение составной единицы:</th>
+        <th>Количество составных единиц :</th>
     </tr>
-    <tr>
-        <th>Start Date :</th>
-        <td>{{user.start_date}}</td>
-    </tr>
-    <tr>
-        <th>Ext :</th>
-        <td>{{user.extn}}</td>
+    <tr ng-repeat="user1 in user.value.Soderzhimoe">
+        <td>{{user1.Naimenovanie_sostavnoj_edinicy}}</td>
+
+        
+        <td>{{user1.Oboznachenie_sostavnoj_edinicy}}</td>
+
+      
+        <td>{{user1.Kolichestvo_sostavnyh_edinic}}</td>
     </tr>
 </table>
+ 

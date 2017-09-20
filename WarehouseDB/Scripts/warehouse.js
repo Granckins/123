@@ -9,6 +9,7 @@ app.controller('WorkController', WorkController);
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 app.factory('LoginFactory', LoginFactory);
 app.factory('PreviewFactory', PreviewFactory);
+app.factory('WorkFactory', WorkFactory);
 app.directive('tmpl', testComp);
   
 function testComp($compile) {
@@ -61,7 +62,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     .state('uploadpreview', {
         url: '/uploadpreview',
         templateUrl: '/Upload/UploadPreview'
-    }).state('work', {
+    }). state('work', {
         url: '/work',
         templateUrl: 'Scripts/Templates/work.html',
         controller: WorkController
