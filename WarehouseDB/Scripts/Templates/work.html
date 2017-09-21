@@ -169,7 +169,8 @@
 
                                 <td style="display: inline-flex !important; border-bottom: 0px !important;">
 
-                                    <md-icon style=" color :#555;" ng-show="user.showEdit" ng-click="toggleEdit(user)">edit</md-icon>
+                                    <md-icon style=" color :#555;" ng-show="user.showEdit" ng-click="toggleEdit(user)">edit</md-icon> 
+                                    <md-icon style=" color :#555;" ng-show="!user.showEdit" ng-click="cancelEdit(user)">close</md-icon>
                                     <md-icon style=" color :#555;" ng-show="!user.showEdit" ng-click="toggleEdit(user)">done</md-icon>
                                     <md-icon style=" color :#555;" ng-click="delete( );">delete_forever</md-icon>
 
@@ -192,13 +193,48 @@
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Naimenovanie_izdeliya" class="form-control">
                                 </td>
-                                <td>{{user.value.Zavodskoj_nomer}}</td>
-                                <td>{{user.value.Kolichestvo}}</td>
-                                <td>{{user.value.Oboznachenie}}</td>
-                                <td>{{user.value.Sistema}}</td>
-                                <td>{{user.value.Prinadlezhnost}}</td>
-                                <td>{{user.value.Prinadlezhnost_k_obektu}}</td>
-                                <td>{{user.value.Stoimost}}</td>
+                                <td> 
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Zavodskoj_nomer}}
+                                    </span>
+                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Zavodskoj_nomer" class="form-control">
+                                </td>
+                                <td> 
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Kolichestvo}}
+                                    </span>
+                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Kolichestvo" class="form-control">
+                                </td>
+                                <td> 
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Oboznachenie}}
+                                    </span>
+                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Oboznachenie" class="form-control">
+                                </td>
+                                <td> 
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Sistema}}
+                                    </span>
+                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema" class="form-control">
+                                </td>
+                                <td> 
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Prinadlezhnost}}
+                                    </span>
+                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost" class="form-control">
+                                </td>
+                                <td> 
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Prinadlezhnost_k_obektu}}
+                                    </span>
+                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost_k_obektu" class="form-control">
+                                </td>
+                                <td> 
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Stoimost}}
+                                    </span>
+                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Stoimost" class="form-control">
+                                </td>
                                 <td>{{user.value.Otvetstvennyj}}</td>
                                 <td>{{user.value.Mestonahozhdenie_na_sklade}}</td>
                                 <td>{{user.value.Ves_brutto}}</td>
