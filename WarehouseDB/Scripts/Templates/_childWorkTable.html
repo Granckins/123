@@ -1,17 +1,32 @@
-﻿<table class="table boderless">
+﻿<table class="table table-striped" style="width: 30%;  float: left;">
     <tr>
-        <th width="150">Наименовани составной единицы :</th>
-        <th>Обозначение составной единицы:</th>
-        <th>Количество составных единиц :</th>
+        <th  >
+            Наименовани составной единицы :
+        </th>
+        <th  >Обозначение составной единицы:</th>
+        <th  >Количество составных единиц :</th>
+        <th> </th>
     </tr>
-    <tr ng-repeat="user1 in user.value.Soderzhimoe">
-        <td>{{user1.Naimenovanie_sostavnoj_edinicy}}</td>
+    <tr ng-repeat="u in user" >
+        <td   >{{u.Naimenovanie_sostavnoj_edinicy}}</td>
 
-        
-        <td>{{user1.Oboznachenie_sostavnoj_edinicy}}</td>
 
-      
-        <td>{{user1.Kolichestvo_sostavnyh_edinic}}</td>
+        <td  >{{u.Oboznachenie_sostavnoj_edinicy}}</td>
+
+
+        <td  >{{u.Kolichestvo_sostavnyh_edinic}}</td>
+        <td style="display: inline-flex !important;">
+
+
+            <md-button class="md-icon-button md-primary " style="    margin: 0 0px !important;" aria-label="Редактировать" ng-click="item.remove()">
+                <md-icon style=" color :#555;" ng-click="edit($index);">edit</md-icon>
+            </md-button>
+            <md-button class="md-icon-button md-primary " style="    margin: 0 0px !important;" aria-label="Удалить" ng-click="item.remove()">
+                <md-icon style=" color :#555;" ng-click="delete( );">delete_forever</md-icon>
+            </md-button>
+
+        </td> 
     </tr>
+
+
 </table>
- 

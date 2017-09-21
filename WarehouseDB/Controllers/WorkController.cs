@@ -14,7 +14,7 @@ namespace WarehouseDB.Controllers
 
 
           [HttpGet]
-        public JsonResult GetDocument(int page = 1, int limit = 10)
+        public JsonResult GetDocuments(int page = 1, int limit = 10)
         {
           var res=  Repository.GetDocuments();
           return Json(res, JsonRequestBehavior.AllowGet);

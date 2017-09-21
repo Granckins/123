@@ -12,7 +12,7 @@
     $scope.userList = [];
   
         $http({
-            url: '/Work/GetDocument',
+            url: '/Work/GetDocuments',
             method: "GET",
             params: {
                 page: 1,
@@ -21,31 +21,19 @@
         }).
   then(function(response) {
       $scope.userList = response.data.rows;
-    
+      angular.forEach($scope.userList, function (obj) {
+          obj["showEdit"] = true;
+          obj["showSub"] = false;
+      })
   });
-       
+        $scope.toggleEdit = function (emp) {
+            emp.showEdit = emp.showEdit ? false : true;
+        };
+
      
-    $scope.childInfo = function (user, event) {
-
-        var scope = $scope.$new(true);
-        scope.user = user;
-
-        var link = angular.element(event.currentTarget),
-          	icon = link.find('.glyphicon'),
-          	tr = link.parent().parent(),
-          	table = $scope.vm.dtInstance.DataTable,
-          	row = table.row(tr);
-        //
-        if (row.child.isShown()) {
-            icon.removeClass('glyphicon-minus-sign').addClass('glyphicon-plus-sign');
-            row.child.hide();
-            tr.removeClass('shown');
-        }
-        else {
-            icon.removeClass('glyphicon-plus-sign').addClass('glyphicon-minus-sign');
-            row.child($compile('<div tmpl class="clearfix"></div>')(scope)).show();
-            tr.addClass('shown');
-        }
+    $scope.childInfo = function (emp) {
+        emp.showSub = emp.showSub ? false : true;
+        
     }
 
   
