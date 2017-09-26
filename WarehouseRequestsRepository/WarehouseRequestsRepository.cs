@@ -98,7 +98,55 @@ namespace Warehouse.Core.Repositories
            
             return null;
         }
-        public List<ImportResultResponse> SetDocument(List<EventCouch> CouchDataSet)
+        public List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string id)
+        {
+            List<ImportResultResponse> list = new List<ImportResultResponse>();
+
+
+            var json = JsonConvert.SerializeObject(CouchDataSet); 
+                var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id);
+
+                ServicePointManager.DefaultConnectionLimit = 1000;
+
+                request.Credentials = new NetworkCredential("admin", "root");
+                request.Method = "PUT";
+                request.ContentType = "application/json";
+                request.KeepAlive = false;
+                using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+                {
+
+
+                    streamWriter.Write(json);
+                }
+                var httpResponse = (HttpWebResponse)request.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var responseText = streamReader.ReadToEnd();
+
+                    var response = JsonConvert.DeserializeObject<ResponseCouch>(responseText);
+                    if (response.ok == null)
+                        list.Add(
+                            new ImportResultResponse()
+                            {
+                                result = false,
+                                number_pack = CouchDataSet.Nomer_upakovki,
+                                name = CouchDataSet.Naimenovanie_izdeliya,
+                                Content = CouchDataSet.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList()
+                            });
+                    else
+                        list.Add(
+                            new ImportResultResponse()
+                            {
+                                result = true,
+                                number_pack = CouchDataSet.Nomer_upakovki,
+                                name = CouchDataSet.Naimenovanie_izdeliya,
+                                Content = CouchDataSet.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList()
+                            });
+                }
+           
+            return list;
+        }
+        public List<ImportResultResponse> SetEventDocuments(List<EventCouch> CouchDataSet)
         {
             List<ImportResultResponse> list = new List<ImportResultResponse>();
             
@@ -116,9 +164,10 @@ namespace Warehouse.Core.Repositories
                 request.KeepAlive = false;
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
-
-
-                    streamWriter.Write(json);
+                    var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json);
+                    o.Property("_rev").Remove();
+                    var json1 = JsonConvert.SerializeObject(o);
+                    streamWriter.Write(json1);
                 }
                 var httpResponse = (HttpWebResponse)request.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -146,7 +195,33 @@ namespace Warehouse.Core.Repositories
         }
             return list;
         }
-        public  CouchRequest<EventCouch>  GetDocuments(int page = 1, int limit = 10)
+        public  EventCouch  GetEventDocument(string id)
+        {  
+            var url = "http://localhost:5984/_fti/local/events/_design/getdocuments/by_index?q=_id:" + id;
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+
+            var ev = new EventCouch();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<LuceneRequest<EventWar>>(res);
+                if (lucene.rows.Count>0)
+                {
+                    var sod = lucene.rows.First().fields.Содержимое;
+                    var sub = JsonConvert.DeserializeObject<List<SubEvent>>(sod);
+                     ev = EventManager.ConvertEventWarToEventCouchParent(lucene.rows.First().fields);
+                    ev.Soderzhimoe = sub;
+                }
+             
+                 
+            }
+            return ev;
+        }
+        public  CouchRequest<EventCouch>  GetEventPaginDocuments(int page = 1, int limit = 10)
         {
             CouchRequest<EventCouch>  list = new  CouchRequest<EventCouch> ();
             var skip = (page-1)*limit;

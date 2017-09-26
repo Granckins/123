@@ -9,9 +9,12 @@ using System.Text;
 namespace Warehouse.Model.Db
 {
    
-    public class EventWar 
+    public class EventWar
     {
-
+        [JsonProperty("archive")]
+        public bool archive { get; set; }
+        [JsonProperty("_rev")]
+        public string _rev { get; set; }
            [JsonProperty("Номер_упаковки")]
         public int  Номер_упаковки  { get; set; }
           [JsonProperty("Наименование_изделия")]
@@ -22,6 +25,8 @@ namespace Warehouse.Model.Db
         public int Количество { get; set; }
             [JsonProperty("Обозначение")]
            public string  Обозначение { get; set; }
+            [JsonProperty("Содержимое")]
+            public string Содержимое { get; set; }
                     [JsonProperty("Наименование_составной_единицы")]
             public string     Наименование_составной_единицы { get; set; }
                    [JsonProperty("Обозначение_составной_единицы")]
@@ -66,6 +71,10 @@ namespace Warehouse.Model.Db
                                                        public string         Номер_пломбы { get; set; }
             [JsonProperty("Примечание")]
                                                        public string Примечание { get; set; }
+          public  EventWar()
+            {
+                this.archive = false;
+            }
 
     }
 }

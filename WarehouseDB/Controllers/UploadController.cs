@@ -237,7 +237,7 @@ namespace WarehouseDB.Controllers
          
 
            var str=JsonConvert.SerializeObject(CouchDataSet);
-           var resp=Repository.SetDocument(CouchDataSet);
+           var resp=Repository.SetEventDocuments(CouchDataSet);
         
             
            return Json(resp);

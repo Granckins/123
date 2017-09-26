@@ -44,86 +44,86 @@
                         </li>
                     </ul>
                 </div>
-                <div class="body table-responsive">
+                <div class="body table-responsive js-sweetalert">
                     <!--<table class="table table-striped" datatable="ng" dt-options="vm.dtOptions" dt-instance="vm.dtInstance">
 
-                        <colgroup>
-                            <col width="" />
-                            <col width="" />
-                            <col width="" />
-                            <col width="" />
-                            <col width="" />
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th  ></th>
-                                <th> </th>
-                                <th  >Номер упаковки</th>
-                                <th >Наименование изделия</th>
-                                <th  >Заводской номер</th>
-                                <th  >Количество</th>
-                                <th>Обозначение</th>
-                                <th>Система</th>
-                                <th>Принадлежность</th>
-                                <th>Принадлежность к объекту</th>
-                                <th>Стоимость</th>
-                                <th>Ответственный</th>
-                                <th>Местонахождение на складе</th>
-                                <th>Вес брутто</th>
-                                <th>Вес нетто</th>
-                                <th>Длина</th>
-                                <th>Ширина</th>
-                                <th>Высота</th>
-                                <th>Дата приёма</th>
-                                <th>Откуда</th>
-                                <th>Дата выдачи</th>
-                                <th>Куда</th>
-                                <th>Номер пломбы</th>
-                                <th>Примечание</th>
+            <colgroup>
+                <col width="" />
+                <col width="" />
+                <col width="" />
+                <col width="" />
+                <col width="" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th  ></th>
+                    <th> </th>
+                    <th  >Номер упаковки</th>
+                    <th >Наименование изделия</th>
+                    <th  >Заводской номер</th>
+                    <th  >Количество</th>
+                    <th>Обозначение</th>
+                    <th>Система</th>
+                    <th>Принадлежность</th>
+                    <th>Принадлежность к объекту</th>
+                    <th>Стоимость</th>
+                    <th>Ответственный</th>
+                    <th>Местонахождение на складе</th>
+                    <th>Вес брутто</th>
+                    <th>Вес нетто</th>
+                    <th>Длина</th>
+                    <th>Ширина</th>
+                    <th>Высота</th>
+                    <th>Дата приёма</th>
+                    <th>Откуда</th>
+                    <th>Дата выдачи</th>
+                    <th>Куда</th>
+                    <th>Номер пломбы</th>
+                    <th>Примечание</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="user in userList">
-                                <td><a class="green shortinfo" href="javascript:;" ng-click="childInfo(user.value.Soderzhimoe, $event)" title="Click to view more"><i class="glyphicon glyphicon-plus-sign  green"></a></td>
-                                <td style="display: inline-flex !important;">
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in userList">
+                    <td><a class="green shortinfo" href="javascript:;" ng-click="childInfo(user.value.Soderzhimoe, $event)" title="Click to view more"><i class="glyphicon glyphicon-plus-sign  green"></a></td>
+                    <td style="display: inline-flex !important;">
 
 
-                                    <md-button class="md-icon-button md-primary " style="    margin: 0 0px !important;" aria-label="Редактировать" ng-click="item.remove()">
-                                        <md-icon style=" color :#555;" ng-click="edit($index);">edit</md-icon>
-                                    </md-button>
-                                    <md-button class="md-icon-button md-primary " style="    margin: 0 0px !important;" aria-label="Удалить" ng-click="item.remove()">
-                                        <md-icon style=" color :#555;" ng-click="delete( );">delete_forever</md-icon>
-                                    </md-button>
+                        <md-button class="md-icon-button md-primary " style="    margin: 0 0px !important;" aria-label="Редактировать" ng-click="item.remove()">
+                            <md-icon style=" color :#555;" ng-click="edit($index);">edit</md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button md-primary " style="    margin: 0 0px !important;" aria-label="Удалить" ng-click="item.remove()">
+                            <md-icon style=" color :#555;" ng-click="delete( );">delete_forever</md-icon>
+                        </md-button>
 
-                                </td>
+                    </td>
 
-                                  <td>{{user.value.Nomer_upakovki}}</td>
-                                <td>{{user.value.Naimenovanie_izdeliya}}</td>
-                                <td>{{user.value.Zavodskoj_nomer}}</td>
-                                <td>{{user.value.Kolichestvo}}</td>
-                                <td>{{user.value.Oboznachenie}}</td>
-                                <td>{{user.value.Sistema}}</td>
-                                <td>{{user.value.Prinadlezhnost}}</td>
-                                <td>{{user.value.Prinadlezhnost_k_obektu}}</td>
-                                <td>{{user.value.Stoimost}}</td>
-                                <td>{{user.value.Otvetstvennyj}}</td>
-                                <td>{{user.value.Mestonahozhdenie_na_sklade}}</td>
-                                <td>{{user.value.Ves_brutto}}</td>
-                                <td>{{user.value.Ves_netto}}</td>
-                                <td>{{user.value.Dlina}}</td>
-                                <td>{{user.value.Shirina}}</td>
-                                <td>{{user.value.Vysota}}</td>
-                                <td>{{user.value.Data_priyoma}}</td>
-                                <td>{{user.value.Otkuda}}</td>
-                                <td>{{user.value.Data_vydachi}}</td>
-                                <td>{{user.value.Kuda}}</td>
-                                <td>{{user.value.Nomer_plomby}}</td>
-                                <td>{{user.value.Primechanie}}</td>
+                      <td>{{user.value.Nomer_upakovki}}</td>
+                    <td>{{user.value.Naimenovanie_izdeliya}}</td>
+                    <td>{{user.value.Zavodskoj_nomer}}</td>
+                    <td>{{user.value.Kolichestvo}}</td>
+                    <td>{{user.value.Oboznachenie}}</td>
+                    <td>{{user.value.Sistema}}</td>
+                    <td>{{user.value.Prinadlezhnost}}</td>
+                    <td>{{user.value.Prinadlezhnost_k_obektu}}</td>
+                    <td>{{user.value.Stoimost}}</td>
+                    <td>{{user.value.Otvetstvennyj}}</td>
+                    <td>{{user.value.Mestonahozhdenie_na_sklade}}</td>
+                    <td>{{user.value.Ves_brutto}}</td>
+                    <td>{{user.value.Ves_netto}}</td>
+                    <td>{{user.value.Dlina}}</td>
+                    <td>{{user.value.Shirina}}</td>
+                    <td>{{user.value.Vysota}}</td>
+                    <td>{{user.value.Data_priyoma}}</td>
+                    <td>{{user.value.Otkuda}}</td>
+                    <td>{{user.value.Data_vydachi}}</td>
+                    <td>{{user.value.Kuda}}</td>
+                    <td>{{user.value.Nomer_plomby}}</td>
+                    <td>{{user.value.Primechanie}}</td>
 
-                            </tr>
-                        </tbody>
-                    </table>-->
+                </tr>
+            </tbody>
+        </table>-->
                     <table class="table" style="border-collapse:collapse;">
                         <thead>
                             <tr>
@@ -169,12 +169,11 @@
 
                                 <td style="display: inline-flex !important; border-bottom: 0px !important;">
 
-                                    <md-icon style=" color :#555;" ng-show="user.showEdit" ng-click="toggleEdit(user)">edit</md-icon> 
+                                    <md-icon style=" color :#555;" ng-show="user.showEdit" ng-click="toggleEdit(user)">edit</md-icon>
                                     <md-icon style=" color :#555;" ng-show="!user.showEdit" ng-click="cancelEdit(user)">close</md-icon>
-                                    <md-icon style=" color :#555;" ng-show="!user.showEdit" ng-click="toggleEdit(user)">done</md-icon>
-                                    <md-icon style=" color :#555;" ng-click="delete( );">delete_forever</md-icon>
-
-
+                                    <md-icon style=" color :#555;" ng-show="!user.showEdit" ng-click="acceptEdit(user)">done</md-icon>
+                                    <md-icon style=" color :#555;" ng-click="delete()" data-type="cancel">delete_forever</md-icon>
+                                   
 
                                 </td>
 
@@ -193,43 +192,43 @@
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Naimenovanie_izdeliya" class="form-control">
                                 </td>
-                                <td> 
+                                <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Zavodskoj_nomer}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Zavodskoj_nomer" class="form-control">
                                 </td>
-                                <td> 
+                                <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Kolichestvo}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Kolichestvo" class="form-control">
                                 </td>
-                                <td> 
+                                <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Oboznachenie}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Oboznachenie" class="form-control">
                                 </td>
-                                <td> 
+                                <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Sistema}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema" class="form-control">
                                 </td>
-                                <td> 
+                                <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Prinadlezhnost}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost" class="form-control">
                                 </td>
-                                <td> 
+                                <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Prinadlezhnost_k_obektu}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost_k_obektu" class="form-control">
                                 </td>
-                                <td> 
+                                <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Stoimost}}
                                     </span>
@@ -288,7 +287,7 @@
                                             <td style="display: inline-flex !important; border-bottom: 0px !important;">
 
 
-                                                <md-icon style=" color :#555;">delete_forever</md-icon>
+                                                <md-icon style=" color :#555;" ng-click="deleteSub(user, $index);">delete_forever</md-icon>
 
 
                                             </td>
@@ -310,3 +309,4 @@
     <!-- #END# Basic Table -->
 
 </div>
+

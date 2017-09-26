@@ -7,8 +7,12 @@ using System.Text;
 
 namespace Warehouse.Model.Db
 {
-    public class EventCouch  
+    public class EventCouch
     {
+        [JsonProperty("archive")]
+        public bool archive { get; set; }
+        [JsonProperty("_rev")]
+        public string _rev { get; set; }
         [JsonProperty("Номер_упаковки")]
         public int Nomer_upakovki { get; set; }
         [JsonProperty("Наименование_изделия")]
@@ -57,8 +61,11 @@ namespace Warehouse.Model.Db
         [JsonProperty("Примечание")]
 
         public string Primechanie { get; set; }
- 
-      
+
+       public EventCouch()
+        {
+            this.archive = false;
+        }
      
      
     }
