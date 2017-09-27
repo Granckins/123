@@ -41,6 +41,7 @@ namespace Warehouse.Model.Db
         {
             EventCouch EC = new EventCouch();
             EC._rev = e._rev;
+           
             EC.archive = e.archive;
             EC.Nomer_upakovki= e.Номер_упаковки;
             EC.Naimenovanie_izdeliya = e.Наименование_изделия;

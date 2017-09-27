@@ -71,6 +71,7 @@ namespace Warehouse.Core
       CouchRequest<EventCouch>  GetEventPaginDocuments(int page, int limit);
       EventCouch GetEventDocument(string id);
       List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string id);
+bool DeleteEventDocument(EventCouch CouchDataSet );
         //bool CanRunNewQuery(string userId);
 
         //void ReduceBalanceOne(string userId);

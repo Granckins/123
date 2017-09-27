@@ -98,13 +98,39 @@ namespace Warehouse.Core.Repositories
            
             return null;
         }
-        public List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string id)
+        public bool DeleteEventDocument(EventCouch CouchDataSet, string id)
         {
             List<ImportResultResponse> list = new List<ImportResultResponse>();
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id + "?" + CouchDataSet._rev);
 
+            ServicePointManager.DefaultConnectionLimit = 1000; 
+            request.Credentials = new NetworkCredential("admin", "root");
+            request.Method = "DELETE"; 
+            request.KeepAlive = false;
+            var response = request.GetResponse();
+             
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<DeleteCouchResp>(res);
 
+                return lucene.ok;
+            }
+             
+
+            return false;
+        }
+
+        public List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string id=null)
+        {
+            List<ImportResultResponse> list = new List<ImportResultResponse>();
+            var id1 = "";
+            if (id == null)
+                id1 = GetUUID();
+            else id1 = id;
             var json = JsonConvert.SerializeObject(CouchDataSet); 
-                var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id);
+                var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id1);
 
                 ServicePointManager.DefaultConnectionLimit = 1000;
 
@@ -114,9 +140,20 @@ namespace Warehouse.Core.Repositories
                 request.KeepAlive = false;
                 using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
-
-
-                    streamWriter.Write(json);
+                    if (id == null)
+                    {
+                        var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json);
+                        o.Property("_rev").Remove();
+                        var json1 = JsonConvert.SerializeObject(o);
+                        streamWriter.Write(json1);
+                    }
+                    else
+                    {
+                        var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json); 
+                        o.Add("_id", id1); 
+                        var json1 = JsonConvert.SerializeObject(o);
+                        streamWriter.Write(json1);
+                    }
                 }
                 var httpResponse = (HttpWebResponse)request.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -129,18 +166,20 @@ namespace Warehouse.Core.Repositories
                             new ImportResultResponse()
                             {
                                 result = false,
+                                id=id1,
                                 number_pack = CouchDataSet.Nomer_upakovki,
                                 name = CouchDataSet.Naimenovanie_izdeliya,
-                                Content = CouchDataSet.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList()
+                                Content =CouchDataSet.Soderzhimoe!=null? CouchDataSet.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList():null
                             });
                     else
                         list.Add(
                             new ImportResultResponse()
                             {
                                 result = true,
+                                id = id1,
                                 number_pack = CouchDataSet.Nomer_upakovki,
                                 name = CouchDataSet.Naimenovanie_izdeliya,
-                                Content = CouchDataSet.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList()
+                                Content = CouchDataSet.Soderzhimoe != null ? CouchDataSet.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList() : null
                             });
                 }
            

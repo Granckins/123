@@ -13,6 +13,7 @@ namespace Warehouse.Model.Db
         public bool archive { get; set; }
         [JsonProperty("_rev")]
         public string _rev { get; set; }
+      
         [JsonProperty("Номер_упаковки")]
         public int Nomer_upakovki { get; set; }
         [JsonProperty("Наименование_изделия")]
@@ -49,11 +50,11 @@ namespace Warehouse.Model.Db
         public float Vysota { get; set; }
        
         [JsonProperty("Дата_приёма")]
-        public DateTime Data_priyoma { get; set; }
+        public DateTime? Data_priyoma { get; set; }
         [JsonProperty("Откуда")]
         public string Otkuda { get; set; }
         [JsonProperty("Дата_выдачи")]
-        public DateTime Data_vydachi { get; set; }
+        public DateTime? Data_vydachi { get; set; }
         [JsonProperty("Куда")]
         public string Kuda { get; set; }
         [JsonProperty("Номер_пломбы")]

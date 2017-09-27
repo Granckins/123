@@ -10,7 +10,7 @@ namespace Warehouse.Model.Db
 {
    
     public class EventWar
-    {
+    { 
         [JsonProperty("archive")]
         public bool archive { get; set; }
         [JsonProperty("_rev")]
