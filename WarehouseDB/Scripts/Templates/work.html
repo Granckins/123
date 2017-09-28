@@ -186,12 +186,23 @@
             </tbody>
         </table>-->
                     <table class="table table-header-rotated" style="border-collapse:collapse;">
+                        <md-input-container style="margin: 18px 0 0 0;">
+                            <label>Кол-во</label>
+                            <md-select ng-model="pageSizeSelected" ng-change="changePageSize()">
+
+                                <md-option ng-repeat="pageSize in  pageSizes" ng-value="pageSize.abbrev" ng-selected="$first">
+                                    {{pageSize.abbrev}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
                         <thead>
+
                             <tr>
                                 <th>
                                     <md-icon style=" color : green;" ng-click="addRow()" data-type="cancel">  add</md-icon>
                                 </th>
-                                <th> </th>
+                                 
+                                 
                                 <th class="rotate-45"><div><span>Номер упаковки</span></div></th>
                                 <th class="rotate-45"><div><span>Наименование изделия</span></div></th>
                                 <th class="rotate-45"><div><span>Заводской номер</span></div></th>
@@ -220,23 +231,30 @@
                         <tbody>
 
                             <tr ng-repeat-start="user in userList track by $index" class="accordion-toggle">
-                                <td>
-                                    <a ng-show="!user.showSub" class="green shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
-                                        <i class="material-icons" data-toggle="collapse" data-target="#row-{{$index}}">expand_more</i>
-
-                                    </a>
-                                    <a ng-show="user.showSub" class="red shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
-                                        <i class="material-icons" data-toggle="collapse" data-target="#row-{{$index}}">expand_less</i>
-                                    </a>
-                                </td>
-
+                               
                                 <td style="display: inline-flex !important; border-bottom: 0px !important;">
+                                    
+                                         
+
+                         
+                                        <!--<a ng-show="!user.showSub" class="green shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
+                                            <i class="material-icons" data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
+
+                                        </a>
+                                        <a ng-show="user.showSub" class="red shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
+                                            <i class="material-icons " data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
+                                        </a>-->
+                                    <md-icon style=" color :#4CAF50;" data-toggle="collapse" data-target="#row-{{$index}}"   ng-click="childInfo(user )">schedule</md-icon>
+                                    <!--<md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub" ng-click="childInfo(user )">schedule</md-icon>-->
+
+                                    <md-icon style=" color :#4CAF50;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="!user.showSub" ng-click="childInfo(user )">storage</md-icon>
+                                    <md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub" ng-click="childInfo(user )">storage</md-icon>
 
                                     <md-icon style=" color :#555;" ng-show="user.showEdit" ng-click="toggleEdit(user)">edit</md-icon>
                                     <md-icon style=" color :#555;" ng-show="!user.showEdit" ng-click="cancelEdit(user)">close</md-icon>
                                     <md-icon style=" color :#555;" ng-show="!user.showEdit" ng-click="acceptEdit(user)">done</md-icon>
                                     <md-icon style=" color :#555;" ng-click="delete(user)" data-type="cancel">delete_forever</md-icon>
-                                   
+
 
                                 </td>
 
@@ -302,81 +320,81 @@
                                         {{user.value.Otvetstvennyj}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Otvetstvennyj" class="form-control">
-                              </td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Mestonahozhdenie_na_sklade}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Mestonahozhdenie_na_sklade" class="form-control">
 
-                                   </td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Ves_brutto}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_brutto" class="form-control">
-                                     
-                                        </td>
+
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Ves_netto}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_netto" class="form-control">
-                               </td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Dlina}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Dlina" class="form-control">
-                                  </td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Shirina}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Shirina" class="form-control">
-                                     </td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Vysota}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Vysota" class="form-control">
-</td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Data_priyoma}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Data_priyoma" class="form-control">
-</td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Otkuda}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Otkuda" class="form-control">
-</td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Data_vydachi}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Data_vydachi" class="form-control">
-</td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Kuda}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Kuda" class="form-control">
-</td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Nomer_plomby}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Nomer_plomby" class="form-control">
-</td>
+                                </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Primechanie}}
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Primechanie" class="form-control">
-</td>
+                                </td>
 
                             </tr>
                             <tr ng-repeat-end>
@@ -431,6 +449,30 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                            
+
+                                <td align="left" colspan="6   " style="    text-align: left;">
+
+
+                                   
+
+                                    <paging page="pageIndex"
+                                            page-size="pageSizeSelected"
+                                            total="totalCount"
+                                            show-prev-next="true"
+                                            show-first-last="true"
+                                         >
+                                    </paging>  
+
+                                    <!--<div class="pull-right">
+                                        <pagination total-items="totalCount" ng-change="pageChanged()" items-per-page="pageSizeSelected" direction-links="true" ng-model="pageIndex" max-size="maxSize" class="pagination" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+                                         
+                                    </div>-->
+                                </td>
+                            </tr>
+                        </tfoot>  
                     </table>
                 </div>
             </div>

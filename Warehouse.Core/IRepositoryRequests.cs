@@ -68,10 +68,10 @@ namespace Warehouse.Core
        List<string> GetUserRoles(UserIdentity user);
       string GetUUID( );
       List<ImportResultResponse> SetEventDocuments(List<EventCouch> CouchDataSet);
-      CouchRequest<EventCouch>  GetEventPaginDocuments(int page, int limit);
+      CouchRequest<EventCouch>  GetEventPaginDocuments(int page, int limit,bool archive);
       EventCouch GetEventDocument(string id);
       List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string id);
-bool DeleteEventDocument(EventCouch CouchDataSet );
+      bool DeleteEventDocument(EventCouch CouchDataSet, string id); 
         //bool CanRunNewQuery(string userId);
 
         //void ReduceBalanceOne(string userId);

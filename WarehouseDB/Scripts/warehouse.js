@@ -44,7 +44,7 @@
     return self;
 }]);
 
-var app = angular.module('app', ['ui.router', 'ngMaterial', 'md-steppers', 'angularFileUpload', 'datatables', 'oitozero.ngSweetAlert']);
+var app = angular.module('app', ['ui.router', 'bw.paging', 'ngMaterial', 'md-steppers', 'angularFileUpload', 'datatables', 'oitozero.ngSweetAlert']);
 
 app.controller('appCtrl', appCtrl);
 app.controller('ImportController', ImportController);

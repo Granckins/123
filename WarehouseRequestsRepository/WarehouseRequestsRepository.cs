@@ -19,7 +19,7 @@ namespace Warehouse.Core.Repositories
         public UserIdentity GetUserIdentityByName(string username)
         {
 
-            var url = "http://localhost:5984/_fti/local/users/_design/foo/by_username?q=UserName:"+username;
+            var url = "http://localhost:5984/_fti/local/users/_design/foo/by_username?q=UserName:" + "\"" + username + "\"^10";
             var request = (HttpWebRequest)WebRequest.Create(url);
              
             request.Credentials = new NetworkCredential("admin", "root");
@@ -101,7 +101,7 @@ namespace Warehouse.Core.Repositories
         public bool DeleteEventDocument(EventCouch CouchDataSet, string id)
         {
             List<ImportResultResponse> list = new List<ImportResultResponse>();
-            var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id + "?" + CouchDataSet._rev);
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id + "?rev=" + CouchDataSet._rev);
 
             ServicePointManager.DefaultConnectionLimit = 1000; 
             request.Credentials = new NetworkCredential("admin", "root");
@@ -260,22 +260,64 @@ namespace Warehouse.Core.Repositories
             }
             return ev;
         }
-        public  CouchRequest<EventCouch>  GetEventPaginDocuments(int page = 1, int limit = 10)
+        //public  CouchRequest<EventCouch>  GetEventPaginDocuments(int page = 1, int limit = 10)
+        //{
+        //    CouchRequest<EventCouch>  list = new  CouchRequest<EventCouch> ();
+        //    var skip = (page-1)*limit;
+        //    var url = "http://localhost:5984/events/_design/pagindef/_view/foo?skip="+skip+"&limit="+limit;
+        //    var request = (HttpWebRequest)WebRequest.Create(url);
+
+        //    request.Credentials = new NetworkCredential("admin", "root");
+        //    var response = request.GetResponse();
+
+        //    var user = new User();
+        //    using (var responseStream = response.GetResponseStream())
+        //    {
+        //        var reader = new StreamReader(responseStream, Encoding.UTF8);
+        //        var res = reader.ReadToEnd();
+        //        var couch = JsonConvert.DeserializeObject<CouchRequest<EventCouch>>(res);
+        //        list = couch;
+        //    }
+        //    return list;
+
+        //}
+        public CouchRequest<EventCouch> GetEventPaginDocuments(int page = 1, int limit = 10, bool archive=false)
         {
-            CouchRequest<EventCouch>  list = new  CouchRequest<EventCouch> ();
-            var skip = (page-1)*limit;
-            var url = "http://localhost:5984/events/_design/pagindef/_view/foo?skip="+skip+"&limit="+limit;
+            CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
+            var skip = (page - 1) * limit;
+            var url = "http://localhost:5984/_fti/local/events/_design/getdocuments/by_archive?q=archive:"+archive+ "&skip="+skip + "&limit=" + limit;
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.Credentials = new NetworkCredential("admin", "root");
             var response = request.GetResponse();
 
             var user = new User();
+            var lucene1 = new LuceneRequest<EventCouch>();
+            lucene1.rows = new List<Row<EventCouch>>();
             using (var responseStream = response.GetResponseStream())
             {
                 var reader = new StreamReader(responseStream, Encoding.UTF8);
                 var res = reader.ReadToEnd();
-                var couch = JsonConvert.DeserializeObject<CouchRequest<EventCouch>>(res);
+                var lucene = JsonConvert.DeserializeObject<LuceneRequest<EventWar>>(res);
+             
+                 foreach(var l in lucene.rows ){
+                      var sod = l.fields.Содержимое;
+                    var sub = JsonConvert.DeserializeObject<List<SubEvent>>(sod);
+                    EventCouch ev = new EventCouch();
+                    ev = EventManager.ConvertEventWarToEventCouchParent(l.fields);
+                    ev.Soderzhimoe = sub;
+                   
+                    lucene1.rows.Add(new Row<EventCouch>() { id=l.id,fields=ev});
+                 }
+                   
+                
+              var couch = new CouchRequest<EventCouch>();
+              couch.total_rows = lucene.total_rows;
+              couch.offset = lucene.skip;
+              couch.rows = new List<RowCouch<EventCouch>>();
+                foreach(var r in lucene1.rows){
+                    couch.rows.Add(new RowCouch<EventCouch>() { id=r.id, key=r.id, value=r.fields});
+                }
                 list = couch;
             }
             return list;

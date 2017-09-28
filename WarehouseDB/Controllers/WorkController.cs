@@ -18,7 +18,7 @@ namespace WarehouseDB.Controllers
           [HttpGet]
         public JsonResult GetDocuments(int page = 1, int limit = 10)
         {
-          var res=  Repository.GetEventPaginDocuments();
+          var res=  Repository.GetEventPaginDocuments(page,limit);
           return Json(res, JsonRequestBehavior.AllowGet);
         }
           [HttpGet]
@@ -61,9 +61,13 @@ namespace WarehouseDB.Controllers
         public JsonResult DeleteEventDocument(PostRequest<RowCouch<EventCouch>> res)
         {
 
-            Repository.DeleteEventDocument(res.entity.value,res.entity.id);
+          var f=  Repository.DeleteEventDocument(res.entity.value,res.entity.id);
             var rep = Repository.GetEventPaginDocuments();
-            return Json(rep, JsonRequestBehavior.AllowGet);
+            if (f == true)
+                return Json(rep, JsonRequestBehavior.AllowGet);
+            else
+                return null;
+          //  return Json("");
         }
     }
 }
