@@ -14,6 +14,9 @@ namespace Warehouse.Model.Db
         public string Oboznachenie_sostavnoj_edinicy { get; set; }
         [JsonProperty("Количество_составных_единиц")]
         public int Kolichestvo_sostavnyh_edinic { get; set; }
-         
+         public string ToStringNew(){
+             return Naimenovanie_sostavnoj_edinicy + " " + Oboznachenie_sostavnoj_edinicy + " " + Kolichestvo_sostavnyh_edinic;
+         }
+
     }
 }

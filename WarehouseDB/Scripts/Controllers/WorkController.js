@@ -19,7 +19,7 @@
     $scope.maxSize = 5;     // Limit number for pagination display number.  
     $scope.totalCount = 0;  // Total number of items in all pages. initialize as a zero  
     $scope.pageIndex = 1;   // Current page number. First page is 1.-->  
-    $scope.pageSizeSelected = 1; // Maximum number of items per page.  
+    $scope.pageSizeSelected = 10; // Maximum number of items per page.  
     function formatJSONDate(jsonDate) {
         var newDate = dateFormat(jsonDate, "mm/dd/yyyy");
         return newDate;
@@ -46,6 +46,8 @@
                angular.forEach($scope.userList, function (obj) {
                    obj["showEdit"] = true;
                    obj["showSub"] = false;
+                   obj["History"] = [];
+                   obj["showHistory"] = false;
                    if (obj.value.Data_priyoma != null)
                        obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6))).toLocaleDateString();
                    if (obj.value.Data_vydachi != null)
@@ -54,10 +56,11 @@
                })
            });
     }
+    
     $scope.$watch('pageIndex', function (newVal, oldVal) {
         $scope.pageIndex = newVal;
         $scope.getList();
-       
+
     });
     $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; });
    
@@ -74,7 +77,9 @@
 
         obj = new Object();
         obj["showEdit"] = false;
-        obj["showSub"] = false;
+        obj["showSub"] = false; 
+        obj["History"] = [];
+        obj["showHistory"] = false;
         $scope.userList.unshift(obj);
     }
     $scope.delete = function (user) {
@@ -103,6 +108,8 @@
                     angular.forEach($scope.userList, function (obj) {
                         obj["showEdit"] = true;
                         obj["showSub"] = false;
+                        obj["History"] = [];
+                        obj["showHistory"] = false;
                         if (obj.value.Data_priyoma != null)
                             obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6))).toLocaleDateString();
                         if (obj.value.Data_vydachi != null)
@@ -122,6 +129,30 @@
     $scope.toggleEdit = function (emp) {
         emp.showEdit = emp.showEdit ? false : true;
         $scope.buferList.push(emp.key);
+    };
+    $scope.IsHistory = function (emp) {
+        if (emp.History.length > 0)
+            return true;
+        else
+            return false;
+    }
+    $scope.gethistory = function (emp) {
+        emp.showHistory = emp.showHistory ? false : true;
+        if( emp.showHistory==true){
+        $http({
+            url: "/Work/GetEventHistory?id=" + emp.id,
+            method: "GET",
+            params: {
+                page: $scope.pageIndex,
+                limit: $scope.pageSizeSelected
+            }
+        }).
+         then(function (response) {
+
+             emp["History"] = response.data.rows;
+             emp["History"]["showSub"] = false;
+         });
+    }
     };
     $scope.deleteSub = function (user, idx) {
         var idx2 = -1;
@@ -222,7 +253,14 @@
         emp.showSub = emp.showSub ? false : true;
 
     }
+    $scope.childInfoHis = function (emp) {
+        emp.showSub = emp.showSub ? false : true;
 
+    }
+    $scope.IschildInfoHis = function (emp) {
+        return emp.showSub; 
+
+    }
 
 
 }

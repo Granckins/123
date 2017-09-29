@@ -185,7 +185,7 @@
                 </tr>
             </tbody>
         </table>-->
-                    <table class="table table-header-rotated" style="border-collapse:collapse;">
+                    <table class="table table-header-rotated  table-condensed " style="border-collapse:collapse;">
                         <md-input-container style="margin: 18px 0 0 0;">
                             <label>Кол-во</label>
                             <md-select ng-model="pageSizeSelected" ng-change="changePageSize()">
@@ -201,8 +201,8 @@
                                 <th>
                                     <md-icon style=" color : green;" ng-click="addRow()" data-type="cancel">  add</md-icon>
                                 </th>
-                                 
-                                 
+
+
                                 <th class="rotate-45"><div><span>Номер упаковки</span></div></th>
                                 <th class="rotate-45"><div><span>Наименование изделия</span></div></th>
                                 <th class="rotate-45"><div><span>Заводской номер</span></div></th>
@@ -231,20 +231,21 @@
                         <tbody>
 
                             <tr ng-repeat-start="user in userList track by $index" class="accordion-toggle">
-                               
+
                                 <td style="display: inline-flex !important; border-bottom: 0px !important;">
-                                    
-                                         
 
-                         
-                                        <!--<a ng-show="!user.showSub" class="green shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
-                                            <i class="material-icons" data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
 
-                                        </a>
-                                        <a ng-show="user.showSub" class="red shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
-                                            <i class="material-icons " data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
-                                        </a>-->
-                                    <md-icon style=" color :#4CAF50;" data-toggle="collapse" data-target="#row-{{$index}}"   ng-click="childInfo(user )">schedule</md-icon>
+
+
+                                    <!--<a ng-show="!user.showSub" class="green shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
+                        <i class="material-icons" data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
+
+                    </a>
+                    <a ng-show="user.showSub" class="red shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
+                        <i class="material-icons " data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
+                    </a>-->
+                                    <md-icon style=" color :#4CAF50;" data-toggle="collapse" data-target="#rowH-{{$index}}" ng-show="!user.showHistory" ng-click="gethistory(user )">schedule</md-icon>
+                                    <md-icon style=" color :orange;" data-toggle="collapse" data-target="#rowH-{{$index}}" ng-show="user.showHistory" ng-click="gethistory(user )">schedule</md-icon>
                                     <!--<md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub" ng-click="childInfo(user )">schedule</md-icon>-->
 
                                     <md-icon style=" color :#4CAF50;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="!user.showSub" ng-click="childInfo(user )">storage</md-icon>
@@ -400,7 +401,7 @@
                             <tr ng-repeat-end>
                                 <td colspan="23" class="noPadding">
 
-                                    <table class="table table-striped  collapse collapsible  noPadding" id="row-{{$index}}" style="width: 30%;  float: left;">
+                                    <table ng-show="user.showSub" class="table table-striped  collapse collapsible  noPadding" id="row-{{$index}}" style="width: 30%;  float: left;">
                                         <tr>
                                             <th>
                                                 Наименовани составной единицы :
@@ -442,37 +443,203 @@
                                         </tr>
 
 
+
+
                                     </table>
 
+                                    <table ng-show="IsHistory(user)" class="table table-striped  collapse collapsible  noPadding" id="rowH-{{$index}}" style="width: 30%;  float: left;">
+                                        <tr>
+                                            <th style="padding: 2% !important;"> </th>
 
+                                            <th class="rotate-45"><div><span>Номер упаковки</span></div></th>
+                                            <th class="rotate-45"><div><span>Наименование изделия</span></div></th>
+                                            <th class="rotate-45"><div><span>Заводской номер</span></div></th>
+                                            <th class="rotate-45"><div><span>Количество</span></div></th>
+                                            <th class="rotate-45"><div><span>Обозначение</span></div></th>
+                                            <th class="rotate-45"><div><span>Система</span></div></th>
+                                            <th class="rotate-45"><div><span>Принадлежность</span></div></th>
+                                            <th class="rotate-45"><div><span>Принадлежность к объекту</span></div></th>
+                                            <th class="rotate-45"><div><span>Стоимость</span></div></th>
+                                            <th class="rotate-45"><div><span>Ответственный</span></div></th>
+                                            <th class="rotate-45"><div><span>Местонахождение на складе</span></div></th>
+                                            <th class="rotate-45"><div><span>Вес брутто</span></div></th>
+                                            <th class="rotate-45"><div><span>Вес нетто</span></div></th>
+                                            <th class="rotate-45"><div><span>Длина</span></div></th>
+                                            <th class="rotate-45"><div><span>Ширина</span></div></th>
+                                            <th class="rotate-45"><div><span>Высота</span></div></th>
+                                            <th class="rotate-45"><div><span>Дата приёма</span></div></th>
+                                            <th class="rotate-45"><div><span>Откуда</span></div></th>
+                                            <th class="rotate-45"><div><span>Дата выдачи</span></div></th>
+                                            <th class="rotate-45"><div><span>Куда</span></div></th>
+                                            <th class="rotate-45"><div><span>Номер пломбы</span></div></th>
+                                            <th class="rotate-45"><div><span>Примечание</span></div></th>
+
+                                        </tr>
+
+                                        <tr ng-repeat-start="his in user.History track by $index" class="accordion-toggle">
+
+
+                                            <td>
+                                                <a ng-show="!IschildInfoHis(his)" class="green shortinfo" href="javascript:;" ng-click="childInfoHis(his )" title="Click to view more">
+                                                    <i class="material-icons" data-toggle="collapse" data-target="#rowHS-{{$index}}">storage</i>
+
+                                                </a>
+                                                <a ng-show="IschildInfoHis(his)" class="red shortinfo" href="javascript:;" ng-click="childInfoHis(his )" title="Click to view more">
+                                                    <i class="material-icons " data-toggle="collapse" data-target="#rowHS-{{$index}}">storage</i>
+                                                </a> 
+
+                                             
+                                            </td>
+
+                                            <td scope="row">
+                                                {{his.value.Nomer_upakovki}}
+                                            </td>
+                                            <td>
+
+                                                {{his.value.Naimenovanie_izdeliya}}
+                                            </td>
+                                            <td>
+
+                                                {{his.value.Zavodskoj_nomer}}
+                                            </td>
+                                            <td>
+
+                                                {{his.value.Kolichestvo}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Oboznachenie}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Sistema}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Prinadlezhnost}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Prinadlezhnost_k_obektu}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Stoimost}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Otvetstvennyj}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Mestonahozhdenie_na_sklade}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Ves_brutto}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Ves_netto}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Dlina}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Shirina}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Vysota}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Data_priyoma}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Otkuda}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Data_vydachi}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Kuda}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Nomer_plomby}}
+                                            </td>
+                                            <td>
+                                                {{his.value.Primechanie}}
+                                            </td>
+
+                                        </tr>
+                                        <tr ng-repeat-end>
+                                            <td colspan="23" class="noPadding">
+                                                <table class="table table-striped    collapse collapsible     noPadding" id="rowHS-{{$index}}" style="width: 30%;  float: left;">
+                                                    <tr>
+                                                        <th>
+                                                            Наименовани составной единицы :
+                                                        </th>
+                                                        <th>Обозначение составной единицы:</th>
+                                                        <th>Количество составных единиц :</th>
+                                                    </tr>
+                                                    <tr ng-repeat="u1 in his.value.Soderzhimoe">
+                                                        <td>
+
+                                                            {{u1.Naimenovanie_sostavnoj_edinicy}}
+
+                                                        </td>
+
+
+                                                        <td>
+
+                                                            {{u1.Oboznachenie_sostavnoj_edinicy}}
+
+                                                        </td>
+
+
+                                                        <td>
+
+                                                            {{u1.Kolichestvo_sostavnyh_edinic}}
+
+                                                        </td>
+
+                                                    </tr>
+
+
+
+
+                                                </table>
+                                            
+                                </td>
+                                        </tr>
+                                    </table>
 
                                 </td>
+
+
+
+
+
+
+
                             </tr>
+
+
+
                         </tbody>
                         <tfoot>
                             <tr>
-                            
+
 
                                 <td align="left" colspan="6   " style="    text-align: left;">
 
 
-                                   
+
 
                                     <paging page="pageIndex"
                                             page-size="pageSizeSelected"
                                             total="totalCount"
                                             show-prev-next="true"
-                                            show-first-last="true"
-                                         >
-                                    </paging>  
+                                            show-first-last="true">
+                                    </paging>
 
                                     <!--<div class="pull-right">
-                                        <pagination total-items="totalCount" ng-change="pageChanged()" items-per-page="pageSizeSelected" direction-links="true" ng-model="pageIndex" max-size="maxSize" class="pagination" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
-                                         
-                                    </div>-->
+                        <pagination total-items="totalCount" ng-change="pageChanged()" items-per-page="pageSizeSelected" direction-links="true" ng-model="pageIndex" max-size="maxSize" class="pagination" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+
+                    </div>-->
                                 </td>
                             </tr>
-                        </tfoot>  
+                        </tfoot>
                     </table>
                 </div>
             </div>

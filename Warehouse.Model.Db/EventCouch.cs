@@ -62,9 +62,11 @@ namespace Warehouse.Model.Db
         [JsonProperty("Примечание")]
 
         public string Primechanie { get; set; }
-
+        public List<RevsInfo> _revs_info { get; set; }
        public EventCouch()
         {
+            _revs_info = new List<RevsInfo>();
+            Soderzhimoe = new List<SubEvent>();
             this.archive = false;
         }
      

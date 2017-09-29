@@ -37,11 +37,48 @@ namespace Warehouse.Model.Db
 
             return EC;
         }
+      public static List<string> ToListWitoutSoder(EventCouch EC)
+      {
+          var list = new List<string>();
+         list.Add(EC.archive.ToString());
+           list.Add( EC.Nomer_upakovki.ToString());
+           list.Add( EC.Naimenovanie_izdeliya);
+           list.Add( EC.Zavodskoj_nomer);
+           list.Add( EC.Kolichestvo.ToString() );
+           list.Add( EC.Oboznachenie );
+         
+           list.Add( EC.Sistema);
+           list.Add( EC.Prinadlezhnost );
+           list.Add( EC.Prinadlezhnost_k_obektu );
+           list.Add( EC.Stoimost.ToString());
+           list.Add( EC.Otvetstvennyj);
+           list.Add( EC.Mestonahozhdenie_na_sklade);
+           list.Add( EC.Ves_brutto.ToString());
+          list.Add(  EC.Ves_netto.ToString());
+          list.Add(  EC.Dlina.ToString() );
+          list.Add(  EC.Shirina.ToString());
+           list.Add( EC.Vysota.ToString() );
+           list.Add( EC.Data_priyoma.ToString());
+           list.Add( EC.Otkuda);
+           list.Add( EC.Data_vydachi.ToString() );
+           list.Add( EC.Kuda );
+           list.Add( EC.Nomer_plomby);
+           list.Add(EC.Primechanie);
+          return list;
+      }
+      public static List<string> ToListSoder(EventCouch EC)
+      {
+          var list = new List<string>();
+          foreach(var c in EC.Soderzhimoe){
+              list.Add(c.ToStringNew());
+          }
+          return list;
+      }
       public static EventCouch ConvertEventWarToEventCouchParent(EventWar e)
         {
             EventCouch EC = new EventCouch();
             EC._rev = e._rev;
-           
+            
             EC.archive = e.archive;
             EC.Nomer_upakovki= e.Номер_упаковки;
             EC.Naimenovanie_izdeliya = e.Наименование_изделия;

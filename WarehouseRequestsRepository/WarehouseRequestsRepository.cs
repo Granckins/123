@@ -121,14 +121,30 @@ namespace Warehouse.Core.Repositories
 
             return false;
         }
+        private bool CompareEvent(EventCouch CouchDataSet, string id)
+        {
+            var last=GetEventDocument(id);
+            var comp = EventManager.ToListWitoutSoder(CouchDataSet);
+            var complast = EventManager.ToListWitoutSoder(last);
 
+           bool main= comp.SequenceEqual(complast);
+           bool child = EventManager.ToListSoder(CouchDataSet).SequenceEqual(EventManager.ToListSoder(last));
+          bool count= CouchDataSet.Soderzhimoe.Count == last.Soderzhimoe.Count;
+            return main&&child&&count;
+        }
         public List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string id=null)
         {
             List<ImportResultResponse> list = new List<ImportResultResponse>();
             var id1 = "";
             if (id == null)
                 id1 = GetUUID();
-            else id1 = id;
+            else
+            {
+                id1 = id;
+                var t=CompareEvent(CouchDataSet,  id);
+                if (t)
+                    return list;
+            }
             var json = JsonConvert.SerializeObject(CouchDataSet); 
                 var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id1);
 
@@ -327,7 +343,80 @@ namespace Warehouse.Core.Repositories
         {
             return new WarehouseRequestsRepository();
         }
+        public List<RevsInfo> GetRevisionListEvent(string id)
+        {
+            var list= new List<RevsInfo>();
+            var url = "http://localhost:5984/events/"+id+"?revs_info=true";
+            var request = (HttpWebRequest)WebRequest.Create(url);
 
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<EventCouch>(res);
+
+                list = lucene._revs_info;
+            }
+            int maxidx = 0;
+            int max = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].status == "available")
+                {
+                    var idx = list[i].rev.IndexOf("-");
+                    var substr = list[i].rev.Substring(0,idx);
+                    if(Convert.ToInt32(substr)>max)
+                    {
+                        max = Convert.ToInt32(substr);
+                        maxidx = i;
+                    }
+                }
+            }
+            list.RemoveAt(maxidx);
+                return list;
+        }
+        public CouchRequest<EventCouch> GetRevisionFiesldsEvent(string id, List<RevsInfo> revs)
+        {
+            var list = new CouchRequest<EventCouch>();
+            var list1= new List<EventCouch>();
+           var param="";
+            foreach(var r in revs){
+                if (r.status == "available")
+                {
+                    param = "\"" + r.rev + "\"";
+                    var url = "http://localhost:5984/events/" + id + "?open_revs=[" + param + "]";
+                    var request = (HttpWebRequest)WebRequest.Create(url);
+
+                    request.Credentials = new NetworkCredential("admin", "root");
+                    var response = request.GetResponse();
+                    using (var responseStream = response.GetResponseStream())
+                    {
+                        var reader = new StreamReader(responseStream, Encoding.UTF8);
+                        var res = reader.ReadToEnd();
+                        var str1 = res.IndexOf("{");
+                        var str2 = res.LastIndexOf("}");
+                        var substr = res.Substring(str1,str2-str1+1);
+                        var lucene = JsonConvert.DeserializeObject<EventCouch>(substr);
+
+                        list1.Add(lucene);
+
+                    }
+                }
+            }
+            var couch = new CouchRequest<EventCouch>();
+            couch.total_rows =0;
+            couch.offset = 0;
+            couch.rows = new List<RowCouch<EventCouch>>();
+            foreach (var r in list1)
+            {
+                couch.rows.Add(new RowCouch<EventCouch>() { id = id, key = id, value = r });
+            }
+            list = couch;
+           
+            return list;
+        }
         public void Dispose()
         {
 

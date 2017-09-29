@@ -27,7 +27,13 @@ namespace WarehouseDB.Controllers
               var res = Repository.GetEventDocument(id);
               return Json(res, JsonRequestBehavior.AllowGet);
           }
-         
+          [HttpGet]
+          public JsonResult GetEventHistory(string id)
+          {
+              var res = Repository.GetRevisionListEvent(id);
+              var r1=Repository.GetRevisionFiesldsEvent(id,res);
+              return Json(r1, JsonRequestBehavior.AllowGet);
+          }
         [HttpPost]
           public JsonResult ChangeEventDocument(RowCouch<EventCouch> res)
           {

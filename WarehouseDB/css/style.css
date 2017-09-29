@@ -4550,7 +4550,14 @@ section.content {
   -ms-border-radius: 0;
   border-radius: 0;
   margin-bottom: 0; }
-
+.collapseH .well,
+.collapseH.in .well,
+.collapsing .well {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  border-radius: 0;
+  margin-bottom: 0; }
 /* Tables ====================================== */
 .table tbody tr td, .table tbody tr th {
   padding: 10px;
