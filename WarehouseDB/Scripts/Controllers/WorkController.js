@@ -3,7 +3,7 @@
     $scope.vm = {};
     $scope.vm.dtInstance = {};
 
-
+    $scope.archive = false;
 
     $scope.currentPage = 1;
     $scope.numPerPage = 10;
@@ -29,7 +29,7 @@
   
     $scope.getList = function () {
         $http({
-            url: "/Work/GetDocuments?page=" + $scope.pageIndex + "&limit=" + $scope.pageSizeSelected,
+            url: "/Work/GetDocuments?page=" + $scope.pageIndex + "&limit=" + $scope.pageSizeSelected+"&archive="+$scope.archive,
             method: "GET",
             params: {
                 page: $scope.pageIndex,
@@ -80,6 +80,7 @@
         obj["showSub"] = false; 
         obj["History"] = [];
         obj["showHistory"] = false;
+
         $scope.userList.unshift(obj);
     }
     $scope.delete = function (user) {
@@ -87,43 +88,62 @@
         obj["page"] = 1;
         obj["limit"] = 10;
         obj["entity"] = user;
+
+
         SweetAlert.swal({
             title: "Вы уверены, что хотите удалить запись безвозвратно из базы данных?",
             text: "",
             type: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
+            confirmButtonColor: '#DD6B55',
             confirmButtonText: "Да, удалить!",
             cancelButtonText: "Нет, отменить!",
-            closeOnConfirm: false
-        }, function () {
-            $http({
-                                url: '/Work/DeleteEventDocument',
-                                method: "POST",
-                                data: obj
-                            }).
-                then(function (response) {
-                 if(response!=null)   {
-                    $scope.userList = response.data.rows;
-                    angular.forEach($scope.userList, function (obj) {
-                        obj["showEdit"] = true;
-                        obj["showSub"] = false;
-                        obj["History"] = [];
-                        obj["showHistory"] = false;
-                        if (obj.value.Data_priyoma != null)
-                            obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6))).toLocaleDateString();
-                        if (obj.value.Data_vydachi != null)
-                            obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6))).toLocaleDateString();
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+function (isConfirm) {
+    if (isConfirm) {
 
-                    })
-                    SweetAlert.swal("Запись удалена!");
-                 }
-                 else {
-                     SweetAlert.swal("Запись не удалена!");
-                 }
-                });
-           
-        });
+        if (user.id != null)
+        {
+            $http({
+                url: '/Work/DeleteEventDocument',
+                method: "POST",
+                data: obj
+            }).
+                   then(function (response) {
+                       if (response != null) {
+                           $scope.userList = response.data.rows;
+                           angular.forEach($scope.userList, function (obj) {
+                               obj["showEdit"] = true;
+                               obj["showSub"] = false;
+                               obj["History"] = [];
+                               obj["showHistory"] = false;
+                               if (obj.value.Data_priyoma != null)
+                                   obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6))).toLocaleDateString();
+                               if (obj.value.Data_vydachi != null)
+                                   obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6))).toLocaleDateString();
+
+                           })
+                           SweetAlert.swal("Запись удалена!");
+                       }
+                       else {
+                           SweetAlert.swal("Ошибка", "Возникли проблемы, запись не удалена!", "error");
+                       }
+                   });
+        }
+        else {
+            $scope.userList.splice(0, 1);
+            SweetAlert.swal("Запись удалена!");
+
+        }
+    } else {
+        SweetAlert.swal("Запись не  удалена!"); 
+    }
+});
+
+
+ 
     }
 
     $scope.toggleEdit = function (emp) {
@@ -186,11 +206,23 @@
         //});
     };
     $scope.AddSub = function (user) {
-        obj = new Object();
-        obj["Naimenovanie_sostavnoj_edinicy"] = "";
-        obj["Oboznachenie_sostavnoj_edinicy"] = "";
-        obj["Kolichestvo_sostavnyh_edinic"] = 1;
-        user.value.Soderzhimoe.push(obj);
+        if (user.value.Soderzhimoe != null) {
+            obj = new Object();
+            obj["Naimenovanie_sostavnoj_edinicy"] = "";
+            obj["Oboznachenie_sostavnoj_edinicy"] = "";
+            obj["Kolichestvo_sostavnyh_edinic"] = 1;
+            user.value.Soderzhimoe.push(obj);
+        }
+        else {
+            if (user.value == null)
+            user["value"] = new Object();
+            user.value["Soderzhimoe"] = [];
+            obj = new Object();
+            obj["Naimenovanie_sostavnoj_edinicy"] = "";
+            obj["Oboznachenie_sostavnoj_edinicy"] = "";
+            obj["Kolichestvo_sostavnyh_edinic"] = 1;
+            user.value.Soderzhimoe.push(obj);
+        }
     };
     $scope.cancelEdit = function (emp) {
         if (emp.key!=null) {
@@ -235,16 +267,48 @@
         }).
            then(function (response) {
                if (response.data != "") {
-                   var idx2 = -1;
-                   for (var i = 0, len = $scope.userList.length; i < len; i++) {
-                       if ($scope.userList[i].id === emp.id) {
-                           idx2 = i;
-                           break;
+                   if (response.data._id != "000000000000000000000000") {
+
+                       if (emp.id != null) {
+                           var idx2 = -1;
+                           for (var i = 0, len = $scope.userList.length; i < len; i++) {
+                               if ($scope.userList[i].id === emp.id) {
+                                   idx2 = i;
+                                   break;
+                               }
+                           }
+                           $scope.userList[idx2].value = response.data;
+                        }
+                       else {
+                           $scope.userList[0]["id"] = response.data._id;
+                           $scope.userList[0]["key"] = response.data._id;
+                           $scope.userList[0].value = response.data;
+
+                       }
+                   }
+                   else {
+                       SweetAlert.swal("Ошибка", "Изделие уже есть в базе данных!", "error");
+                       if (emp.id==null)
+                           $scope.userList.shift();
+                       else {
+                           var idx2 = -1;
+                           for (var i = 0, len = $scope.userList.length; i < len; i++) {
+                               if ($scope.userList[i].id === emp.id) {
+                                   idx2 = i;
+                                   break;
+                               }
+                           }
+                           $scope.userList[idx2].value = response.data;
+                           $scope.userList[idx2].value._id = emp.id;
                        }
                    }
                }
                else {
+                   // ничего не изменилось
+                   SweetAlert.swal("Отмена", "Запись не была обновлена, так как текущая версия записи совпадает с предыдущей!", "warning");
+                   if (emp.id==null)
                    $scope.userList.shift();
+
                }
 
            });
@@ -256,6 +320,10 @@
     $scope.childInfoHis = function (emp) {
         emp.showSub = emp.showSub ? false : true;
 
+    }
+    $scope.showarchive = function () {
+        $scope.archive = $scope.archive ? false : true;
+        $scope.getList();
     }
     $scope.IschildInfoHis = function (emp) {
         return emp.showSub; 

@@ -74,6 +74,7 @@ namespace Warehouse.Core
       bool DeleteEventDocument(EventCouch CouchDataSet, string id);
        List<RevsInfo> GetRevisionListEvent(string id);
       CouchRequest<EventCouch> GetRevisionFiesldsEvent(string id, List<RevsInfo> revs);
+      EventCouch SearchEventByNameAndNumber(string name, string number, Boolean? archive = null);
         //bool CanRunNewQuery(string userId);
 
         //void ReduceBalanceOne(string userId);

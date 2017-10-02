@@ -42,28 +42,28 @@ namespace Warehouse.Model.Db
           var list = new List<string>();
          list.Add(EC.archive.ToString());
            list.Add( EC.Nomer_upakovki.ToString());
-           list.Add( EC.Naimenovanie_izdeliya);
-           list.Add( EC.Zavodskoj_nomer);
+           list.Add(EC.Naimenovanie_izdeliya == "" ? null : EC.Naimenovanie_izdeliya);
+           list.Add( EC.Zavodskoj_nomer== "" ? null :  EC.Zavodskoj_nomer);
            list.Add( EC.Kolichestvo.ToString() );
-           list.Add( EC.Oboznachenie );
+           list.Add( EC.Oboznachenie == "" ? null :EC.Oboznachenie );
          
-           list.Add( EC.Sistema);
-           list.Add( EC.Prinadlezhnost );
-           list.Add( EC.Prinadlezhnost_k_obektu );
+           list.Add( EC.Sistema== "" ? null :EC.Sistema );
+           list.Add( EC.Prinadlezhnost == "" ? null :EC.Prinadlezhnost  );
+           list.Add( EC.Prinadlezhnost_k_obektu == "" ? null : EC.Prinadlezhnost_k_obektu );
            list.Add( EC.Stoimost.ToString());
-           list.Add( EC.Otvetstvennyj);
-           list.Add( EC.Mestonahozhdenie_na_sklade);
+           list.Add( EC.Otvetstvennyj== "" ? null : EC.Otvetstvennyj );
+           list.Add( EC.Mestonahozhdenie_na_sklade== "" ? null : EC.Mestonahozhdenie_na_sklade);
            list.Add( EC.Ves_brutto.ToString());
           list.Add(  EC.Ves_netto.ToString());
           list.Add(  EC.Dlina.ToString() );
           list.Add(  EC.Shirina.ToString());
            list.Add( EC.Vysota.ToString() );
            list.Add( EC.Data_priyoma.ToString());
-           list.Add( EC.Otkuda);
+           list.Add( EC.Otkuda== "" ? null :EC.Otkuda );
            list.Add( EC.Data_vydachi.ToString() );
-           list.Add( EC.Kuda );
-           list.Add( EC.Nomer_plomby);
-           list.Add(EC.Primechanie);
+           list.Add( EC.Kuda == "" ? null : EC.Kuda );
+           list.Add( EC.Nomer_plomby== "" ? null : EC.Nomer_plomby );
+           list.Add(EC.Primechanie == "" ? null : EC.Primechanie);
           return list;
       }
       public static List<string> ToListSoder(EventCouch EC)
@@ -78,7 +78,7 @@ namespace Warehouse.Model.Db
         {
             EventCouch EC = new EventCouch();
             EC._rev = e._rev;
-            
+            EC._id = e._id;
             EC.archive = e.archive;
             EC.Nomer_upakovki= e.Номер_упаковки;
             EC.Naimenovanie_izdeliya = e.Наименование_изделия;

@@ -5,7 +5,9 @@
 .table-header-rotated th.row-header{
   width: auto;
 }
-
+.link-btn /deep/ .mat-button-focus-overlay {
+    background-color:transparent;
+}
 .table-header-rotated td{
   width: auto;
    
@@ -195,6 +197,14 @@
                                 </md-option>
                             </md-select>
                         </md-input-container>
+                        
+                        <md-button ng-show="archive" class="md-icon-button md-accent  waves-effect waves-pink " ng-click="showarchive()" aria-label=" favorite">
+                            <md-icon> archive</md-icon>
+                        </md-button>
+                        <md-button ng-show="!archive" class="md-icon-button  waves-effect waves-pink " ng-click="showarchive()" aria-label=" favorite">
+                            <md-icon> archive</md-icon>
+                        </md-button>
+                            Просмотр архива
                         <thead>
 
                             <tr>
@@ -244,13 +254,15 @@
                     <a ng-show="user.showSub" class="red shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
                         <i class="material-icons " data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
                     </a>-->
-                                    <md-icon style=" color :#4CAF50;" data-toggle="collapse" data-target="#rowH-{{$index}}" ng-show="!user.showHistory" ng-click="gethistory(user )">schedule</md-icon>
+                                    <md-icon data-toggle="collapse" class=" float-icon" style="    color: #555;" data-target="#rowH-{{$index}}" ng-show="!user.showHistory" ng-click="gethistory(user )">schedule</md-icon>
                                     <md-icon style=" color :orange;" data-toggle="collapse" data-target="#rowH-{{$index}}" ng-show="user.showHistory" ng-click="gethistory(user )">schedule</md-icon>
                                     <!--<md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub" ng-click="childInfo(user )">schedule</md-icon>-->
 
-                                    <md-icon style=" color :#4CAF50;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="!user.showSub" ng-click="childInfo(user )">storage</md-icon>
+                                    <md-icon  data-toggle="collapse" style="    color: #555;" data-target="#row-{{$index}}" ng-show="!user.showSub" ng-click="childInfo(user )">storage</md-icon>
                                     <md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub" ng-click="childInfo(user )">storage</md-icon>
-
+                                    <md-button ng-show="!archive" class="md-icon-button  waves-effect waves-purple   " ng-style="height: auto;   width: auto;" ng-click="archivete()" aria-label=" favorite">
+                                        <md-icon style=" color :#555;"> archive</md-icon>
+                                    </md-button>
                                     <md-icon style=" color :#555;" ng-show="user.showEdit" ng-click="toggleEdit(user)">edit</md-icon>
                                     <md-icon style=" color :#555;" ng-show="!user.showEdit" ng-click="cancelEdit(user)">close</md-icon>
                                     <md-icon style=" color :#555;" ng-show="!user.showEdit" ng-click="acceptEdit(user)">done</md-icon>
@@ -480,7 +492,7 @@
 
 
                                             <td>
-                                                <a ng-show="!IschildInfoHis(his)" class="green shortinfo" href="javascript:;" ng-click="childInfoHis(his )" title="Click to view more">
+                                                <a ng-show="!IschildInfoHis(his)" class=" shortinfo" style="    color: #555;" href="javascript:;" ng-click="childInfoHis(his )" title="Click to view more">
                                                     <i class="material-icons" data-toggle="collapse" data-target="#rowHS-{{$index}}">storage</i>
 
                                                 </a>

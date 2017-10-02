@@ -16,9 +16,9 @@ namespace WarehouseDB.Controllers
 
 
           [HttpGet]
-        public JsonResult GetDocuments(int page = 1, int limit = 10)
+        public JsonResult GetDocuments(int page = 1, int limit = 10, bool archive=false)
         {
-          var res=  Repository.GetEventPaginDocuments(page,limit);
+          var res=  Repository.GetEventPaginDocuments(page,limit, archive);
           return Json(res, JsonRequestBehavior.AllowGet);
         }
           [HttpGet]
@@ -46,12 +46,43 @@ namespace WarehouseDB.Controllers
                       res.value.Data_priyoma = null;
                  var r=Repository.SetEventDocument(res.value, res.id);
                   var rep= new EventCouch();
-                  if(res.id==null)
-   rep = Repository.GetEventDocument(r.First().id);
+                  if (res.id == null)
+                  {
+                      if (r.Count > 0 && !r.Any(x => x.id == "000000000000000000000000"))
+                      {
+                          rep = Repository.GetEventDocument(r.First().id);
+
+                          return Json(rep, JsonRequestBehavior.AllowGet);
+                      }
+                      else
+                      {
+                          EventCouch error = new EventCouch() { _id = "000000000000000000000000" };
+                          return Json(error, JsonRequestBehavior.AllowGet);
+                      }
+                    
+                  }
                   else
-                   rep = Repository.GetEventDocument(res.id);
-                 
-                  return Json(rep, JsonRequestBehavior.AllowGet);
+                  {
+                      if (r.Count > 0)
+                      {
+                          if (!r.Any(x => x.id == "000000000000000000000000"))
+                          {
+                              rep = Repository.GetEventDocument(res.id);
+                              return Json(rep, JsonRequestBehavior.AllowGet);
+                          }
+                          else
+                          {
+                              rep = Repository.GetEventDocument(res.id);
+                              rep._id = "000000000000000000000000"; 
+                              return Json(rep, JsonRequestBehavior.AllowGet);
+                          }
+                      }
+                      else return null;
+                       
+                         
+                     
+                  }
+                
               }
               else return null;
           }

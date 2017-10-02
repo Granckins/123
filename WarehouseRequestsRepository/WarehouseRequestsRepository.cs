@@ -141,10 +141,19 @@ namespace Warehouse.Core.Repositories
             else
             {
                 id1 = id;
+                CouchDataSet._id = id;
                 var t=CompareEvent(CouchDataSet,  id);
                 if (t)
                     return list;
             }
+          var pruf=  SearchEventByNameAndNumber(CouchDataSet.Naimenovanie_izdeliya, CouchDataSet.Oboznachenie);
+          if (pruf!=null&&pruf._id != id)
+          {
+
+              list.Add(new ImportResultResponse() { id = "000000000000000000000000" });
+              return list;
+          }
+        
             var json = JsonConvert.SerializeObject(CouchDataSet); 
                 var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id1);
 
@@ -160,13 +169,14 @@ namespace Warehouse.Core.Repositories
                     {
                         var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json);
                         o.Property("_rev").Remove();
+                        o.Property("_id").Remove();
+                        o.Add("_id", id1); 
                         var json1 = JsonConvert.SerializeObject(o);
                         streamWriter.Write(json1);
                     }
                     else
                     {
-                        var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json); 
-                        o.Add("_id", id1); 
+                        var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json);  
                         var json1 = JsonConvert.SerializeObject(o);
                         streamWriter.Write(json1);
                     }
@@ -209,6 +219,20 @@ namespace Warehouse.Core.Repositories
             {
                 var json = JsonConvert.SerializeObject(e);
                 var id = GetUUID();
+                var pruf = SearchEventByNameAndNumber(e.Naimenovanie_izdeliya,e.Oboznachenie);
+                if (pruf != null && pruf._id != id)
+                {
+
+                    list.Add(
+                     new ImportResultResponse()
+                     {
+                         result = false,
+                         number_pack = e.Nomer_upakovki,
+                         name = e.Naimenovanie_izdeliya,
+                         Content = e.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList()
+                     });
+                    continue;
+                }
                 var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id);
 
                 ServicePointManager.DefaultConnectionLimit = 1000;
@@ -221,6 +245,8 @@ namespace Warehouse.Core.Repositories
                 {
                     var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json);
                     o.Property("_rev").Remove();
+                    o.Property("_id").Remove();
+                    o.Add("_id", id); 
                     var json1 = JsonConvert.SerializeObject(o);
                     streamWriter.Write(json1);
                 }
@@ -264,11 +290,14 @@ namespace Warehouse.Core.Repositories
                 var reader = new StreamReader(responseStream, Encoding.UTF8);
                 var res = reader.ReadToEnd();
                 var lucene = JsonConvert.DeserializeObject<LuceneRequest<EventWar>>(res);
+
                 if (lucene.rows.Count>0)
                 {
+                  
                     var sod = lucene.rows.First().fields.Содержимое;
                     var sub = JsonConvert.DeserializeObject<List<SubEvent>>(sod);
                      ev = EventManager.ConvertEventWarToEventCouchParent(lucene.rows.First().fields);
+                     ev._id = lucene.rows.First().id;
                     ev.Soderzhimoe = sub;
                 }
              
@@ -297,7 +326,7 @@ namespace Warehouse.Core.Repositories
         //    return list;
 
         //}
-        public CouchRequest<EventCouch> GetEventPaginDocuments(int page = 1, int limit = 10, bool archive=false)
+        public CouchRequest<EventCouch> GetEventPaginDocuments(int page = 1, int limit = 10, bool archive= false)
         {
             CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
             var skip = (page - 1) * limit;
@@ -416,6 +445,32 @@ namespace Warehouse.Core.Repositories
             list = couch;
            
             return list;
+        }
+        public EventCouch SearchEventByNameAndNumber(string name, string number, Boolean? archive = null)
+        {
+
+            var url = "http://localhost:5984/_fti/local/events/_design/searchdocuments/by_name_number?q=Наименование_изделия:" + "\"" + name + "\"&Заводской_номер:\"" + number + ((archive == null) ? ("\"&archive=" + archive) : "");
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+
+            var user = new EventCouch();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<LuceneRequest<EventCouch>>(res);
+
+                if (lucene.rows.Count <= 0)
+                {
+                    return null;
+                }
+                user = lucene.rows.First().fields;
+                user._id = lucene.rows.First().id;
+            }
+
+            return  user;
         }
         public void Dispose()
         {
