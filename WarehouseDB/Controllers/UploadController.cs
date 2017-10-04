@@ -49,8 +49,7 @@ namespace WarehouseDB.Controllers
                         model.Количество_составных_единиц = csv.GetField<string>(7) == "" ? 0 : csv.GetField<int>(7);
                         model.Система = csv.GetField<string>(8);
                         model.Принадлежность = csv.GetField<string>(9);
-                        model.Принадлежность_к_объекту = csv.GetField<string>(10);
-                        model.Стоимость = csv.GetField<string>(11) == "" ? 0 : csv.GetField<float>(11);
+                         model.Стоимость = csv.GetField<string>(11) == "" ? 0 : csv.GetField<float>(11);
                         model.Ответственный = csv.GetField<string>(12);
                         model.Местонахождение_на_складе = csv.GetField<string>(13);
                         model.Вес_брутто = csv.GetField<string>(14) == "" ? 0 : csv.GetField<float>(14);
@@ -159,8 +158,7 @@ namespace WarehouseDB.Controllers
                         model.Количество_составных_единиц = csv.GetField<string>(7) == "" ? 0 : csv.GetField<int>(7);
                         model.Система = csv.GetField<string>(8);
                         model.Принадлежность = csv.GetField<string>(9);
-                        model.Принадлежность_к_объекту = csv.GetField<string>(10);
-                        model.Стоимость = csv.GetField<string>(11) == "" ? 0 : csv.GetField<float>(11);
+                         model.Стоимость = csv.GetField<string>(11) == "" ? 0 : csv.GetField<float>(11);
                         model.Ответственный = csv.GetField<string>(12);
                         model.Местонахождение_на_складе = csv.GetField<string>(13);
                         model.Вес_брутто = csv.GetField<string>(14) == "" ? 0 : csv.GetField<float>(14);

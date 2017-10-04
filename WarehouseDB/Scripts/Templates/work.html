@@ -8,13 +8,18 @@
 .link-btn /deep/ .mat-button-focus-overlay {
     background-color:transparent;
 }
+ 
 .table-header-rotated td{
   width: auto;
    
   vertical-align: middle;
   text-align: center;
 }
-
+.table tbody tr td  {
+    padding: 0 !important; 
+    text-align: center !important; 
+    vertical-align: middle !important; 
+}
 .table-header-rotated th.rotate-45{
   height: 100px;
   width: 40px;
@@ -220,8 +225,7 @@
                                 <th class="rotate-45"><div><span>Обозначение</span></div></th>
                                 <th class="rotate-45"><div><span>Система</span></div></th>
                                 <th class="rotate-45"><div><span>Принадлежность</span></div></th>
-                                <th class="rotate-45"><div><span>Принадлежность к объекту</span></div></th>
-                                <th class="rotate-45"><div><span>Стоимость</span></div></th>
+                                 <th class="rotate-45"><div><span>Стоимость</span></div></th>
                                 <th class="rotate-45"><div><span>Ответственный</span></div></th>
                                 <th class="rotate-45"><div><span>Местонахождение на складе</span></div></th>
                                 <th class="rotate-45"><div><span>Вес брутто</span></div></th>
@@ -273,42 +277,78 @@
 
 
                                 <td scope="row">
-
-
                                     <span ng-show="user.showEdit">
                                         {{user.value.Nomer_upakovki}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Nomer_upakovki" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input ng-show="!user.showEdit" type="text" ng-model="user.value.Nomer_upakovki">
+                                        <div ng-show="!isNumber(user.value.Nomer_upakovki)||!user.value.Nomer_upakovki">
+
+                                            <div ng-message="required" ng-show=" !user.value.Nomer_upakovki">Обязательное поле</div>
+                                            <div ng-message="required" ng-show=" !isNumber(user.value.Nomer_upakovki)&&user.value.Nomer_upakovki">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
+
+                                   
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Naimenovanie_izdeliya}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Naimenovanie_izdeliya" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input ng-show="!user.showEdit" type="text" ng-model="user.value.Naimenovanie_izdeliya">
+                                        <div ng-show="!user.value.Naimenovanie_izdeliya">
+
+                                            <div ng-message="required" ng-show=" !user.value.Naimenovanie_izdeliya">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
+
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Zavodskoj_nomer}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Zavodskoj_nomer" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input ng-show="!user.showEdit" type="text" ng-model="user.value.Zavodskoj_nomer">
+                                        <div ng-show="!user.value.Zavodskoj_nomer">
+
+                                            <div ng-message="required" ng-show=" !user.value.Zavodskoj_nomer">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Kolichestvo}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Kolichestvo" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input ng-show="!user.showEdit" type="text" ng-model="user.value.Kolichestvo">
+                                        <div ng-show="!isNumber(user.value.Kolichestvo)||!user.value.Kolichestvo||user.value.Kolichestvo==0">
+
+                                            <div ng-message="required" ng-show=" !user.value.Kolichestvo">Обязательное поле</div>
+                                            <div ng-message="required" ng-show=" (!isNumber(user.value.Kolichestvo)||user.value.Kolichestvo==0)&&user.value.Kolichestvo">Числовое положительное поле</div>
+                                        </div>
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Oboznachenie}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Oboznachenie" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input ng-show="!user.showEdit" type="text" ng-model="user.value.Oboznachenie">
+                                      
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Sistema}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema">
+                                        <div ng-show="!user.value.Sistema ">
+
+                                            <div ng-message="required" ng-show=" !user.value.Sistema">Обязательное поле</div>
+                                               </div>
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
@@ -316,12 +356,7 @@
                                     </span>
                                     <input ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost" class="form-control">
                                 </td>
-                                <td>
-                                    <span ng-show="user.showEdit">
-                                        {{user.value.Prinadlezhnost_k_obektu}}
-                                    </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost_k_obektu" class="form-control">
-                                </td>
+                             
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Stoimost}}

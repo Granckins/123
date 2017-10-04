@@ -49,8 +49,7 @@ namespace Warehouse.Model.Db
          
            list.Add( EC.Sistema== "" ? null :EC.Sistema );
            list.Add( EC.Prinadlezhnost == "" ? null :EC.Prinadlezhnost  );
-           list.Add( EC.Prinadlezhnost_k_obektu == "" ? null : EC.Prinadlezhnost_k_obektu );
-           list.Add( EC.Stoimost.ToString());
+            list.Add( EC.Stoimost.ToString());
            list.Add( EC.Otvetstvennyj== "" ? null : EC.Otvetstvennyj );
            list.Add( EC.Mestonahozhdenie_na_sklade== "" ? null : EC.Mestonahozhdenie_na_sklade);
            list.Add( EC.Ves_brutto.ToString());
@@ -88,8 +87,7 @@ namespace Warehouse.Model.Db
             EC.Soderzhimoe = new List<SubEvent>();
             EC.Sistema= e.Система;
             EC.Prinadlezhnost= e.Принадлежность;
-            EC.Prinadlezhnost_k_obektu = e.Принадлежность_к_объекту;
-            EC.Stoimost = e.Стоимость;
+             EC.Stoimost = e.Стоимость;
             EC.Otvetstvennyj= e.Ответственный;
             EC.Mestonahozhdenie_na_sklade= e.Местонахождение_на_складе;
             EC.Ves_brutto = e.Вес_брутто;

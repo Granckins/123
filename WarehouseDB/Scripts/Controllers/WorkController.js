@@ -150,6 +150,9 @@ function (isConfirm) {
         emp.showEdit = emp.showEdit ? false : true;
         $scope.buferList.push(emp.key);
     };
+    $scope.isNumber = function (n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
     $scope.IsHistory = function (emp) {
         if (emp.History.length > 0)
             return true;
@@ -206,7 +209,7 @@ function (isConfirm) {
         //});
     };
     $scope.AddSub = function (user) {
-        if (user.value.Soderzhimoe != null) {
+        if (user.value != null && user.value.Soderzhimoe != null) {
             obj = new Object();
             obj["Naimenovanie_sostavnoj_edinicy"] = "";
             obj["Oboznachenie_sostavnoj_edinicy"] = "";

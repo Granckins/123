@@ -372,6 +372,10 @@ namespace Warehouse.Core.Repositories
         {
             return new WarehouseRequestsRepository();
         }
+        public bool SendEventToArchive()
+        {
+            return true;
+        }
         public List<RevsInfo> GetRevisionListEvent(string id)
         {
             var list= new List<RevsInfo>();
@@ -449,7 +453,7 @@ namespace Warehouse.Core.Repositories
         public EventCouch SearchEventByNameAndNumber(string name, string number, Boolean? archive = null)
         {
 
-            var url = "http://localhost:5984/_fti/local/events/_design/searchdocuments/by_name_number?q=Наименование_изделия:" + "\"" + name + "\"&Заводской_номер:\"" + number + ((archive == null) ? ("\"&archive=" + archive) : "");
+            var url = "http://localhost:5984/_fti/local/events/_design/searchdocuments/by_name_number?q=Наименование_изделия:" + "\"" + name + "\"&Заводской_номер:\"" + number + ((archive == null) ? ("\"&archive=" + archive) : "") + "^10";
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.Credentials = new NetworkCredential("admin", "root");
@@ -465,9 +469,15 @@ namespace Warehouse.Core.Repositories
                 if (lucene.rows.Count <= 0)
                 {
                     return null;
+                } 
+                if (lucene.rows.First().fields.Naimenovanie_izdeliya == name && lucene.rows.First().fields.Zavodskoj_nomer == number)
+                {
+                    user = lucene.rows.First().fields;
+                    user._id = lucene.rows.First().id;
+
                 }
-                user = lucene.rows.First().fields;
-                user._id = lucene.rows.First().id;
+                else return null;
+               
             }
 
             return  user;

@@ -38,9 +38,7 @@ namespace Warehouse.Model.Db
         [JsonProperty("Система")]
                      public string        Система { get; set; }
           [JsonProperty("Принадлежность")]
-                             public string    Принадлежность { get; set; }
-            [JsonProperty("Принадлежность_к_объекту")]
-                           public string      Принадлежность_к_объекту { get; set; }
+                             public string    Принадлежность { get; set; } 
            [JsonProperty("Стоимость")]
                                     public float   Стоимость { get; set; }
                    [JsonProperty("Ответственный")]
