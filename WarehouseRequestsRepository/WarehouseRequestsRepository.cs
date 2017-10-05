@@ -132,7 +132,7 @@ namespace Warehouse.Core.Repositories
           bool count= CouchDataSet.Soderzhimoe.Count == last.Soderzhimoe.Count;
             return main&&child&&count;
         }
-        public List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string id=null)
+        public List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string user, string id=null)
         {
             List<ImportResultResponse> list = new List<ImportResultResponse>();
             var id1 = "";
@@ -153,7 +153,8 @@ namespace Warehouse.Core.Repositories
               list.Add(new ImportResultResponse() { id = "000000000000000000000000" });
               return list;
           }
-        
+          
+              CouchDataSet.Dobavil = user;
             var json = JsonConvert.SerializeObject(CouchDataSet); 
                 var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id1);
 
@@ -211,12 +212,14 @@ namespace Warehouse.Core.Repositories
            
             return list;
         }
-        public List<ImportResultResponse> SetEventDocuments(List<EventCouch> CouchDataSet)
+        public List<ImportResultResponse> SetEventDocuments(List<EventCouch> CouchDataSet, string user)
         {
             List<ImportResultResponse> list = new List<ImportResultResponse>();
             
             foreach (var e in CouchDataSet)
             {
+               
+                    e.Dobavil = user;
                 var json = JsonConvert.SerializeObject(e);
                 var id = GetUUID();
                 var pruf = SearchEventByNameAndNumber(e.Naimenovanie_izdeliya,e.Zavodskoj_nomer);
@@ -305,28 +308,7 @@ namespace Warehouse.Core.Repositories
             }
             return ev;
         }
-        //public  CouchRequest<EventCouch>  GetEventPaginDocuments(int page = 1, int limit = 10)
-        //{
-        //    CouchRequest<EventCouch>  list = new  CouchRequest<EventCouch> ();
-        //    var skip = (page-1)*limit;
-        //    var url = "http://localhost:5984/events/_design/pagindef/_view/foo?skip="+skip+"&limit="+limit;
-        //    var request = (HttpWebRequest)WebRequest.Create(url);
-
-        //    request.Credentials = new NetworkCredential("admin", "root");
-        //    var response = request.GetResponse();
-
-        //    var user = new User();
-        //    using (var responseStream = response.GetResponseStream())
-        //    {
-        //        var reader = new StreamReader(responseStream, Encoding.UTF8);
-        //        var res = reader.ReadToEnd();
-        //        var couch = JsonConvert.DeserializeObject<CouchRequest<EventCouch>>(res);
-        //        list = couch;
-        //    }
-        //    return list;
-
-        //}
-        public CouchRequest<EventCouch> GetEventPaginDocuments(int page = 1, int limit = 10, bool archive= false)
+         public CouchRequest<EventCouch> GetEventPaginDocuments(int page = 1, int limit = 10, bool archive= false)
         {
             CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
             var skip = (page - 1) * limit;

@@ -63,6 +63,7 @@ namespace Warehouse.Model.Db
            list.Add( EC.Kuda == "" ? null : EC.Kuda );
            list.Add( EC.Nomer_plomby== "" ? null : EC.Nomer_plomby );
            list.Add(EC.Primechanie == "" ? null : EC.Primechanie);
+           list.Add(EC.Dobavil == "" ? null : EC.Dobavil);
           return list;
       }
       public static List<string> ToListSoder(EventCouch EC)
@@ -101,6 +102,7 @@ namespace Warehouse.Model.Db
             EC.Kuda= e.Куда;
             EC.Nomer_plomby= e.Номер_пломбы;
             EC.Primechanie = e.Примечание;
+            EC.Dobavil= e.Добавил;
             return EC;
         }
       private static SubEvent ConvertEventWarToSubEvent(EventWar e)

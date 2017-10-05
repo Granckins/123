@@ -59,9 +59,10 @@ namespace Warehouse.Model.Db
         public string Kuda { get; set; }
         [JsonProperty("Номер_пломбы")]
         public string Nomer_plomby { get; set; }
-        [JsonProperty("Примечание")]
-
+        [JsonProperty("Примечание")] 
         public string Primechanie { get; set; }
+        [JsonProperty("Добавил")]
+        public string Dobavil{ get; set; }
         public List<RevsInfo> _revs_info { get; set; }
        public EventCouch()
         {

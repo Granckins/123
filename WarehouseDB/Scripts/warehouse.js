@@ -44,11 +44,10 @@
     return self;
 }]);
 
-var app = angular.module('app', ['ui.router', 'bw.paging', 'ngMaterial', 'md-steppers', 'angularFileUpload', 'datatables', 'oitozero.ngSweetAlert']);
+var app = angular.module('app', ['ui.router', 'bw.paging', 'ngMaterial', 'md-steppers', 'angularFileUpload', 'datatables', 'oitozero.ngSweetAlert', 'angularMoment']);
 
 app.controller('appCtrl', appCtrl);
-app.controller('ImportController', ImportController);
-
+app.controller('ImportController', ImportController); 
 app.controller('LoginController', LoginController);
 app.controller('WorkController', WorkController);
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
@@ -57,7 +56,9 @@ app.factory('PreviewFactory', PreviewFactory);
 app.factory('WorkFactory', WorkFactory);
 app.directive('tmpl', testComp);
 
-
+app.run(function (amMoment) {
+    amMoment.changeLocale('ru');
+});
 function testComp($compile) {
     console.log('sss');
     var directive = {};

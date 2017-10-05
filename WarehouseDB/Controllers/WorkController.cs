@@ -6,9 +6,12 @@ using System.Web.Mvc;
 using Warehouse.Core.Repositories;
 using Warehouse.Model;
 using Warehouse.Model.Db;
+using WarehouseDB.Filters;
+using WebMatrix.WebData;
 
 namespace WarehouseDB.Controllers
 {
+    [InitializeSimpleMembership]
     public class WorkController : Controller
     {
        
@@ -44,7 +47,8 @@ namespace WarehouseDB.Controllers
                       res.value.Data_priyoma = null;
                   if (res.value.Data_priyoma == new DateTime(1, 1, 1))
                       res.value.Data_priyoma = null;
-                 var r=Repository.SetEventDocument(res.value, res.id);
+                  var memberId =  User.Identity.Name ;
+                 var r=Repository.SetEventDocument(res.value,memberId, res.id);
                   var rep= new EventCouch();
                   if (res.id == null)
                   {
@@ -90,7 +94,8 @@ namespace WarehouseDB.Controllers
         public JsonResult DeleteEventSubDocument(EditSubEvent sub)
         {
             sub.edit_event.value.Soderzhimoe.RemoveAt(sub.subidx);
-            Repository.SetEventDocument(sub.edit_event.value, sub.edit_event.id);
+            var memberId = User.Identity.Name;
+            Repository.SetEventDocument(sub.edit_event.value,memberId, sub.edit_event.id);
             var rep = Repository.GetEventDocument(sub.edit_event.id);
             return Json(rep, JsonRequestBehavior.AllowGet);
         }

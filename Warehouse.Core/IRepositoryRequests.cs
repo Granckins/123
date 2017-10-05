@@ -67,10 +67,10 @@ namespace Warehouse.Core
 
        List<string> GetUserRoles(UserIdentity user);
       string GetUUID( );
-      List<ImportResultResponse> SetEventDocuments(List<EventCouch> CouchDataSet);
+      List<ImportResultResponse> SetEventDocuments(List<EventCouch> CouchDataSet, string user);
       CouchRequest<EventCouch>  GetEventPaginDocuments(int page, int limit,bool archive);
       EventCouch GetEventDocument(string id);
-      List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string id);
+      List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string user, string id);
       bool DeleteEventDocument(EventCouch CouchDataSet, string id);
        List<RevsInfo> GetRevisionListEvent(string id);
       CouchRequest<EventCouch> GetRevisionFiesldsEvent(string id, List<RevsInfo> revs);

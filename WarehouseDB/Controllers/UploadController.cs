@@ -235,7 +235,8 @@ namespace WarehouseDB.Controllers
          
 
            var str=JsonConvert.SerializeObject(CouchDataSet);
-           var resp=Repository.SetEventDocuments(CouchDataSet);
+           var memberId = User.Identity.Name;
+           var resp = Repository.SetEventDocuments(CouchDataSet, memberId);
         
             
            return Json(resp);

@@ -16,7 +16,7 @@
   text-align: center;
 }
 .table tbody tr td  {
-    padding: 0 !important; 
+    padding: 0 2px 0 2px !important;
     text-align: center !important; 
     vertical-align: middle !important; 
 }
@@ -113,85 +113,7 @@
                     </ul>
                 </div>
                 <div class="body table-responsive js-sweetalert">
-                    <!--<table class="table table-striped" datatable="ng" dt-options="vm.dtOptions" dt-instance="vm.dtInstance">
-
-            <colgroup>
-                <col width="" />
-                <col width="" />
-                <col width="" />
-                <col width="" />
-                <col width="" />
-            </colgroup>
-            <thead>
-                <tr>
-                    <th  ></th>
-                    <th> </th>
-                    <th  >Номер упаковки</th>
-                    <th >Наименование изделия</th>
-                    <th  >Заводской номер</th>
-                    <th  >Количество</th>
-                    <th>Обозначение</th>
-                    <th>Система</th>
-                    <th>Принадлежность</th>
-                    <th>Принадлежность к объекту</th>
-                    <th>Стоимость</th>
-                    <th>Ответственный</th>
-                    <th>Местонахождение на складе</th>
-                    <th>Вес брутто</th>
-                    <th>Вес нетто</th>
-                    <th>Длина</th>
-                    <th>Ширина</th>
-                    <th>Высота</th>
-                    <th>Дата приёма</th>
-                    <th>Откуда</th>
-                    <th>Дата выдачи</th>
-                    <th>Куда</th>
-                    <th>Номер пломбы</th>
-                    <th>Примечание</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="user in userList">
-                    <td><a class="green shortinfo" href="javascript:;" ng-click="childInfo(user.value.Soderzhimoe, $event)" title="Click to view more"><i class="glyphicon glyphicon-plus-sign  green"></a></td>
-                    <td style="display: inline-flex !important;">
-
-
-                        <md-button class="md-icon-button md-primary " style="    margin: 0 0px !important;" aria-label="Редактировать" ng-click="item.remove()">
-                            <md-icon style=" color :#555;" ng-click="edit($index);">edit</md-icon>
-                        </md-button>
-                        <md-button class="md-icon-button md-primary " style="    margin: 0 0px !important;" aria-label="Удалить" ng-click="item.remove()">
-                            <md-icon style=" color :#555;" ng-click="delete( );">delete_forever</md-icon>
-                        </md-button>
-
-                    </td>
-
-                      <td>{{user.value.Nomer_upakovki}}</td>
-                    <td>{{user.value.Naimenovanie_izdeliya}}</td>
-                    <td>{{user.value.Zavodskoj_nomer}}</td>
-                    <td>{{user.value.Kolichestvo}}</td>
-                    <td>{{user.value.Oboznachenie}}</td>
-                    <td>{{user.value.Sistema}}</td>
-                    <td>{{user.value.Prinadlezhnost}}</td>
-                    <td>{{user.value.Prinadlezhnost_k_obektu}}</td>
-                    <td>{{user.value.Stoimost}}</td>
-                    <td>{{user.value.Otvetstvennyj}}</td>
-                    <td>{{user.value.Mestonahozhdenie_na_sklade}}</td>
-                    <td>{{user.value.Ves_brutto}}</td>
-                    <td>{{user.value.Ves_netto}}</td>
-                    <td>{{user.value.Dlina}}</td>
-                    <td>{{user.value.Shirina}}</td>
-                    <td>{{user.value.Vysota}}</td>
-                    <td>{{user.value.Data_priyoma}}</td>
-                    <td>{{user.value.Otkuda}}</td>
-                    <td>{{user.value.Data_vydachi}}</td>
-                    <td>{{user.value.Kuda}}</td>
-                    <td>{{user.value.Nomer_plomby}}</td>
-                    <td>{{user.value.Primechanie}}</td>
-
-                </tr>
-            </tbody>
-        </table>-->
+             
                     <table class="table table-header-rotated  table-condensed " style="border-collapse:collapse;">
                         <md-input-container style="margin: 18px 0 0 0;">
                             <label>Кол-во</label>
@@ -239,7 +161,7 @@
                                 <th class="rotate-45"><div><span>Куда</span></div></th>
                                 <th class="rotate-45"><div><span>Номер пломбы</span></div></th>
                                 <th class="rotate-45"><div><span>Примечание</span></div></th>
-
+                                <th class="rotate-45"><div><span>Добавил</span></div></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -282,13 +204,13 @@
                                     </span>
                                     <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
                                         <input aria-label="Номер упаковки" ng-show="!user.showEdit" type="text" ng-model="user.value.Nomer_upakovki">
-                                        <div ng-show="!isNumber(user.value.Nomer_upakovki)||!user.value.Nomer_upakovki||!isFloat(user.value.Nomer_upakovki)">
+                                        <div ng-show="!isNumber(user.value.Nomer_upakovki)||!user.value.Nomer_upakovki||!isInteger(user.value.Nomer_upakovki)">
 
                                             <div ng-message="required" ng-show=" !user.value.Nomer_upakovki">Обязательное поле</div>
                                             <div ng-message="required" ng-show=" !isNumber(user.value.Nomer_upakovki)&&user.value.Nomer_upakovki">Числовое поле</div>
                                             <div ng-message="required" ng-show=" isNumber(user.value.Nomer_upakovki)&&user.value.Nomer_upakovki&&!isInteger(user.value.Nomer_upakovki)">Целое число</div>
 
-                                            </div>
+                                        </div>
                                     </md-input-container>
 
                                    
@@ -324,11 +246,13 @@
                                     </span>
                                     <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
                                         <input aria-label="Количество" ng-show="!user.showEdit" type="text" ng-model="user.value.Kolichestvo">
-                                        <div ng-show="!isNumber(user.value.Kolichestvo)||!user.value.Kolichestvo||user.value.Kolichestvo==0">
+                                        <div ng-show="!isNumber(user.value.Kolichestvo)||!user.value.Kolichestvo||user.value.Kolichestvo==0||!isInteger(user.value.Kolichestvo)">
 
                                             <div ng-message="required" ng-show=" !user.value.Kolichestvo">Обязательное поле</div>
                                             <div ng-message="required" ng-show=" (!isNumber(user.value.Kolichestvo)||user.value.Kolichestvo==0)&&user.value.Kolichestvo">Числовое положительное поле</div>
-                                        </div>
+                                            <div ng-message="required" ng-show=" isNumber(user.value.Kolichestvo)&&user.value.Kolichestvo&&!isInteger(user.value.Kolichestvo)">Целое число</div>
+
+                                           </div>
                                     </md-input-container>
                                 </td>
                                 <td>
@@ -345,7 +269,7 @@
                                         {{user.value.Sistema}}
                                     </span>
                                     <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                        <input ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema">
+                                        <input aria-label="Система" ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema">
                                         <div ng-show="!user.value.Sistema ">
 
                                             <div ng-message="required" ng-show=" !user.value.Sistema">Обязательное поле</div>
@@ -356,96 +280,178 @@
                                     <span ng-show="user.showEdit">
                                         {{user.value.Prinadlezhnost}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Принадлежность" ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost">
+                                        <div ng-show="!user.value.Prinadlezhnost ">
+
+                                            <div ng-message="required" ng-show=" !user.value.Prinadlezhnost">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
                                 </td>
                              
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Stoimost}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Stoimost" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Стоимость" ng-show="!user.showEdit" type="text" ng-model="user.value.Stoimost">
+                                        <div ng-show="!isNumber(user.value.Stoimost)&&user.value.Stoimost ">
+
+                                            <div ng-message="required"  >Числовое поле</div>
+                              </div>
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Otvetstvennyj}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Otvetstvennyj" class="form-control">
+                                     <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                         <input aria-label="Ответственный" ng-show="!user.showEdit" type="text" ng-model="user.value.Otvetstvennyj">
+                                         <div ng-show="!user.value.Otvetstvennyj ">
+
+                                             <div ng-message="required" ng-show=" !user.value.Otvetstvennyj">Обязательное поле</div>
+                                         </div>
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Mestonahozhdenie_na_sklade}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Mestonahozhdenie_na_sklade" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Адрес" ng-show="!user.showEdit" type="text" ng-model="user.value.Mestonahozhdenie_na_sklade">
+                                        <div ng-show="!user.value.Mestonahozhdenie_na_sklade ">
+
+                                            <div ng-message="required" ng-show=" !user.value.Mestonahozhdenie_na_sklade">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
 
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Ves_brutto}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_brutto" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Вес брутто" ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_brutto">
+                                        <div ng-show="!isNumber(user.value.Ves_brutto)&&user.value.Ves_brutto ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
 
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Ves_netto}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_netto" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Вес нетто" ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_netto">
+                                        <div ng-show="!isNumber(user.value.Ves_netto)&&user.value.Ves_netto ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Dlina}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Dlina" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Длина" ng-show="!user.showEdit" type="text" ng-model="user.value.Dlina">
+                                        <div ng-show="!isNumber(user.value.Dlina)&&user.value.Dlina ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Shirina}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Shirina" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Ширина" ng-show="!user.showEdit" type="text" ng-model="user.value.Shirina">
+                                        <div ng-show="!isNumber(user.value.Shirina)&&user.value.Shirina ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Vysota}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Vysota" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Высота" ng-show="!user.showEdit" type="text" ng-model="user.value.Vysota">
+                                        <div ng-show="!isNumber(user.value.Vysota)&&user.value.Vysota ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
                                 </td>
                                 <td>
-                                    <span ng-show="user.showEdit">
-                                        {{user.value.Data_priyoma}}
+                                    <span ng-show="user.showEdit" >
+                                        {{user.value.Data_priyoma |  amDateFormat:'DD.MM.YYYY' }}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Data_priyoma" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <md-datepicker ng-model="user.value.Data_priyoma"  md-placeholder="Enter date"></md-datepicker>
+
+                                            <div ng-show="!user.value.Data_priyoma ">
+
+                                            <div ng-message="required" ng-show=" !user.value.Data_priyoma">Обязательное поле</div>
+                                         </div>
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Otkuda}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Otkuda" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Откуда" ng-show="!user.showEdit" type="text" ng-model="user.value.Otkuda">
+                                     
+                                    </md-input-container>
                                 </td>
                                 <td>
-                                    <span ng-show="user.showEdit">
-                                        {{user.value.Data_vydachi}}
+                                    <span ng-show="user.showEdit"  >
+                                     {{user.value.Data_vydachi  |  amDateFormat:'DD.MM.YYYY'}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Data_vydachi" class="form-control">
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <md-datepicker ng-model="user.value.Data_vydachi" md-placeholder="Enter date"></md-datepicker>
+
+                                        
+                                    </md-input-container>
                                 </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Kuda}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Kuda" class="form-control">
-                                </td>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Куда" ng-show="!user.showEdit" type="text" ng-model="user.value.Kuda">
+                                        
+                                    </md-input-container>
+                                      </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Nomer_plomby}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Nomer_plomby" class="form-control">
-                                </td>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Номер пломбы" ng-show="!user.showEdit" type="text" ng-model="user.value.Nomer_plomby">
+                                      
+                                    </md-input-container>
+                                    </td>
                                 <td>
                                     <span ng-show="user.showEdit">
                                         {{user.value.Primechanie}}
                                     </span>
-                                    <input ng-show="!user.showEdit" type="text" ng-model="user.value.Primechanie" class="form-control">
-                                </td>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Примечание" ng-show="!user.showEdit" type="text" ng-model="user.value.Primechanie">
 
+                                    </md-input-container>
+                                </td>
+                                <td ng-show="user.showEdit">
+                                    <span  >
+                                        {{user.value.Dobavil}}
+                                    </span>
+                               
+                                </td>
                             </tr>
                             <tr ng-repeat-end>
                                 <td colspan="23" class="noPadding">
@@ -464,7 +470,13 @@
                                                 <span ng-show="user.showEdit">
                                                     {{u.Naimenovanie_sostavnoj_edinicy}}
                                                 </span>
-                                                <input ng-show="!user.showEdit" type="text" ng-model="u.Naimenovanie_sostavnoj_edinicy" class="form-control">
+                                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                                    <input aria-label="Наименование составной единицы" ng-show="!user.showEdit" type="text" ng-model="u.Naimenovanie_sostavnoj_edinicy">
+                                                    <div ng-show=" !u.Naimenovanie_sostavnoj_edinicy ">
+
+                                                        <div ng-message="required" ng-show=" !u.Naimenovanie_sostavnoj_edinicy">Обязательное поле</div>
+                                                           </div>
+                                                </md-input-container>
                                             </td>
 
 
@@ -472,15 +484,27 @@
                                                 <span ng-show="user.showEdit">
                                                     {{u.Oboznachenie_sostavnoj_edinicy}}
                                                 </span>
-                                                <input ng-show="!user.showEdit" type="text" ng-model="u.Oboznachenie_sostavnoj_edinicy" class="form-control">
+                                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                                    <input aria-label="Обозначение составной единицы" ng-show="!user.showEdit" type="text" ng-model="u.Oboznachenie_sostavnoj_edinicy">
+                                                  
+                                                </md-input-container>
                                             </td>
 
 
                                             <td>
-                                                <span ng-show="user.showEdit">
+                                                <span ng-show="user.showEdit" >
                                                     {{u.Kolichestvo_sostavnyh_edinic}}
                                                 </span>
-                                                <input ng-show="!user.showEdit" type="text" ng-model="u.Kolichestvo_sostavnyh_edinic" class="form-control">
+                                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                                    <input aria-label="Количество составной единицы" ng-show="!user.showEdit" type="text" ng-model="u.Kolichestvo_sostavnyh_edinic">
+                                                    <div ng-show="!isNumber(u.Kolichestvo_sostavnyh_edinic)||!u.Kolichestvo_sostavnyh_edinic||u.Kolichestvo_sostavnyh_edinic==0||!isInteger(u.Naimenovanie_sostavnoj_edinicy)">
+
+                                                        <div ng-message="required" ng-show=" !u.Kolichestvo_sostavnyh_edinic">Обязательное поле</div>
+                                                        <div ng-message="required" ng-show=" (!isNumber(u.Kolichestvo_sostavnyh_edinic)||u.Kolichestvo_sostavnyh_edinic==0)&&u.Naimenovanie_sostavnoj_edinicy">Числовое положительное поле</div>
+                                                        <div ng-message="required" ng-show=" isNumber(u.Kolichestvo_sostavnyh_edinic)&&u.Kolichestvo_sostavnyh_edinic&&!isInteger(u.Kolichestvo_sostavnyh_edinic)">Целое число</div>
+
+                                                    </div>
+                                                </md-input-container>
                                             </td>
                                             <td style="display: inline-flex !important; border-bottom: 0px !important;">
 
@@ -522,7 +546,7 @@
                                             <th class="rotate-45"><div><span>Куда</span></div></th>
                                             <th class="rotate-45"><div><span>Номер пломбы</span></div></th>
                                             <th class="rotate-45"><div><span>Примечание</span></div></th>
-
+                                            <th class="rotate-45"><div><span>Добавил</span></div></th>
                                         </tr>
 
                                         <tr ng-repeat-start="his in user.History track by $index" class="accordion-toggle">
@@ -592,13 +616,13 @@
                                                 {{his.value.Vysota}}
                                             </td>
                                             <td>
-                                                {{his.value.Data_priyoma}}
+                                                {{his.value.Data_priyoma  |  amDateFormat:'DD.MM.YYYY'}}
                                             </td>
                                             <td>
                                                 {{his.value.Otkuda}}
                                             </td>
                                             <td>
-                                                {{his.value.Data_vydachi}}
+                                                {{his.value.Data_vydachi  |  amDateFormat:'DD.MM.YYYY'}}
                                             </td>
                                             <td>
                                                 {{his.value.Kuda}}
@@ -609,7 +633,9 @@
                                             <td>
                                                 {{his.value.Primechanie}}
                                             </td>
-
+                                            <td >
+                                                {{his.value.Dobavil}}
+                                            </td>
                                         </tr>
                                         <tr ng-repeat-end>
                                             <td colspan="23" class="noPadding">

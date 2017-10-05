@@ -1,4 +1,4 @@
-﻿var WorkController = function ($scope, $http, DTOptionsBuilder, DTColumnBuilder, $compile, SweetAlert) {
+﻿var WorkController = function ($scope, $http, DTOptionsBuilder, DTColumnBuilder, $compile, SweetAlert,moment) {
     $scope.message = "fdf";
     $scope.vm = {};
     $scope.vm.dtInstance = {};
@@ -49,9 +49,9 @@
                    obj["History"] = [];
                    obj["showHistory"] = false;
                    if (obj.value.Data_priyoma != null)
-                       obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6))).toLocaleDateString();
+                       obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                    if (obj.value.Data_vydachi != null)
-                       obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6))).toLocaleDateString();
+                       obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
 
                })
            });
@@ -120,11 +120,11 @@ function (isConfirm) {
                                obj["History"] = [];
                                obj["showHistory"] = false;
                                if (obj.value.Data_priyoma != null)
-                                   obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6))).toLocaleDateString();
+                                   obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                                if (obj.value.Data_vydachi != null)
-                                   obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6))).toLocaleDateString();
+                                   obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
 
-                           })
+                           });
                            SweetAlert.swal("Запись удалена!");
                            $scope.getList();
                        }
@@ -154,6 +154,9 @@ function (isConfirm) {
     $scope.isNumber = function (n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
+    $scope.isDate = function (n) {
+        return angular.isDate(n);;
+    }
     $scope.isInteger = function (n) {
         return n % 1 === 0;
     }
@@ -178,6 +181,16 @@ function (isConfirm) {
 
              emp["History"] = response.data.rows;
              emp["History"]["showSub"] = false;
+
+             angular.forEach(emp["History"], function (obj) {
+               
+                 if (obj.value.Data_priyoma != null)
+                     obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
+                 if (obj.value.Data_vydachi != null)
+                     obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+
+             })
+             
          });
     }
     };
@@ -253,16 +266,33 @@ function (isConfirm) {
             }
             $scope.userList[idx2].value = response.data;
             if (response.data.Data_priyoma != null)
-                $scope.userList[idx2].value.Data_priyoma = new Date(parseInt(response.data.Data_priyoma.substr(6))).toLocaleDateString();
+                $scope.userList[idx2].value.Data_priyoma = new Date(parseInt(response.data.Data_priyoma.substr(6)));
             if (response.data.Data_vydachi != null)
-                $scope.userList[idx2].value.Data_vydachi = new Date(parseInt(response.data.Data_vydachi.substr(6))).toLocaleDateString();
+                $scope.userList[idx2].value.Data_vydachi = new Date(parseInt(response.data.Data_vydachi.substr(6)));
         });
         }
         else {
             $scope.userList.splice(0,1);
         }
     };
+    $scope.checkevent = function (user) {
+    var flag=user.value.Nomer_upakovki && $scope.isNumber(user.value.Nomer_upakovki) && $scope.isInteger(user.value.Nomer_upakovki)
+        && user.value.Naimenovanie_izdeliya && user.value.Zavodskoj_nomer &&user.value.Kolichestvo && $scope.isNumber(user.value.Kolichestvo)   
+           && user.value.Kolichestvo != 0 && user.value.Sistema && user.value.Prinadlezhnost &&
+          ( user.value.Stoimost? $scope.isNumber(user.value.Stoimost) :true)&& user.value.Otvetstvennyj && user.value.Mestonahozhdenie_na_sklade
+        && (user.value.Ves_brutto ? $scope.isNumber(user.value.Ves_brutto) : true) && (user.value.Ves_netto ? $scope.isNumber(user.value.Ves_netto) : true)
+        && (user.value.Dlina ? $scope.isNumber(user.value.Dlina) : true)
+                && (user.value.Shirina ? $scope.isNumber(user.value.Shirina) : true)
+           && (user.value.Vysota ? $scope.isNumber(user.value.Vysota) : true)
+        && user.value.Data_priyoma;
+    angular.forEach(user.value.Soderzhimoe, function (obj) {
+        flag = flag && obj.Naimenovanie_sostavnoj_edinicy && obj.Kolichestvo_sostavnyh_edinic &&
+             $scope.isNumber(obj.Kolichestvo_sostavnyh_edinic) && obj.Kolichestvo_sostavnyh_edinic != 0 && $scope.isInteger(obj.Kolichestvo_sostavnyh_edinic); 
+    });
+    return flag;
+    }
     $scope.acceptEdit = function (emp) {
+        if ($scope.checkevent(emp)) {
         emp.showEdit = emp.showEdit ? false : true;
         var idx = $scope.buferList.indexOf(emp.key);
         $scope.buferList.splice(idx);
@@ -285,12 +315,23 @@ function (isConfirm) {
                                }
                            }
                            $scope.userList[idx2].value = response.data;
-                        }
+
+                           if (response.data.Data_priyoma != null)
+                               $scope.userList[idx2].value.Data_priyoma = new Date(parseInt(response.data.Data_priyoma.substr(6)));
+                           if (response.data.Data_vydachi != null)
+                               $scope.userList[idx2].value.Data_vydachi = new Date(parseInt(response.data.Data_vydachi.substr(6)));
+                           $scope.getList();
+                       }
                        else {
                            $scope.userList[0]["id"] = response.data._id;
                            $scope.userList[0]["key"] = response.data._id;
                            $scope.userList[0].value = response.data;
+                           if (response.data.Data_priyoma != null)
+                               $scope.userList[0].value.Data_priyoma = new Date(parseInt(response.data.Data_priyoma.substr(6)));
+                           if (response.data.Data_vydachi != null)
+                               $scope.userList[0].value.Data_vydachi = new Date(parseInt(response.data.Data_vydachi.substr(6)));
 
+                           $scope.getList();
                        }
                    }
                    else {
@@ -314,11 +355,12 @@ function (isConfirm) {
                    // ничего не изменилось
                    SweetAlert.swal("Отмена", "Запись не была обновлена, так как текущая версия записи совпадает с предыдущей!", "warning");
                    if (emp.id==null)
-                   $scope.userList.shift();
+                       $scope.userList.shift();
 
                }
 
            });
+    }
     };
     $scope.childInfo = function (emp) {
         emp.showSub = emp.showSub ? false : true;
@@ -340,4 +382,4 @@ function (isConfirm) {
 
 }
 
-WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert'];
+WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert', 'moment'];

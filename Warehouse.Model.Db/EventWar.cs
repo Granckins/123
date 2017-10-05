@@ -71,6 +71,8 @@ namespace Warehouse.Model.Db
                                                        public string         Номер_пломбы { get; set; }
             [JsonProperty("Примечание")]
                                                        public string Примечание { get; set; }
+            [JsonProperty("Добавил")]
+            public string Добавил { get; set; }
             public List<RevsInfo> _revs_info { get; set; }
           public  EventWar()
             {

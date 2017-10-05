@@ -34,7 +34,7 @@ $.AdminBSB.options = {
         scrollBorderRadius: '0',
         scrollRailBorderRadius: '0',
         scrollActiveItemWhenPageLoad: true,
-        breakpointWidth: 0
+        breakpointWidth: 3270
     },
     dropdownMenu: {
         effectIn: 'fadeIn',
