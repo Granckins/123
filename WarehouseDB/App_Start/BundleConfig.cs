@@ -84,6 +84,7 @@ namespace WarehouseDB
                       "~/plugins/angular-material-data-table/dist/md-data-table.min.css" ,
                         "~/css/datatables.bootstrap.css" 
                    ));
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

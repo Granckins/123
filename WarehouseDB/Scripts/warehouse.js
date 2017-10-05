@@ -78,13 +78,13 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
            .state('home', {
                url: '/home',
-               templateUrl: 'Scripts/Templates/home.html',
-               controller: appCtrl
+               templateUrl: 'Scripts/Templates/work.html',
+               controller: WorkController
            })
            .state('default', {
                url: '/',
-               templateUrl: 'Scripts/Templates/home.html',
-               controller: appCtrl
+               templateUrl: 'Scripts/Templates/work.html',
+               controller: WorkController
            })
             .state('import', {
                 url: '/import',

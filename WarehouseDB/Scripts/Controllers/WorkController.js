@@ -126,6 +126,7 @@ function (isConfirm) {
 
                            })
                            SweetAlert.swal("Запись удалена!");
+                           $scope.getList();
                        }
                        else {
                            SweetAlert.swal("Ошибка", "Возникли проблемы, запись не удалена!", "error");
@@ -152,6 +153,9 @@ function (isConfirm) {
     };
     $scope.isNumber = function (n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+    $scope.isInteger = function (n) {
+        return n % 1 === 0;
     }
     $scope.IsHistory = function (emp) {
         if (emp.History.length > 0)
