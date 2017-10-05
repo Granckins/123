@@ -219,7 +219,7 @@ namespace Warehouse.Core.Repositories
             {
                 var json = JsonConvert.SerializeObject(e);
                 var id = GetUUID();
-                var pruf = SearchEventByNameAndNumber(e.Naimenovanie_izdeliya,e.Oboznachenie);
+                var pruf = SearchEventByNameAndNumber(e.Naimenovanie_izdeliya,e.Zavodskoj_nomer);
                 if (pruf != null && pruf._id != id)
                 {
 
