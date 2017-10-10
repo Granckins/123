@@ -1089,6 +1089,10 @@
     <Content Include="plugins\materialize-css\fonts\roboto\Roboto-Thin.ttf" />
     <Content Include="plugins\materialize-css\fonts\roboto\Roboto-Thin.woff" />
     <Content Include="plugins\materialize-css\fonts\roboto\Roboto-Thin.woff2" />
+    <Content Include="plugins\md-chips-select\dist\md-chips-select.css" />
+    <Content Include="plugins\md-chips-select\dist\md-chips-select.js" />
+    <Content Include="plugins\md-chips-select\dist\md-chips-select.min.css" />
+    <Content Include="plugins\md-chips-select\dist\md-chips-select.min.js" />
     <Content Include="plugins\md-steppers\demo\app.js" />
     <Content Include="plugins\md-steppers\demo\index.html" />
     <Content Include="plugins\md-steppers\demo\redirect.html" />

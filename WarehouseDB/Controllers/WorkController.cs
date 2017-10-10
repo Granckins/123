@@ -18,10 +18,10 @@ namespace WarehouseDB.Controllers
         WarehouseRequestsRepository Repository = new WarehouseRequestsRepository();
 
 
-          [HttpGet]
-        public JsonResult GetDocuments(int page = 1, int limit = 10, bool archive=false)
+          [HttpPost]
+        public JsonResult GetDocuments(PostRequest<RowCouch<EventCouch>> rep)
         {
-          var res=  Repository.GetEventPaginDocuments(page,limit, archive);
+          var res=  Repository.GetEventPaginDocuments(rep.page,rep.limit,rep.archive_str);
           return Json(res, JsonRequestBehavior.AllowGet);
         }
           [HttpGet]

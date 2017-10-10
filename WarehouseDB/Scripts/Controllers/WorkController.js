@@ -10,6 +10,22 @@
   $scope.maxSize = 5;
 
 
+  $scope.archive_str="";
+  $scope.Nomer_upakovki_str = "";
+  $scope.Naimenovanie_izdeliya_str = "";
+  $scope.Zavodskoj_nomer_str = "";
+  $scope.Oboznachenie_str = "";
+  $scope.Soderzhimoe_str = "";
+  $scope.Sistema_str = "";
+  $scope.Prinadlezhnost_str = "";
+  $scope.Mestonahozhdenie_na_sklade_str = "";
+  $scope.Data_priyoma_str1 = "";
+  $scope.Data_vydachi_str1 = "";
+  $scope.Data_priyoma_str2 = "";
+  $scope.Data_vydachi_str2 = "";
+  $scope.Primechanie_str = "";
+
+
     $scope.vm.dtOptions = DTOptionsBuilder.newOptions()
       .withOption('order', [0, 'asc']);
     $scope.customer = {
@@ -26,15 +42,40 @@
     }
     $scope.buferList = [];
     $scope.userList = [];
-  
+    $scope.isSearch = false;
+    $scope.search = function (str) {
+        switch(str){
+            case 'Наименование изделия':
+                 break 
+                    default:
+                 break 
+        }
+    };
     $scope.getList = function () {
+        obj = new Object();
+        obj["page"] = $scope.pageIndex;
+        obj["limit"] = $scope.pageSizeSelected;
+
+        obj["archive_str"] = $scope.archive_str;
+        obj["Nomer_upakovki_str"] = $scope.Nomer_upakovki_str;
+        obj["Naimenovanie_izdeliya_str"] = $scope.Naimenovanie_izdeliya_str;
+        obj["Zavodskoj_nomer_str"] = $scope.Zavodskoj_nomer_str;
+        obj["Oboznachenie_str"] = $scope.Oboznachenie_str;
+        obj["Soderzhimoe_str"] = $scope.Soderzhimoe_str;
+        obj["Sistema_str"] = $scope.Sistema_str;
+        obj["Prinadlezhnost_str"] = $scope.Prinadlezhnost_str;
+        obj["Mestonahozhdenie_na_sklade_str"] = $scope.Mestonahozhdenie_na_sklade_str;
+        obj["Data_priyoma_str1"] = $scope.Data_priyoma_str1;
+        obj["Data_vydachi_str1"] = $scope.Data_vydachi_str1;
+        obj["Data_priyoma_str2"] = $scope.Data_priyoma_str2;
+        obj["Data_vydachi_str2"] = $scope.Data_vydachi_str2;
+        obj["Primechanie_str"] = $scope.Primechanie_str;
+
+        obj["entity"] = null;
         $http({
-            url: "/Work/GetDocuments?page=" + $scope.pageIndex + "&limit=" + $scope.pageSizeSelected+"&archive="+$scope.archive,
-            method: "GET",
-            params: {
-                page: $scope.pageIndex,
-                limit: $scope.pageSizeSelected
-            }
+            url: "/Work/GetDocuments",
+            method: "POST",
+           data:obj
         }).
            then(function (response) {
                $scope.userList = response.data.rows;
@@ -63,11 +104,52 @@
 
     });
     $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; });
-   
+    $scope.filters = ("Дата приёма;Дата выдачи").split(';').map(function (state) { return { abbrev: state }; });
+    $scope.searchfilter = "";
+    $scope.searchfilter1 = "";
+    $scope.searchfilter2 = "";
+    $scope.searchfilter3= "";
     $scope.getList();
     $scope.changePageSize = function () {
         $scope.pageIndex = 1;
         $scope.getList();
+    };
+
+
+   
+    $scope.selectedOption = '';
+    $scope.searchText = '';
+    $scope.launchAPIQueryParams = {
+        types: [],
+    };
+
+    $scope.launchTypeOptions = [
+        { name: 'Номер упаковки', value: 'Номер упаковки' },
+        { name: 'Наименование', value: 'Наименование' },
+        { name: 'Заводской номер', value: 'Заводской номер' },
+        { name: 'Обозначение', value: 'Обозначение' },
+            { name: 'Система', value: 'Система' },
+                        { name: 'Содержимое', value: 'Содержимое' },
+                            { name: 'Местонахождение', value: 'Местонахождение' },
+                                           { name: 'Примечание', value: 'Примечание' },
+    ];
+    $scope.searchTextChange = function (searchText) {
+        $scope.searchText = searchText;
+    };
+    $scope.newVeg = function (chip) {
+        var obj = new Object();
+        
+      
+        if (chip.name == null) {
+            obj["name"] = chip;
+            obj["value"] = 'Номер упаковки';
+        }
+        else
+            obj = chip;
+        obj.name = $scope.searchText + " (" + obj.value + ")";
+        return obj;
+            
+        
     };
     //This method is calling from pagination number  
     $scope.pageChanged = function () {
@@ -85,8 +167,24 @@
     }
     $scope.delete = function (user) {
         obj = new Object();
-        obj["page"] = 1;
-        obj["limit"] = 10;
+        obj["page"] = $scope.pageIndex;
+        obj["limit"] = $scope.pageSizeSelected;
+
+        obj["archive_str"] = $scope.archive_str;
+        obj["Nomer_upakovki_str"] = $scope.Nomer_upakovki_str;
+        obj["Naimenovanie_izdeliya_str"] = $scope.Naimenovanie_izdeliya_str;
+        obj["Zavodskoj_nomer_str"] = $scope.Zavodskoj_nomer_str;
+        obj["Oboznachenie_str"] = $scope.Oboznachenie_str;
+        obj["Soderzhimoe_str"] = $scope.Soderzhimoe_str;
+        obj["Sistema_str"] = $scope.Sistema_str;
+        obj["Prinadlezhnost_str"] = $scope.Prinadlezhnost_str;
+        obj["Mestonahozhdenie_na_sklade_str"] = $scope.Mestonahozhdenie_na_sklade_str;
+        obj["Data_priyoma_str1"] = $scope.Data_priyoma_str1;
+        obj["Data_vydachi_str1"] = $scope.Data_vydachi_str1;
+        obj["Data_priyoma_str2"] = $scope.Data_priyoma_str2;
+        obj["Data_vydachi_str2"] = $scope.Data_vydachi_str2;
+        obj["Primechanie_str"] = $scope.Primechanie_str;
+
         obj["entity"] = user;
 
 
@@ -146,6 +244,13 @@ function (isConfirm) {
 
  
     }
+
+
+
+
+
+
+
 
     $scope.toggleEdit = function (emp) {
         emp.showEdit = emp.showEdit ? false : true;
