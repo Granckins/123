@@ -125,6 +125,8 @@
         padding: 10px;
         margin: 0;
     }
+
+    td.special { border: 1px solid #eee; }
 </style>
 <div class="container-fluid">
 
@@ -152,7 +154,7 @@
                 </div>
                 <div class="body table-responsive js-sweetalert   chipsdemobasicusage">
 
-                    <table class="table table-header-rotated  table-condensed " style="border-collapse:collapse;">
+                    <table class="table table-header-rotated  table-condensed  " style="border-collapse:collapse;">
                         <md-input-container style="margin: 18px 0 0 0;">
                             <label>Кол-во</label>
                             <md-select ng-model="pageSizeSelected" ng-change="changePageSize()">
@@ -174,23 +176,23 @@
                         <label style="padding-right: 10px ;">Просмотр архива</label>
 
 
-                        
-                                        <div  class="row">
-                                            <md-chips md-transform-chip="newVeg($chip)" ng-model="launchAPIQueryParams.types">
-                                                <md-autocomplete style="width:100%"  md-selected-item="selectedOption"
-                                                                 md-search-text="searchText"
-                                                                 md-items="typeOption in launchTypeOptions"
-                                                                 md-item-text="typeOption.name"
-                                                                 md-min-length="0"
-                                                                 md-search-text-change="searchTextChange(searchText)"
-                                                                 placeholder="Поиск по....">
-                                                    <span md-highlight-text="searchText">{{typeOption.name}}</span>
-                                                </md-autocomplete>
-                                                <md-chip-template>
-                                                    <span>{{$chip.name}}</span>
-                                                </md-chip-template>
-                                            </md-chips>
-                                        </div>
+
+                        <div class="row">
+                            <md-chips md-transform-chip="newVeg($chip)" ng-model="launchAPIQueryParams.types">
+                                <md-autocomplete style="width:100%" md-selected-item="selectedOption"
+                                                 md-search-text="searchText"
+                                                 md-items="typeOption in launchTypeOptions"
+                                                 md-item-text="typeOption.name"
+                                                 md-min-length="0"
+                                                 md-search-text-change="searchTextChange(searchText)"
+                                                 placeholder="Поиск по....">
+                                    <span md-highlight-text="searchText">{{typeOption.name}}</span>
+                                </md-autocomplete>
+                                <md-chip-template>
+                                    <span>{{$chip.name}}</span>
+                                </md-chip-template>
+                            </md-chips>
+                        </div>
 </div>
                 <div class="row" style="margin-top:60px;">
                     <div  >
@@ -223,27 +225,28 @@
                             <th class="rotate-45"><div><span>Наименование изделия</span></div></th>
                             <th class="rotate-45"><div><span>Заводской номер</span></div></th>
                             <th class="rotate-45"><div><span>Количество</span></div></th>
-                            <th class="rotate-45"><div><span>Обозначение</span></div></th>
-                            <th class="rotate-45"><div><span>Система</span></div></th>
-                            <th class="rotate-45"><div><span>Принадлежность</span></div></th>
-                            <th class="rotate-45"><div><span>Стоимость</span></div></th>
+                            <th class="rotate-45"><div><span>Местонахождение на складе</span></div></th> 
+                            <th class="rotate-45"><div><span>Обозначение</span></div></th> 
+                            <th class="rotate-45"><div><span>Система</span></div></th> 
                             <th class="rotate-45"><div><span>Ответственный</span></div></th>
-                            <th class="rotate-45"><div><span>Местонахождение на складе</span></div></th>
-                            <th class="rotate-45"><div><span>Вес брутто</span></div></th>
-                            <th class="rotate-45"><div><span>Вес нетто</span></div></th>
-                            <th class="rotate-45"><div><span>Длина</span></div></th>
-                            <th class="rotate-45"><div><span>Ширина</span></div></th>
-                            <th class="rotate-45"><div><span>Высота</span></div></th>
+                            <th class="rotate-45"><div><span>Принадлежность</span></div></th>
                             <th class="rotate-45"><div><span>Дата приёма</span></div></th>
                             <th class="rotate-45"><div><span>Откуда</span></div></th>
                             <th class="rotate-45"><div><span>Дата выдачи</span></div></th>
                             <th class="rotate-45"><div><span>Куда</span></div></th>
                             <th class="rotate-45"><div><span>Номер пломбы</span></div></th>
+                            <th class="rotate-45"><div><span>Стоимость</span></div></th>
+                            <th class="rotate-45"><div><span>Вес брутто</span></div></th>
+                            <th class="rotate-45"><div><span>Вес нетто</span></div></th>
+                            <th class="rotate-45"><div><span>Длина</span></div></th>
+                            <th class="rotate-45"><div><span>Ширина</span></div></th>
+                            <th class="rotate-45"><div><span>Высота</span></div></th>
+                            
                             <th class="rotate-45"><div><span>Примечание</span></div></th>
                             <th class="rotate-45"><div><span>Добавил</span></div></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody >
 
                         <tr ng-repeat-start="user in userList track by $index" class="accordion-toggle">
 
@@ -263,8 +266,10 @@
                                 <md-icon style=" color :orange;" data-toggle="collapse" data-target="#rowH-{{$index}}" ng-show="user.showHistory" ng-click="gethistory(user )">schedule</md-icon>
                                 <!--<md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub" ng-click="childInfo(user )">schedule</md-icon>-->
 
-                                <md-icon data-toggle="collapse" style="    color: #555;" data-target="#row-{{$index}}" ng-show="!user.showSub" ng-click="childInfo(user )">storage</md-icon>
-                                <md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub" ng-click="childInfo(user )">storage</md-icon>
+                                <md-icon data-toggle="collapse" style="    color: #555;" data-target="#row-{{$index}}" ng-show="!user.showSub && IsSub(user) " ng-click="childInfo(user )">storage</md-icon>
+                                <md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub && IsSub(user) " ng-click="childInfo(user )">storage</md-icon>
+                                <md-icon data-toggle="collapse" style="    color: #ddd;" data-target="#row-{{$index}}" ng-show=" !IsSub(user)" >storage</md-icon>
+
                                 <md-button ng-show="!archive" class="md-icon-button  waves-effect waves-purple   " ng-click="archivete()">
                                     <md-icon style=" color :#555;"> archive</md-icon>
                                 </md-button>
@@ -277,7 +282,7 @@
                             </td>
 
 
-                            <td scope="row">
+                            <td scope="row" class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Nomer_upakovki}}
                                 </span>
@@ -294,7 +299,7 @@
 
 
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Naimenovanie_izdeliya}}
                                 </span>
@@ -307,7 +312,7 @@
                                 </md-input-container>
 
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Zavodskoj_nomer}}
                                 </span>
@@ -319,7 +324,7 @@
                                     </div>
                                 </md-input-container>
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Kolichestvo}}
                                 </span>
@@ -334,65 +339,8 @@
                                     </div>
                                 </md-input-container>
                             </td>
-                            <td>
-                                <span ng-show="user.showEdit">
-                                    {{user.value.Oboznachenie}}
-                                </span>
-                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                    <input aria-label="Обозначение" ng-show="!user.showEdit" type="text" ng-model="user.value.Oboznachenie">
 
-                                </md-input-container>
-                            </td>
-                            <td>
-                                <span ng-show="user.showEdit">
-                                    {{user.value.Sistema}}
-                                </span>
-                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                    <input aria-label="Система" ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema">
-                                    <div ng-show="!user.value.Sistema ">
-
-                                        <div ng-message="required" ng-show=" !user.value.Sistema">Обязательное поле</div>
-                                    </div>
-                                </md-input-container>
-                            </td>
-                            <td>
-                                <span ng-show="user.showEdit">
-                                    {{user.value.Prinadlezhnost}}
-                                </span>
-                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                    <input aria-label="Принадлежность" ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost">
-                                    <div ng-show="!user.value.Prinadlezhnost ">
-
-                                        <div ng-message="required" ng-show=" !user.value.Prinadlezhnost">Обязательное поле</div>
-                                    </div>
-                                </md-input-container>
-                            </td>
-
-                            <td>
-                                <span ng-show="user.showEdit">
-                                    {{user.value.Stoimost}}
-                                </span>
-                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                    <input aria-label="Стоимость" ng-show="!user.showEdit" type="text" ng-model="user.value.Stoimost">
-                                    <div ng-show="!isNumber(user.value.Stoimost)&&user.value.Stoimost ">
-
-                                        <div ng-message="required">Числовое поле</div>
-                                    </div>
-                                </md-input-container>
-                            </td>
-                            <td>
-                                <span ng-show="user.showEdit">
-                                    {{user.value.Otvetstvennyj}}
-                                </span>
-                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                    <input aria-label="Ответственный" ng-show="!user.showEdit" type="text" ng-model="user.value.Otvetstvennyj">
-                                    <div ng-show="!user.value.Otvetstvennyj ">
-
-                                        <div ng-message="required" ng-show=" !user.value.Otvetstvennyj">Обязательное поле</div>
-                                    </div>
-                                </md-input-container>
-                            </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Mestonahozhdenie_na_sklade}}
                                 </span>
@@ -405,68 +353,52 @@
                                 </md-input-container>
 
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
-                                    {{user.value.Ves_brutto}}
+                                    {{user.value.Oboznachenie}}
                                 </span>
                                 <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                    <input aria-label="Вес брутто" ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_brutto">
-                                    <div ng-show="!isNumber(user.value.Ves_brutto)&&user.value.Ves_brutto ">
+                                    <input aria-label="Обозначение" ng-show="!user.showEdit" type="text" ng-model="user.value.Oboznachenie">
 
-                                        <div ng-message="required">Числовое поле</div>
-                                    </div>
                                 </md-input-container>
-
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
-                                    {{user.value.Ves_netto}}
+                                    {{user.value.Sistema}}
                                 </span>
                                 <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                    <input aria-label="Вес нетто" ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_netto">
-                                    <div ng-show="!isNumber(user.value.Ves_netto)&&user.value.Ves_netto ">
+                                    <input aria-label="Система" ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema">
+                                    <div ng-show="!user.value.Sistema ">
 
-                                        <div ng-message="required">Числовое поле</div>
+                                        <div ng-message="required" ng-show=" !user.value.Sistema">Обязательное поле</div>
                                     </div>
                                 </md-input-container>
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
-                                    {{user.value.Dlina}}
+                                    {{user.value.Otvetstvennyj}}
                                 </span>
                                 <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                    <input aria-label="Длина" ng-show="!user.showEdit" type="text" ng-model="user.value.Dlina">
-                                    <div ng-show="!isNumber(user.value.Dlina)&&user.value.Dlina ">
+                                    <input aria-label="Ответственный" ng-show="!user.showEdit" type="text" ng-model="user.value.Otvetstvennyj">
+                                    <div ng-show="!user.value.Otvetstvennyj ">
 
-                                        <div ng-message="required">Числовое поле</div>
+                                        <div ng-message="required" ng-show=" !user.value.Otvetstvennyj">Обязательное поле</div>
                                     </div>
                                 </md-input-container>
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
-                                    {{user.value.Shirina}}
+                                    {{user.value.Prinadlezhnost}}
                                 </span>
                                 <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                    <input aria-label="Ширина" ng-show="!user.showEdit" type="text" ng-model="user.value.Shirina">
-                                    <div ng-show="!isNumber(user.value.Shirina)&&user.value.Shirina ">
+                                    <input aria-label="Принадлежность" ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost">
+                                    <div ng-show="!user.value.Prinadlezhnost ">
 
-                                        <div ng-message="required">Числовое поле</div>
+                                        <div ng-message="required" ng-show=" !user.value.Prinadlezhnost">Обязательное поле</div>
                                     </div>
                                 </md-input-container>
                             </td>
-                            <td>
-                                <span ng-show="user.showEdit">
-                                    {{user.value.Vysota}}
-                                </span>
-                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                                    <input aria-label="Высота" ng-show="!user.showEdit" type="text" ng-model="user.value.Vysota">
-                                    <div ng-show="!isNumber(user.value.Vysota)&&user.value.Vysota ">
-
-                                        <div ng-message="required">Числовое поле</div>
-                                    </div>
-                                </md-input-container>
-                            </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Data_priyoma |  amDateFormat:'DD.MM.YYYY' }}
                                 </span>
@@ -479,7 +411,7 @@
                                     </div>
                                 </md-input-container>
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Otkuda}}
                                 </span>
@@ -488,7 +420,7 @@
 
                                 </md-input-container>
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Data_vydachi  |  amDateFormat:'DD.MM.YYYY'}}
                                 </span>
@@ -498,7 +430,7 @@
 
                                 </md-input-container>
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Kuda}}
                                 </span>
@@ -507,7 +439,7 @@
 
                                 </md-input-container>
                             </td>
-                            <td>
+                            <td class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Nomer_plomby}}
                                 </span>
@@ -516,7 +448,82 @@
 
                                 </md-input-container>
                             </td>
-                            <td>
+                            <td class="special">
+                                <span ng-show="user.showEdit">
+                                    {{user.value.Stoimost}}
+                                </span>
+                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                    <input aria-label="Стоимость" ng-show="!user.showEdit" type="text" ng-model="user.value.Stoimost">
+                                    <div ng-show="!isNumber(user.value.Stoimost)&&user.value.Stoimost ">
+
+                                        <div ng-message="required">Числовое поле</div>
+                                    </div>
+                                </md-input-container>
+                            </td>
+                        
+                            <td class="special">
+                                <span ng-show="user.showEdit">
+                                    {{user.value.Ves_brutto}}
+                                </span>
+                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                    <input aria-label="Вес брутто" ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_brutto">
+                                    <div ng-show="!isNumber(user.value.Ves_brutto)&&user.value.Ves_brutto ">
+
+                                        <div ng-message="required">Числовое поле</div>
+                                    </div>
+                                </md-input-container>
+
+                            </td>
+                            <td class="special">
+                                <span ng-show="user.showEdit">
+                                    {{user.value.Ves_netto}}
+                                </span>
+                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                    <input aria-label="Вес нетто" ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_netto">
+                                    <div ng-show="!isNumber(user.value.Ves_netto)&&user.value.Ves_netto ">
+
+                                        <div ng-message="required">Числовое поле</div>
+                                    </div>
+                                </md-input-container>
+                            </td>
+                            <td class="special">
+                                <span ng-show="user.showEdit">
+                                    {{user.value.Dlina}}
+                                </span>
+                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                    <input aria-label="Длина" ng-show="!user.showEdit" type="text" ng-model="user.value.Dlina">
+                                    <div ng-show="!isNumber(user.value.Dlina)&&user.value.Dlina ">
+
+                                        <div ng-message="required">Числовое поле</div>
+                                    </div>
+                                </md-input-container>
+                            </td>
+                            <td class="special">
+                                <span ng-show="user.showEdit">
+                                    {{user.value.Shirina}}
+                                </span>
+                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                    <input aria-label="Ширина" ng-show="!user.showEdit" type="text" ng-model="user.value.Shirina">
+                                    <div ng-show="!isNumber(user.value.Shirina)&&user.value.Shirina ">
+
+                                        <div ng-message="required">Числовое поле</div>
+                                    </div>
+                                </md-input-container>
+                            </td>
+                            <td class="special">
+                                <span ng-show="user.showEdit">
+                                    {{user.value.Vysota}}
+                                </span>
+                                <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                    <input aria-label="Высота" ng-show="!user.showEdit" type="text" ng-model="user.value.Vysota">
+                                    <div ng-show="!isNumber(user.value.Vysota)&&user.value.Vysota ">
+
+                                        <div ng-message="required">Числовое поле</div>
+                                    </div>
+                                </md-input-container>
+                            </td>
+                        
+                            <td class="special">
                                 <span ng-show="user.showEdit">
                                     {{user.value.Primechanie}}
                                 </span>
@@ -525,7 +532,7 @@
 
                                 </md-input-container>
                             </td>
-                            <td ng-show="user.showEdit">
+                            <td ng-show="user.showEdit" class="special">
                                 <span>
                                     {{user.value.Dobavil}}
                                 </span>
@@ -545,7 +552,7 @@
                                         <th style="vertical-align:central"> <md-icon ng-show="!user.showEdit" style=" color : green;" ng-click="AddSub(user)" data-type="cancel">  add</md-icon></th>
                                     </tr>
                                     <tr ng-repeat="u in user.value.Soderzhimoe">
-                                        <td>
+                                        <td class="special">
                                             <span ng-show="user.showEdit">
                                                 {{u.Naimenovanie_sostavnoj_edinicy}}
                                             </span>
@@ -559,7 +566,7 @@
                                         </td>
 
 
-                                        <td>
+                                        <td class="special">
                                             <span ng-show="user.showEdit">
                                                 {{u.Oboznachenie_sostavnoj_edinicy}}
                                             </span>
@@ -570,7 +577,7 @@
                                         </td>
 
 
-                                        <td>
+                                        <td  >
                                             <span ng-show="user.showEdit">
                                                 {{u.Kolichestvo_sostavnyh_edinic}}
                                             </span>
@@ -607,23 +614,22 @@
                                         <th class="rotate-45"><div><span>Наименование изделия</span></div></th>
                                         <th class="rotate-45"><div><span>Заводской номер</span></div></th>
                                         <th class="rotate-45"><div><span>Количество</span></div></th>
+                                        <th class="rotate-45"><div><span>Местонахождение на складе</span></div></th>
                                         <th class="rotate-45"><div><span>Обозначение</span></div></th>
                                         <th class="rotate-45"><div><span>Система</span></div></th>
-                                        <th class="rotate-45"><div><span>Принадлежность</span></div></th>
-                                        <th class="rotate-45"><div><span>Принадлежность к объекту</span></div></th>
-                                        <th class="rotate-45"><div><span>Стоимость</span></div></th>
                                         <th class="rotate-45"><div><span>Ответственный</span></div></th>
-                                        <th class="rotate-45"><div><span>Местонахождение на складе</span></div></th>
-                                        <th class="rotate-45"><div><span>Вес брутто</span></div></th>
-                                        <th class="rotate-45"><div><span>Вес нетто</span></div></th>
-                                        <th class="rotate-45"><div><span>Длина</span></div></th>
-                                        <th class="rotate-45"><div><span>Ширина</span></div></th>
-                                        <th class="rotate-45"><div><span>Высота</span></div></th>
+                                        <th class="rotate-45"><div><span>Принадлежность</span></div></th>
                                         <th class="rotate-45"><div><span>Дата приёма</span></div></th>
                                         <th class="rotate-45"><div><span>Откуда</span></div></th>
                                         <th class="rotate-45"><div><span>Дата выдачи</span></div></th>
                                         <th class="rotate-45"><div><span>Куда</span></div></th>
                                         <th class="rotate-45"><div><span>Номер пломбы</span></div></th>
+                                        <th class="rotate-45"><div><span>Стоимость</span></div></th>
+                                        <th class="rotate-45"><div><span>Вес брутто</span></div></th>
+                                        <th class="rotate-45"><div><span>Вес нетто</span></div></th>
+                                        <th class="rotate-45"><div><span>Длина</span></div></th>
+                                        <th class="rotate-45"><div><span>Ширина</span></div></th>
+                                        <th class="rotate-45"><div><span>Высота</span></div></th> 
                                         <th class="rotate-45"><div><span>Примечание</span></div></th>
                                         <th class="rotate-45"><div><span>Добавил</span></div></th>
                                     </tr>
@@ -631,7 +637,7 @@
                                     <tr ng-repeat-start="his in user.History track by $index" class="accordion-toggle">
 
 
-                                        <td>
+                                        <td >
                                             <a ng-show="!IschildInfoHis(his)" class=" shortinfo" style="    color: #555;" href="javascript:;" ng-click="childInfoHis(his )" title="Click to view more">
                                                 <i class="material-icons" data-toggle="collapse" data-target="#rowHS-{{$index}}">storage</i>
 
@@ -643,76 +649,76 @@
 
                                         </td>
 
-                                        <td scope="row">
+                                        <td scope="row" class="special">
                                             {{his.value.Nomer_upakovki}}
                                         </td>
-                                        <td>
+                                        <td class="special">
 
                                             {{his.value.Naimenovanie_izdeliya}}
                                         </td>
-                                        <td>
+                                        <td class="special">
 
                                             {{his.value.Zavodskoj_nomer}}
                                         </td>
-                                        <td>
+                                        <td class="special">
 
                                             {{his.value.Kolichestvo}}
                                         </td>
-                                        <td>
-                                            {{his.value.Oboznachenie}}
-                                        </td>
-                                        <td>
-                                            {{his.value.Sistema}}
-                                        </td>
-                                        <td>
-                                            {{his.value.Prinadlezhnost}}
-                                        </td>
-                                        <td>
-                                            {{his.value.Prinadlezhnost_k_obektu}}
-                                        </td>
-                                        <td>
-                                            {{his.value.Stoimost}}
-                                        </td>
-                                        <td>
-                                            {{his.value.Otvetstvennyj}}
-                                        </td>
-                                        <td>
+                                        <td class="special">
                                             {{his.value.Mestonahozhdenie_na_sklade}}
                                         </td>
-                                        <td>
-                                            {{his.value.Ves_brutto}}
+                                          <td class="special">
+                                            {{his.value.Oboznachenie}}
                                         </td>
-                                        <td>
-                                            {{his.value.Ves_netto}}
+                                        <td class="special">
+                                            {{his.value.Sistema}}
                                         </td>
-                                        <td>
-                                            {{his.value.Dlina}}
+                                        <td class="special">
+                                            {{his.value.Otvetstvennyj}}
                                         </td>
-                                        <td>
-                                            {{his.value.Shirina}}
+                                        <td class="special">
+                                            {{his.value.Prinadlezhnost}}
                                         </td>
-                                        <td>
-                                            {{his.value.Vysota}}
-                                        </td>
-                                        <td>
+                                        <td class="special">
                                             {{his.value.Data_priyoma  |  amDateFormat:'DD.MM.YYYY'}}
                                         </td>
-                                        <td>
+                                        <td class="special">
                                             {{his.value.Otkuda}}
                                         </td>
-                                        <td>
+                                        <td class="special">
                                             {{his.value.Data_vydachi  |  amDateFormat:'DD.MM.YYYY'}}
                                         </td>
-                                        <td>
+                                        <td class="special">
                                             {{his.value.Kuda}}
                                         </td>
-                                        <td>
+                                        <td class="special">
                                             {{his.value.Nomer_plomby}}
                                         </td>
-                                        <td>
+                                        <td class="special">
+                                            {{his.value.Stoimost}}
+                                        </td>
+                                      
+                                        
+                                        <td class="special">
+                                            {{his.value.Ves_brutto}}
+                                        </td>
+                                        <td class="special">
+                                            {{his.value.Ves_netto}}
+                                        </td>
+                                        <td class="special">
+                                            {{his.value.Dlina}}
+                                        </td>
+                                        <td class="special">
+                                            {{his.value.Shirina}}
+                                        </td>
+                                        <td class="special">
+                                            {{his.value.Vysota}}
+                                        </td>
+                                       
+                                        <td class="special">
                                             {{his.value.Primechanie}}
                                         </td>
-                                        <td>
+                                        <td class="special">
                                             {{his.value.Dobavil}}
                                         </td>
                                     </tr>
@@ -727,21 +733,21 @@
                                                     <th>Количество составных единиц :</th>
                                                 </tr>
                                                 <tr ng-repeat="u1 in his.value.Soderzhimoe">
-                                                    <td>
+                                                    <td class="special">
 
                                                         {{u1.Naimenovanie_sostavnoj_edinicy}}
 
                                                     </td>
 
 
-                                                    <td>
+                                                    <td class="special">
 
                                                         {{u1.Oboznachenie_sostavnoj_edinicy}}
 
                                                     </td>
 
 
-                                                    <td>
+                                                    <td class="special">
 
                                                         {{u1.Kolichestvo_sostavnyh_edinic}}
 

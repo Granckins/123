@@ -330,6 +330,15 @@ function (isConfirm) {
 
         //});
     };
+    $scope.IsSub = function (user) {
+        if (user.value.Soderzhimoe != null && user.value.Soderzhimoe.length>0) {
+            return true;
+        }
+        else {
+            
+                return false;
+        }
+    };
     $scope.AddSub = function (user) {
         if (user.value != null && user.value.Soderzhimoe != null) {
             obj = new Object();
