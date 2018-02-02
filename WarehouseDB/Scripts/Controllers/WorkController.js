@@ -1,4 +1,4 @@
-﻿var WorkController = function ($scope, $http, DTOptionsBuilder, DTColumnBuilder, $compile, SweetAlert,moment) {
+﻿var WorkController = function ($scope, $http, DTOptionsBuilder, DTColumnBuilder, $compile, SweetAlert, moment) {
     $scope.message = "fdf";
     $scope.vm = {};
     $scope.vm.dtInstance = {};
@@ -7,23 +7,23 @@
 
     $scope.currentPage = 1;
     $scope.numPerPage = 10;
-  $scope.maxSize = 5;
+    $scope.maxSize = 5;
 
 
-  $scope.archive_str="";
-  $scope.Nomer_upakovki_str = "";
-  $scope.Naimenovanie_izdeliya_str = "";
-  $scope.Zavodskoj_nomer_str = "";
-  $scope.Oboznachenie_str = "";
-  $scope.Soderzhimoe_str = "";
-  $scope.Sistema_str = "";
-  $scope.Prinadlezhnost_str = "";
-  $scope.Mestonahozhdenie_na_sklade_str = "";
-  $scope.Data_priyoma_str1 = "";
-  $scope.Data_vydachi_str1 = "";
-  $scope.Data_priyoma_str2 = "";
-  $scope.Data_vydachi_str2 = "";
-  $scope.Primechanie_str = "";
+    $scope.archive_str = "";
+    $scope.Nomer_upakovki_str = "";
+    $scope.Naimenovanie_izdeliya_str = "";
+    $scope.Zavodskoj_nomer_str = "";
+    $scope.Oboznachenie_str = "";
+    $scope.Soderzhimoe_str = "";
+    $scope.Sistema_str = "";
+    $scope.Prinadlezhnost_str = "";
+    $scope.Mestonahozhdenie_na_sklade_str = "";
+    $scope.Data_priyoma_str1 = "";
+    $scope.Data_vydachi_str1 = "";
+    $scope.Data_priyoma_str2 = "";
+    $scope.Data_vydachi_str2 = "";
+    $scope.Primechanie_str = "";
 
 
     $scope.vm.dtOptions = DTOptionsBuilder.newOptions()
@@ -44,11 +44,11 @@
     $scope.userList = [];
     $scope.isSearch = false;
     $scope.search = function (str) {
-        switch(str){
+        switch (str) {
             case 'Наименование изделия':
-                 break 
-                    default:
-                 break 
+                break
+            default:
+                break
         }
     };
     $scope.getList = function () {
@@ -75,15 +75,12 @@
         $http({
             url: "/Work/GetDocuments",
             method: "POST",
-           data:obj
+            data: obj
         }).
            then(function (response) {
                $scope.userList = response.data.rows;
-               $scope.totalCount=response.data.total_rows;
-               //$scope.userList.value.forEach(function callback(currentValue, index, array) {
-               //    currentValue.Data_priyoma = new Date(parseInt(currentValue.Data_priyoma.substr(6)));
-               //    currentValue.Data_vydachi = new Date(parseInt(currentValue.Data_vydachi.substr(6)));
-               //});
+               $scope.totalCount = response.data.total_rows;
+              
                angular.forEach($scope.userList, function (obj) {
                    obj["showEdit"] = true;
                    obj["showSub"] = false;
@@ -97,7 +94,7 @@
 
                })
                angular.forEach($scope.userList, function (obj) {
-       
+
                    $http({
                        url: "/Work/IsEventHistory?id=" + obj.id,
                        method: "GET",
@@ -106,16 +103,16 @@
                            limit: $scope.pageSizeSelected
                        }
                    }).
-          then(function (response) {
-              var gdfgf = response.data > 0 ? true : false;
-              obj["IsHistory"] = gdfgf;
+                    then(function (response) {
+                     var gdfgf = response.data > 0 ? true : false;
+                    obj["IsHistory"] = gdfgf;
 
-          });
+                      });
 
                })
            });
     }
-    
+
     $scope.$watch('pageIndex', function (newVal, oldVal) {
         $scope.pageIndex = newVal;
         $scope.getList();
@@ -126,7 +123,7 @@
     $scope.searchfilter = "";
     $scope.searchfilter1 = "";
     $scope.searchfilter2 = "";
-    $scope.searchfilter3= "";
+    $scope.searchfilter3 = "";
     $scope.getList();
     $scope.changePageSize = function () {
         $scope.pageIndex = 1;
@@ -134,7 +131,7 @@
     };
 
 
-   
+
     $scope.selectedOption = '';
     $scope.searchText = '';
     $scope.launchAPIQueryParams = {
@@ -156,8 +153,8 @@
     };
     $scope.newVeg = function (chip) {
         var obj = new Object();
-        
-      
+
+
         if (chip.name == null) {
             obj["name"] = chip;
             obj["value"] = 'Номер упаковки';
@@ -166,8 +163,8 @@
             obj = chip;
         obj.name = $scope.searchText + " (" + obj.value + ")";
         return obj;
-            
-        
+
+
     };
     //This method is calling from pagination number  
     $scope.pageChanged = function () {
@@ -178,7 +175,7 @@
         obj = new Object();
         obj["showEdit"] = false;
         obj["IsHistory"] = false;
-        obj["showSub"] = false; 
+        obj["showSub"] = false;
         obj["History"] = [];
         obj["showHistory"] = false;
 
@@ -221,8 +218,7 @@
 function (isConfirm) {
     if (isConfirm) {
 
-        if (user.id != null)
-        {
+        if (user.id != null) {
             $http({
                 url: '/Work/DeleteEventDocument',
                 method: "POST",
@@ -257,12 +253,12 @@ function (isConfirm) {
 
         }
     } else {
-        SweetAlert.swal("Запись не  удалена!"); 
+        SweetAlert.swal("Запись не  удалена!");
     }
 });
 
 
- 
+
     }
 
 
@@ -292,38 +288,38 @@ function (isConfirm) {
             return false;
     }
     $scope.iseventhistory = function (obj) {
-   
-         
-       
+
+
+
     };
 
     $scope.gethistory = function (emp) {
         emp.showHistory = emp.showHistory ? false : true;
-        if( emp.showHistory==true){
-        $http({
-            url: "/Work/GetEventHistory?id=" + emp.id,
-            method: "GET",
-            params: {
-                page: $scope.pageIndex,
-                limit: $scope.pageSizeSelected
-            }
-        }).
-         then(function (response) {
+        if (emp.showHistory == true) {
+            $http({
+                url: "/Work/GetEventHistory?id=" + emp.id,
+                method: "GET",
+                params: {
+                    page: $scope.pageIndex,
+                    limit: $scope.pageSizeSelected
+                }
+            }).
+             then(function (response) {
 
-             emp["History"] = response.data.rows;
-             emp["History"]["showSub"] = false;
+                 emp["History"] = response.data.rows;
+                 emp["History"]["showSub"] = false;
 
-             angular.forEach(emp["History"], function (obj) {
-               
-                 if (obj.value.Data_priyoma != null)
-                     obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
-                 if (obj.value.Data_vydachi != null)
-                     obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+                 angular.forEach(emp["History"], function (obj) {
 
-             })
-             
-         });
-    }
+                     if (obj.value.Data_priyoma != null)
+                         obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
+                     if (obj.value.Data_vydachi != null)
+                         obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+
+                 })
+
+             });
+        }
     };
     $scope.deleteSub = function (user, idx) {
         var idx2 = -1;
@@ -357,12 +353,12 @@ function (isConfirm) {
         //});
     };
     $scope.IsSub = function (user) {
-        if (user.value.Soderzhimoe != null && user.value.Soderzhimoe.length>0) {
+        if (user.value.Soderzhimoe != null && user.value.Soderzhimoe.length > 0) {
             return true;
         }
         else {
-            
-                return false;
+
+            return false;
         }
     };
     $scope.AddSub = function (user) {
@@ -375,7 +371,7 @@ function (isConfirm) {
         }
         else {
             if (user.value == null)
-            user["value"] = new Object();
+                user["value"] = new Object();
             user.value["Soderzhimoe"] = [];
             obj = new Object();
             obj["Naimenovanie_sostavnoj_edinicy"] = "";
@@ -385,122 +381,122 @@ function (isConfirm) {
         }
     };
     $scope.cancelEdit = function (emp) {
-        if (emp.key!=null) {
-        emp.showEdit = emp.showEdit ? false : true;
-        var idx = $scope.buferList.indexOf(emp.key);
-        $scope.buferList.splice(idx);
-        $http({
-            url: '/Work/GetEventDocument',
-            method: "GET",
-            params: {
-                id: emp.key
-            }
-        }).
-        then(function (response) {
-            var idx2 = -1;
-            for (var i = 0, len = $scope.userList.length; i < len; i++) {
-                if ($scope.userList[i].id === emp.id) {
-                    idx2 = i;
-                    break;
+        if (emp.key != null) {
+            emp.showEdit = emp.showEdit ? false : true;
+            var idx = $scope.buferList.indexOf(emp.key);
+            $scope.buferList.splice(idx);
+            $http({
+                url: '/Work/GetEventDocument',
+                method: "GET",
+                params: {
+                    id: emp.key
                 }
-            }
-            $scope.userList[idx2].value = response.data;
-            if (response.data.Data_priyoma != null)
-                $scope.userList[idx2].value.Data_priyoma = new Date(parseInt(response.data.Data_priyoma.substr(6)));
-            if (response.data.Data_vydachi != null)
-                $scope.userList[idx2].value.Data_vydachi = new Date(parseInt(response.data.Data_vydachi.substr(6)));
-        });
+            }).
+            then(function (response) {
+                var idx2 = -1;
+                for (var i = 0, len = $scope.userList.length; i < len; i++) {
+                    if ($scope.userList[i].id === emp.id) {
+                        idx2 = i;
+                        break;
+                    }
+                }
+                $scope.userList[idx2].value = response.data;
+                if (response.data.Data_priyoma != null)
+                    $scope.userList[idx2].value.Data_priyoma = new Date(parseInt(response.data.Data_priyoma.substr(6)));
+                if (response.data.Data_vydachi != null)
+                    $scope.userList[idx2].value.Data_vydachi = new Date(parseInt(response.data.Data_vydachi.substr(6)));
+            });
         }
         else {
-            $scope.userList.splice(0,1);
+            $scope.userList.splice(0, 1);
         }
     };
     $scope.checkevent = function (user) {
-    var flag=user.value.Nomer_upakovki && $scope.isNumber(user.value.Nomer_upakovki) && $scope.isInteger(user.value.Nomer_upakovki)
-        && user.value.Naimenovanie_izdeliya && user.value.Zavodskoj_nomer &&user.value.Kolichestvo && $scope.isNumber(user.value.Kolichestvo)   
-           && user.value.Kolichestvo != 0 && user.value.Sistema && user.value.Prinadlezhnost &&
-          ( user.value.Stoimost? $scope.isNumber(user.value.Stoimost) :true)&& user.value.Otvetstvennyj && user.value.Mestonahozhdenie_na_sklade
-        && (user.value.Ves_brutto ? $scope.isNumber(user.value.Ves_brutto) : true) && (user.value.Ves_netto ? $scope.isNumber(user.value.Ves_netto) : true)
-        && (user.value.Dlina ? $scope.isNumber(user.value.Dlina) : true)
-                && (user.value.Shirina ? $scope.isNumber(user.value.Shirina) : true)
-           && (user.value.Vysota ? $scope.isNumber(user.value.Vysota) : true)
-        && user.value.Data_priyoma;
-    angular.forEach(user.value.Soderzhimoe, function (obj) {
-        flag = flag && obj.Naimenovanie_sostavnoj_edinicy && obj.Kolichestvo_sostavnyh_edinic &&
-             $scope.isNumber(obj.Kolichestvo_sostavnyh_edinic) && obj.Kolichestvo_sostavnyh_edinic != 0 && $scope.isInteger(obj.Kolichestvo_sostavnyh_edinic); 
-    });
-    return flag;
+        var flag = user.value.Nomer_upakovki && $scope.isNumber(user.value.Nomer_upakovki) && $scope.isInteger(user.value.Nomer_upakovki)
+            && user.value.Naimenovanie_izdeliya && user.value.Zavodskoj_nomer && user.value.Kolichestvo && $scope.isNumber(user.value.Kolichestvo)
+               && user.value.Kolichestvo != 0 && user.value.Sistema && user.value.Prinadlezhnost &&
+              (user.value.Stoimost ? $scope.isNumber(user.value.Stoimost) : true) && user.value.Otvetstvennyj && user.value.Mestonahozhdenie_na_sklade
+            && (user.value.Ves_brutto ? $scope.isNumber(user.value.Ves_brutto) : true) && (user.value.Ves_netto ? $scope.isNumber(user.value.Ves_netto) : true)
+            && (user.value.Dlina ? $scope.isNumber(user.value.Dlina) : true)
+                    && (user.value.Shirina ? $scope.isNumber(user.value.Shirina) : true)
+               && (user.value.Vysota ? $scope.isNumber(user.value.Vysota) : true)
+            && user.value.Data_priyoma;
+        angular.forEach(user.value.Soderzhimoe, function (obj) {
+            flag = flag && obj.Naimenovanie_sostavnoj_edinicy && obj.Kolichestvo_sostavnyh_edinic &&
+                 $scope.isNumber(obj.Kolichestvo_sostavnyh_edinic) && obj.Kolichestvo_sostavnyh_edinic != 0 && $scope.isInteger(obj.Kolichestvo_sostavnyh_edinic);
+        });
+        return flag;
     }
     $scope.acceptEdit = function (emp) {
         if ($scope.checkevent(emp)) {
-        emp.showEdit = emp.showEdit ? false : true;
-        var idx = $scope.buferList.indexOf(emp.key);
-        $scope.buferList.splice(idx);
+            emp.showEdit = emp.showEdit ? false : true;
+            var idx = $scope.buferList.indexOf(emp.key);
+            $scope.buferList.splice(idx);
 
-        $http({
-            url: '/Work/ChangeEventDocument',
-            method: "POST",
-            data: emp
-        }).
-           then(function (response) {
-               if (response.data != "") {
-                   if (response.data._id != "000000000000000000000000") {
+            $http({
+                url: '/Work/ChangeEventDocument',
+                method: "POST",
+                data: emp
+            }).
+               then(function (response) {
+                   if (response.data != "") {
+                       if (response.data._id != "000000000000000000000000") {
 
-                       if (emp.id != null) {
-                           var idx2 = -1;
-                           for (var i = 0, len = $scope.userList.length; i < len; i++) {
-                               if ($scope.userList[i].id === emp.id) {
-                                   idx2 = i;
-                                   break;
+                           if (emp.id != null) {
+                               var idx2 = -1;
+                               for (var i = 0, len = $scope.userList.length; i < len; i++) {
+                                   if ($scope.userList[i].id === emp.id) {
+                                       idx2 = i;
+                                       break;
+                                   }
                                }
-                           }
-                           $scope.userList[idx2].value = response.data;
+                               $scope.userList[idx2].value = response.data;
 
-                           if (response.data.Data_priyoma != null)
-                               $scope.userList[idx2].value.Data_priyoma = new Date(parseInt(response.data.Data_priyoma.substr(6)));
-                           if (response.data.Data_vydachi != null)
-                               $scope.userList[idx2].value.Data_vydachi = new Date(parseInt(response.data.Data_vydachi.substr(6)));
-                           $scope.getList();
+                               if (response.data.Data_priyoma != null)
+                                   $scope.userList[idx2].value.Data_priyoma = new Date(parseInt(response.data.Data_priyoma.substr(6)));
+                               if (response.data.Data_vydachi != null)
+                                   $scope.userList[idx2].value.Data_vydachi = new Date(parseInt(response.data.Data_vydachi.substr(6)));
+                               $scope.getList();
+                           }
+                           else {
+                               $scope.userList[0]["id"] = response.data._id;
+                               $scope.userList[0]["key"] = response.data._id;
+                               $scope.userList[0].value = response.data;
+                               if (response.data.Data_priyoma != null)
+                                   $scope.userList[0].value.Data_priyoma = new Date(parseInt(response.data.Data_priyoma.substr(6)));
+                               if (response.data.Data_vydachi != null)
+                                   $scope.userList[0].value.Data_vydachi = new Date(parseInt(response.data.Data_vydachi.substr(6)));
+
+                               $scope.getList();
+                           }
                        }
                        else {
-                           $scope.userList[0]["id"] = response.data._id;
-                           $scope.userList[0]["key"] = response.data._id;
-                           $scope.userList[0].value = response.data;
-                           if (response.data.Data_priyoma != null)
-                               $scope.userList[0].value.Data_priyoma = new Date(parseInt(response.data.Data_priyoma.substr(6)));
-                           if (response.data.Data_vydachi != null)
-                               $scope.userList[0].value.Data_vydachi = new Date(parseInt(response.data.Data_vydachi.substr(6)));
-
-                           $scope.getList();
+                           SweetAlert.swal("Ошибка", "Изделие уже есть в базе данных!", "error");
+                           if (emp.id == null)
+                               $scope.userList.shift();
+                           else {
+                               var idx2 = -1;
+                               for (var i = 0, len = $scope.userList.length; i < len; i++) {
+                                   if ($scope.userList[i].id === emp.id) {
+                                       idx2 = i;
+                                       break;
+                                   }
+                               }
+                               $scope.userList[idx2].value = response.data;
+                               $scope.userList[idx2].value._id = emp.id;
+                           }
                        }
                    }
                    else {
-                       SweetAlert.swal("Ошибка", "Изделие уже есть в базе данных!", "error");
-                       if (emp.id==null)
+                       // ничего не изменилось
+                       SweetAlert.swal("Отмена", "Запись не была обновлена, так как текущая версия записи совпадает с предыдущей!", "warning");
+                       if (emp.id == null)
                            $scope.userList.shift();
-                       else {
-                           var idx2 = -1;
-                           for (var i = 0, len = $scope.userList.length; i < len; i++) {
-                               if ($scope.userList[i].id === emp.id) {
-                                   idx2 = i;
-                                   break;
-                               }
-                           }
-                           $scope.userList[idx2].value = response.data;
-                           $scope.userList[idx2].value._id = emp.id;
-                       }
+
                    }
-               }
-               else {
-                   // ничего не изменилось
-                   SweetAlert.swal("Отмена", "Запись не была обновлена, так как текущая версия записи совпадает с предыдущей!", "warning");
-                   if (emp.id==null)
-                       $scope.userList.shift();
 
-               }
-
-           });
-    }
+               });
+        }
     };
     $scope.childInfo = function (emp) {
         emp.showSub = emp.showSub ? false : true;
@@ -515,7 +511,7 @@ function (isConfirm) {
         $scope.getList();
     }
     $scope.IschildInfoHis = function (emp) {
-        return emp.showSub; 
+        return emp.showSub;
 
     }
 
