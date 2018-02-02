@@ -127,6 +127,9 @@
     }
 
     td.special { border: 1px solid #eee; }
+    .ng-hide.ng-hide-animate{
+     display: none !important;
+}
 </style>
 <div class="container-fluid">
 
@@ -262,15 +265,17 @@
                     <a ng-show="user.showSub" class="red shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
                         <i class="material-icons " data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
                     </a>-->
-                                <md-icon data-toggle="collapse" class=" float-icon" style="    color: #555;" data-target="#rowH-{{$index}}" ng-show="!user.showHistory  " ng-click="gethistory(user )">schedule</md-icon>
-                                <md-icon style=" color :orange;" data-toggle="collapse" data-target="#rowH-{{$index}}" ng-show="user.showHistory  " ng-click="gethistory(user )">schedule</md-icon>
+                                <md-icon data-toggle="collapse" class=" float-icon" style="    color: #555;" data-target="#rowH-{{$index}}" ng-show="!user.showHistory && user.IsHistory  " ng-click="gethistory(user )">schedule</md-icon>
+                                <md-icon style=" color :orange;" data-toggle="collapse" data-target="#rowH-{{$index}}" ng-show="user.showHistory && user.IsHistory  " ng-click="gethistory(user )">schedule</md-icon>
                                 <!--<md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub" ng-click="childInfo(user )">schedule</md-icon>-->
                                 
-                                <md-icon data-toggle="collapse" style="    color: #ddd;" data-target="#rowH-{{$index}}" ng-show=" !IsHistory(user)">schedule</md-icon>
+                                <md-icon data-toggle="collapse" class=" float-icon" style="    color:  #ddd;" data-target="#rowH-{{$index}}" ng-show="!user.IsHistory  " >schedule</md-icon>
 
-                                <md-icon data-toggle="collapse" style="    color: #555;" data-target="#row-{{$index}}" ng-show="!user.showSub && IsSub(user) " ng-click="childInfo(user )">storage</md-icon>
-                                <md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub && IsSub(user) " ng-click="childInfo(user )">storage</md-icon>
-                                <md-icon data-toggle="collapse" style="    color: #ddd;" data-target="#row-{{$index}}" ng-show=" !IsSub(user)" >storage</md-icon>
+  
+
+                                <md-icon data-toggle="collapse" style="    color: #555;" data-target="#row-{{$index}}" ng-show="!user.showSub && (IsSub(user) || !user.showEdit )" ng-click="childInfo(user )">storage</md-icon>
+                                <md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub &&( IsSub(user) || !user.showEdit) " ng-click="childInfo(user )">storage</md-icon>
+                                <md-icon data-toggle="collapse" style="    color: #ddd;" data-target="#row-{{$index}}" ng-show=" !IsSub(user)&& user.showEdit">storage</md-icon>
 
                                 <md-button ng-show="!archive" class="md-icon-button  waves-effect waves-purple   " ng-click="archivete()">
                                     <md-icon style=" color :#555;"> archive</md-icon>
@@ -608,7 +613,7 @@
 
                                 </table>
 
-                                <table ng-show="IsHistory(user)" class="table table-striped  collapse collapsible  noPadding" id="rowH-{{$index}}" style="width: 30%;  float: left;">
+                                <table ng-show="user.IsHistory" class="table table-striped  collapse collapsible  noPadding" id="rowH-{{$index}}" style="width: 30%;  float: left;">
                                     <tr>
                                         <th style="padding: 2% !important;"> </th>
 

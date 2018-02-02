@@ -35,7 +35,7 @@
     $scope.maxSize = 5;     // Limit number for pagination display number.  
     $scope.totalCount = 0;  // Total number of items in all pages. initialize as a zero  
     $scope.pageIndex = 1;   // Current page number. First page is 1.-->  
-    $scope.pageSizeSelected = 10; // Maximum number of items per page.  
+    $scope.pageSizeSelected = 5; // Maximum number of items per page.  
     function formatJSONDate(jsonDate) {
         var newDate = dateFormat(jsonDate, "mm/dd/yyyy");
         return newDate;
@@ -88,11 +88,29 @@
                    obj["showEdit"] = true;
                    obj["showSub"] = false;
                    obj["History"] = [];
+                   obj["IsHistory"] = false;
                    obj["showHistory"] = false;
                    if (obj.value.Data_priyoma != null)
                        obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                    if (obj.value.Data_vydachi != null)
                        obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+
+               })
+               angular.forEach($scope.userList, function (obj) {
+       
+                   $http({
+                       url: "/Work/IsEventHistory?id=" + obj.id,
+                       method: "GET",
+                       params: {
+                           page: $scope.pageIndex,
+                           limit: $scope.pageSizeSelected
+                       }
+                   }).
+          then(function (response) {
+              var gdfgf = response.data > 0 ? true : false;
+              obj["IsHistory"] = gdfgf;
+
+          });
 
                })
            });
@@ -159,6 +177,7 @@
 
         obj = new Object();
         obj["showEdit"] = false;
+        obj["IsHistory"] = false;
         obj["showSub"] = false; 
         obj["History"] = [];
         obj["showHistory"] = false;
@@ -214,6 +233,7 @@ function (isConfirm) {
                            $scope.userList = response.data.rows;
                            angular.forEach($scope.userList, function (obj) {
                                obj["showEdit"] = true;
+                               obj["IsHistory"] = false;
                                obj["showSub"] = false;
                                obj["History"] = [];
                                obj["showHistory"] = false;
@@ -271,6 +291,12 @@ function (isConfirm) {
         else
             return false;
     }
+    $scope.iseventhistory = function (obj) {
+   
+         
+       
+    };
+
     $scope.gethistory = function (emp) {
         emp.showHistory = emp.showHistory ? false : true;
         if( emp.showHistory==true){

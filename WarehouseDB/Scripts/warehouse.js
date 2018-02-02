@@ -44,7 +44,7 @@
     return self;
 }]);
 
-var app = angular.module('app', ['ui.router', 'bw.paging', 'ngMaterial',  'md.chips.select','md-steppers', 'angularFileUpload', 'datatables', 'oitozero.ngSweetAlert', 'angularMoment']);
+var app = angular.module('app', ['ui.router', 'bw.paging', 'ngAnimate', 'ngMaterial', 'md.chips.select', 'md-steppers', 'angularFileUpload', 'datatables', 'oitozero.ngSweetAlert', 'angularMoment']);
 
 app.controller('appCtrl', appCtrl);
 app.controller('ImportController', ImportController); 
