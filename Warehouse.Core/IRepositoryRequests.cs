@@ -69,6 +69,7 @@ namespace Warehouse.Core
       string GetUUID( );
       List<ImportResultResponse> SetEventDocuments(List<EventCouch> CouchDataSet, string user);
       CouchRequest<EventCouch>  GetEventPaginDocuments(int page, int limit,bool archive);
+      CouchRequest<EventCouch> GetFilterSortDocuments(int page, int limit, bool archive, FilterSort FS = null);
       EventCouch GetEventDocument(string id);
       List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string user, string id);
       bool DeleteEventDocument(EventCouch CouchDataSet, string id);

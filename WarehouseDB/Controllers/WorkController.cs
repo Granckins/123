@@ -109,6 +109,9 @@ namespace WarehouseDB.Controllers
         [HttpPost]
         public JsonResult FilterSortDocument(PostRequest<RowCouch<EventCouch>> res)
         {
+            var FS = new FilterSort();
+            FS.FromStringToObject(res.filtername,res.filtervalue,"","");
+            Repository.GetFilterSortDocuments(res.page, res.limit, res.archive_str,FS);
             return null;
         }
         [HttpPost]

@@ -308,6 +308,82 @@ namespace Warehouse.Core.Repositories
             }
             return ev;
         }
+        public CouchRequest<EventCouch> GetFilterSortDocuments(int page = 1, int limit = 10, bool archive = false, FilterSort FS=null)
+        {
+            CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
+            var skip = (page - 1) * limit;
+            var q = "";
+            var sort="";
+             
+            
+                foreach (var qq in FS.Filters)
+                {
+                    q += qq.name.Replace(" ","_") + ":" + qq.value+"*^1 AND ";
+                }
+             
+            q += "archive:" + archive;
+          int sq=0;
+          if (FS.Sorts.Count>0) sort = "&sort=";
+            foreach (var qq in FS.Sorts)
+            {
+               if(qq.name=="Номер упаковки")
+                   {
+                       if (qq.value == "1") 
+                           sort += "/" + qq.name + "<int>"; 
+                       else
+                           sort += "\\" + qq.name + "<int>"; 
+                   }
+               if (FS.Sorts.Count == 1 || sq == FS.Sorts.Count)
+               {
+                   break;
+               }
+               else
+               {
+                   sort += ",";
+               }
+                sq++;
+            }
+            var url = "http://localhost:5984/_fti/local/events/_design/searchdocuments/by_fields?q=" + q + "&skip=" + skip + "&limit=" + limit;
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+
+            var user = new User();
+            var lucene1 = new LuceneRequest<EventCouch>();
+            lucene1.rows = new List<Row<EventCouch>>();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<LuceneRequest<EventWar>>(res);
+
+                foreach (var l in lucene.rows)
+                {
+                    var sod = l.fields.Содержимое;
+                    var sub = JsonConvert.DeserializeObject<List<SubEvent>>(sod);
+                    EventCouch ev = new EventCouch();
+                    ev = EventManager.ConvertEventWarToEventCouchParent(l.fields);
+                    ev.Soderzhimoe = sub;
+
+                    lucene1.rows.Add(new Row<EventCouch>() { id = l.id, fields = ev });
+                }
+
+
+                var couch = new CouchRequest<EventCouch>();
+                couch.total_rows = lucene.total_rows;
+                couch.offset = lucene.skip;
+                couch.rows = new List<RowCouch<EventCouch>>();
+                foreach (var r in lucene1.rows)
+                {
+                    couch.rows.Add(new RowCouch<EventCouch>() { id = r.id, key = r.id, value = r.fields });
+                }
+                list = couch;
+            }
+            return list;
+
+        }
+      
          public CouchRequest<EventCouch> GetEventPaginDocuments(int page = 1, int limit = 10, bool archive= false)
         {
             CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();

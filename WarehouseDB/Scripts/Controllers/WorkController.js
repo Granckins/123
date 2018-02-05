@@ -120,10 +120,8 @@
     });
     $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; });
     $scope.filters = ("Дата приёма;Дата выдачи").split(';').map(function (state) { return { abbrev: state }; });
-    $scope.searchfilter = "";
-    $scope.searchfilter1 = "";
-    $scope.searchfilter2 = "";
-    $scope.searchfilter3 = "";
+    $scope.searchfiltername = [];
+    $scope.searchfiltervalue= [];
     $scope.getList();
     $scope.changePageSize = function () {
         $scope.pageIndex = 1;
@@ -151,6 +149,22 @@
     $scope.searchTextChange = function (searchText) {
         $scope.searchText = searchText;
     };
+
+    $scope.chipdelete = function (chip) {
+        for (var i = 0;i< $scope.launchTypeOptions.length ; i++) {
+            if ($scope.launchTypeOptions[i].$$hashKey === chip.$$hashKey) {
+                $scope.launchTypeOptions[i].name = $scope.launchTypeOptions[i].value;
+                break;
+            } 
+        }
+        for (var i = 0; i < $scope.searchfiltername.length ; i++) {
+            if ($scope.searchfiltername[i] === chip.value) {
+                $scope.searchfiltername.slice(i, 1);
+                $scope.searchfiltervalue.slice(i, 1);
+                break;
+            }
+        }
+    };
     $scope.newVeg = function (chip) {
         var obj = new Object();
 
@@ -162,6 +176,32 @@
         else
             obj = chip;
         obj.name = $scope.searchText + " (" + obj.value + ")";
+        $scope.searchfiltername.push(obj.value);
+        $scope.searchfiltervalue.push($scope.searchText);
+        var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
+        var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
+        var post = new Object();
+        post["page"] = $scope.pageIndex;
+        post["limit"] = $scope.pageSizeSelected;
+
+        post["archive_str"] = $scope.archive_str;
+        post["filtername"] = searchfilternameString;
+        post["filtervalue"] = searchfiltervalueString;
+        $http({
+            url: '/Work/FilterSortDocument',
+            method: "POST",
+            data: post
+        }).
+            then(function (response) {
+                if (response.data != "") {
+                   
+                }
+                else {
+                  
+
+                }
+
+            });
         return obj;
 
 

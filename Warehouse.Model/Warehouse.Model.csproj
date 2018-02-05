@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EditSubEvent.cs" />
+    <Compile Include="FilterSort.cs" />
     <Compile Include="ImportResultResponse.cs" />
     <Compile Include="UserIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
