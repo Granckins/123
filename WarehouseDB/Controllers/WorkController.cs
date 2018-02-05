@@ -44,6 +44,12 @@ namespace WarehouseDB.Controllers
               
               return Json(res.Count, JsonRequestBehavior.AllowGet);
           }
+          [HttpPost]
+          [AcceptVerbs(HttpVerbs.Post)]
+          public JsonResult FilterSortDocument (PostRequest<SelectParametrs> res)
+          {
+              return null;
+          }
         [HttpPost]
           public JsonResult ChangeEventDocument(RowCouch<EventCouch> res)
           {

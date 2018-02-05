@@ -182,7 +182,7 @@
 
 
                         <div class="row">
-                            <md-chips md-transform-chip="newVeg($chip)" ng-model="launchAPIQueryParams.types">
+                            <md-chips md-transform-chip="newVeg($chip)" ng-model="launchAPIQueryParams.types" md-on-remove="deletechipsToList($chip)">
                                 <md-autocomplete style="width:100%" md-selected-item="selectedOption"
                                                  md-search-text="searchText"
                                                  md-items="typeOption in launchTypeOptions"

@@ -1,0 +1,84 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "md-chips",
+        "scope": null,
+        "escapedName": "md-chips",
+        "name": "md-chips",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Projects\\123.git\\WarehouseDB\\plugins"
+    ]
+  ],
+  "_from": "md-chips@latest",
+  "_id": "md-chips@0.2.4",
+  "_inCache": true,
+  "_location": "/md-chips",
+  "_npmUser": {
+    "name": "bogdan_rusinka",
+    "email": "rusinka.bogdan@gmail.com"
+  },
+  "_npmVersion": "1.4.28",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "md-chips",
+    "scope": null,
+    "escapedName": "md-chips",
+    "name": "md-chips",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/md-chips/-/md-chips-0.2.4.tgz",
+  "_shasum": "62720e5052fd8a5ec54a20d1660d44d8bdc95741",
+  "_shrinkwrap": null,
+  "_spec": "md-chips",
+  "_where": "C:\\Projects\\123.git\\WarehouseDB\\plugins",
+  "author": {
+    "name": "Bogdan Rusinka"
+  },
+  "bugs": {
+    "url": "https://github.com/B1naryStudio/md-chips/issues"
+  },
+  "dependencies": {},
+  "description": "Material design Chips component Angular directive",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "62720e5052fd8a5ec54a20d1660d44d8bdc95741",
+    "tarball": "https://registry.npmjs.org/md-chips/-/md-chips-0.2.4.tgz"
+  },
+  "gitHead": "2fb9b60b2ba8177ce449e2f3811901fda94eb9c8",
+  "homepage": "https://github.com/B1naryStudio/md-chips",
+  "keywords": [
+    "angular",
+    "chips",
+    "directive",
+    "material"
+  ],
+  "license": "MIT",
+  "main": "mdchips.js",
+  "maintainers": [
+    {
+      "name": "bogdan_rusinka",
+      "email": "rusinka.bogdan@gmail.com"
+    }
+  ],
+  "name": "md-chips",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/B1naryStudio/md-chips.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.2.4"
+}

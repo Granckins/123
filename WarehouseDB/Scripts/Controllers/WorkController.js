@@ -120,10 +120,8 @@
     });
     $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; });
     $scope.filters = ("Дата приёма;Дата выдачи").split(';').map(function (state) { return { abbrev: state }; });
-    $scope.searchfilter = "";
-    $scope.searchfilter1 = "";
-    $scope.searchfilter2 = "";
-    $scope.searchfilter3 = "";
+    $scope.searchfilters = "";
+    $scope.searchsorts = "";
     $scope.getList();
     $scope.changePageSize = function () {
         $scope.pageIndex = 1;
@@ -148,6 +146,15 @@
                             { name: 'Местонахождение', value: 'Местонахождение' },
                                            { name: 'Примечание', value: 'Примечание' },
     ];
+    $scope.deletechipsToList = function (chip) {
+        var length = $scope.launchTypeOptions.length;
+        for (var i = 0; i < length; i++) {
+            if ($scope.launchTypeOptions[i].$$hashKey === chip.$$hashKey) {
+                
+                $scope.launchTypeOptions[i].name = $scope.launchTypeOptions[i].value;
+            }
+        }
+    };
     $scope.searchTextChange = function (searchText) {
         $scope.searchText = searchText;
     };
@@ -162,6 +169,30 @@
         else
             obj = chip;
         obj.name = $scope.searchText + " (" + obj.value + ")";
+        var filter = new Object();
+        filter.name= obj.value;
+        filter.value = $scope.searchText;
+        $scope.searchfilters += $scope.searchText+";";
+        var post = new Object();
+        post.page = $scope.pageIndex;
+        post.limit = $scope.pageSizeSelected; 
+        post.archive_str = $scope.archive_str;
+ 
+        post.str = $scope.searchfilters; 
+        if ($scope.searchfilters.length > 0) {
+            $.ajax({
+                url: '/Work/FilterSortDocument',
+                type: 'POST',
+                data: JSON.stringify(post), 
+                 contentType: 'application/json;',
+            dataType: 'json',
+                success: function (data) {
+
+                }
+        
+            });
+       
+        }
         return obj;
 
 
