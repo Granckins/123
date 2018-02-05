@@ -317,7 +317,7 @@ namespace Warehouse.Core.Repositories
              
             
                 foreach (var qq in FS.Filters)
-                {
+                {if(qq.value!="")
                     q += qq.name.Replace(" ","_") + ":" + qq.value+"*^1 AND ";
                 }
              

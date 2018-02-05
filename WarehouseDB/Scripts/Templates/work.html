@@ -181,7 +181,7 @@
 
 
 
-                        <div class="row">
+                        <div class="row" style="padding-bottom: 20px;">
                             <md-chips md-transform-chip="newVeg($chip)" ng-model="launchAPIQueryParams.types" md-on-remove="chipdelete($chip)">
                                 <md-autocomplete style="width:100%" md-selected-item="selectedOption"
                                                  md-search-text="searchText"
@@ -197,21 +197,41 @@
                                 </md-chip-template>
                             </md-chips>
                         </div>
-</div>
-                <div class="row" style="margin-top:60px;">
-                    <div  >
-                 
+                        <div class="row" style="padding-bottom: 20px;" ng-show="Data_priyoma">
+                            <label>Дата приёма (Начало периода):</label>
 
-                        <md-input-container style="margin: 18px 0 0 0;">
+                            <md-input-container  style="margin: 0 0; " dividercolor="primary" ng-value="user.Data_priyoma_str1 ">
+                                <md-datepicker ng-model="user.Data_priyoma_str1 " md-placeholder="Введите дату" (ngmodelchange)="updateMyDate($event)"></md-datepicker>
 
-                            <md-select ng-model="searchfilter" ng-change="search()">
 
-                                <md-option ng-repeat="pageSize in  filters" ng-value="pageSize.abbrev" ng-selected="$first">
-                                    {{pageSize.abbrev}}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                    </div>
+                            </md-input-container>
+                            <label style="padding-left: 10px;">Дата приёма (Конец периода):</b></label>
+
+                            <md-input-container   style="margin: 0 0; " dividercolor="primary">
+                                <md-datepicker ng-model="user.Data_priyoma_str2 " md-placeholder="Введите дату"></md-datepicker>
+
+
+                            </md-input-container>
+                        </div>
+                        <div class="row" style="padding-bottom: 20px;" ng-show="Data_vydachi">
+                            <label>Дата выдачи (Начало периода):</label>
+
+                            <md-input-container   style="margin: 0 0; " dividercolor="primary">
+                                <md-datepicker ng-model="user.Data_vydachi_str1 " md-placeholder="Введите дату"></md-datepicker>
+
+
+                            </md-input-container>
+                            <label style="padding-left: 10px;">Дата выдачи (Конец периода):</b></label>
+
+                            <md-input-container  style="margin: 0 0; " dividercolor="primary">
+                                <md-datepicker ng-model="user.Data_vydachi_str2 " md-placeholder="Введите дату"></md-datepicker>
+
+
+                            </md-input-container>
+                        </div>
+                        </div>
+                <!--<div class="row" style="margin-top:60px;">-->
+                
                     <thead >
 
                         <tr>
@@ -226,7 +246,7 @@
                                     <span>Номер упаковки</span>
                                 </div>
                             </th>
-                            <th class="rotate-45"><div><span>Наименование изделия</span><span><md-icon>arrow_upward</md-icon></span></div>
+                            <th class="rotate-45"><div><span>Наименование изделия</span><span> </span></div>
                            
 
                             </th>
@@ -262,71 +282,137 @@
 
 
                             <td>
-                                <md-icon>  add</md-icon>
+                                
+                                
+                                <md-button ng-show="GetStatusSort('Номер упаковки')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Номер упаковки')">
+                                    <md-icon> import_export</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Номер упаковки')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Номер упаковки')">
+                                    <md-icon> sort</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Номер упаковки')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Номер упаковки')">
+                                    <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                </md-button>
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                <md-button ng-show="GetStatusSort('Наименование изделия')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Наименование изделия')">
+                                    <md-icon> import_export</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Наименование изделия')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Наименование изделия')">
+                                    <md-icon> sort</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Наименование изделия')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Наименование изделия')">
+                                    <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                </md-button>
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                <md-button ng-show="GetStatusSort('Заводской номер')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Заводской номер')">
+                                    <md-icon> import_export</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Заводской номер')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Заводской номер')">
+                                    <md-icon> sort</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Заводской номер')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Заводской номер')">
+                                    <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                </md-button>
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                <md-button ng-show="GetStatusSort('Количество')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Количество')">
+                                    <md-icon> import_export</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Количество')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Количество')">
+                                    <md-icon> sort</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Количество')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Количество')">
+                                    <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                </md-button>
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                <md-button ng-show="GetStatusSort('Местонахождение на складе')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Местонахождение на складе')">
+                                    <md-icon> import_export</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Местонахождение на складе')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Местонахождение на складе')">
+                                    <md-icon> sort</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Местонахождение на складе')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Местонахождение на складе')">
+                                    <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                </md-button>
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                        
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                <md-button ng-show="GetStatusSort('Система')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Система')">
+                                    <md-icon> import_export</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Система')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Система')">
+                                    <md-icon> sort</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Система')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Система')">
+                                    <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                </md-button>
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                   
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                               
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                <md-button ng-show="GetStatusSort('Дата приёма')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приём')">
+                                    <md-icon> import_export</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Дата приёма')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приём')">
+                                    <md-icon> sort</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Дата приёма')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приём')">
+                                    <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                </md-button>
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                               
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                <md-button ng-show="GetStatusSort('Дата выдачи')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
+                                    <md-icon> import_export</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Дата выдачи')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
+                                    <md-icon> sort</md-icon>
+                                </md-button>
+                                <md-button ng-show="GetStatusSort('Дата выдачи')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
+                                    <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                </md-button>
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                 
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                               
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                                
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                           
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                             
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                       
                             </td>
 
                             <td>
-                                <md-icon>  add</md-icon>
+                              
                             </td>
                             <td>
-                                <md-icon>  add</md-icon>
+                              
                             </td>
                         </tr>
                         <tr ng-repeat-start="user in userList track by $index" class="accordion-toggle">

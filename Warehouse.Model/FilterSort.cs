@@ -15,15 +15,26 @@ namespace Warehouse.Model
            Sorts = new List<Sort>();
        }
        public void FromStringToObject(string filtersname,string filtersvalue, string sortsname, string sortsvalue){
-           if(filtersname!=""&&filtersvalue!=""){
-            var FiltersName = filtersname.Split(';').ToList();
-            var FiltersValue = filtersvalue.Split(';').ToList();
+           if (filtersname != "" && filtersvalue != "" && filtersname != null && filtersvalue != null)
+           {
+               var FiltersName = new List<string>();
+               try {  FiltersName = filtersname.Split(';').ToList(); }
+               catch(Exception e){
+                    FiltersName =   new List<string>() ;
+               }
+                var FiltersValue = new List<string>();
+                try { FiltersValue = filtersvalue.Split(';').ToList(); }
+               catch (Exception e)
+               {
+                   FiltersValue = new List<string>();
+               }
+             
                for(int i=0;i< FiltersName.Count;i++)
                {
                    Filters.Add(new Filter() { name = FiltersName[i], value = FiltersValue[i] });
                }
            }
-           if (sortsname != "" && sortsvalue != "")
+           if (sortsname != "" && sortsvalue != "" && sortsname != null && sortsvalue != null)
            {
                var SortsName = filtersname.Split(';').ToList();
                var SortsValue = filtersvalue.Split(';').ToList();
