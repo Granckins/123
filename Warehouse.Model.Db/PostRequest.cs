@@ -10,6 +10,10 @@ namespace Warehouse.Model.Db
     {
         [JsonProperty("page")]
     public  int page { get; set; }
+        [JsonProperty("filter")]
+        public string filter { get; set; }
+        [JsonProperty("sort")]
+        public string sort { get; set; }
           [JsonProperty("limit")]
     public int limit { get; set; }
           [JsonProperty("archive_str")]

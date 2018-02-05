@@ -107,6 +107,11 @@ namespace WarehouseDB.Controllers
             return Json(rep, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        public JsonResult FilterSortDocument(PostRequest<RowCouch<EventCouch>> res)
+        {
+            return null;
+        }
+        [HttpPost]
         public JsonResult DeleteEventDocument(PostRequest<RowCouch<EventCouch>> res)
         {
 
