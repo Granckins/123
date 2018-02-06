@@ -200,28 +200,28 @@
                         <div class="row" style="padding-bottom: 20px;" ng-show="Data_priyoma">
                             <label>Дата приёма (Начало периода):</label>
 
-                            <md-input-container  style="margin: 0 0; " dividercolor="primary" ng-value="user.Data_priyoma_str1 ">
-                                <md-datepicker ng-model="user.Data_priyoma_str1 " md-placeholder="Введите дату" (ngmodelchange)="updateMyDate($event)"></md-datepicker>
+                            <md-input-container style="margin: 0 0; padding-right: 10px;" dividercolor="primary" >
+                                <md-datepicker ng-model="user.Data_priyoma_str1 " ng-change="updateCalcs()" md-placeholder="Введите дату"></md-datepicker>
 
 
                             </md-input-container>
-                            <label style="padding-left: 10px;">Дата приёма (Конец периода):</b></label>
+                            <label  >Дата приёма (Конец периода):</b></label>
 
                             <md-input-container   style="margin: 0 0; " dividercolor="primary">
-                                <md-datepicker ng-model="user.Data_priyoma_str2 " md-placeholder="Введите дату"></md-datepicker>
+                                <md-datepicker ng-model="user.Data_priyoma_str2 " md-placeholder="Введите дату" ng-change="updateCalcs()"></md-datepicker>
 
 
                             </md-input-container>
                         </div>
                         <div class="row" style="padding-bottom: 20px;" ng-show="Data_vydachi">
-                            <label>Дата выдачи (Начало периода):</label>
+                            <label >Дата выдачи (Начало периода):</label>
 
-                            <md-input-container   style="margin: 0 0; " dividercolor="primary">
+                            <md-input-container   style="margin: 0 0; padding-right: 10px;"  dividercolor="primary" >
                                 <md-datepicker ng-model="user.Data_vydachi_str1 " md-placeholder="Введите дату"></md-datepicker>
 
 
                             </md-input-container>
-                            <label style="padding-left: 10px;">Дата выдачи (Конец периода):</b></label>
+                            <label >Дата выдачи (Конец периода):</b></label>
 
                             <md-input-container  style="margin: 0 0; " dividercolor="primary">
                                 <md-datepicker ng-model="user.Data_vydachi_str2 " md-placeholder="Введите дату"></md-datepicker>
@@ -359,15 +359,13 @@
                                
                             </td>
                             <td>
-                                <md-button ng-show="GetStatusSort('Дата приёма')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приём')">
+                                <md-button ng-show="GetStatusSort('Дата приёма')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приёма')">
                                     <md-icon> import_export</md-icon>
                                 </md-button>
-                                <md-button ng-show="GetStatusSort('Дата приёма')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приём')">
+                                <md-button ng-show="GetStatusSort('Дата приёма')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приёма')">
                                     <md-icon> sort</md-icon>
                                 </md-button>
-                                <md-button ng-show="GetStatusSort('Дата приёма')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приём')">
-                                    <md-icon style="transform: rotate(180deg);"> sort</md-icon>
-                                </md-button>
+                               
                             </td>
                             <td>
                                
@@ -379,9 +377,7 @@
                                 <md-button ng-show="GetStatusSort('Дата выдачи')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
                                     <md-icon> sort</md-icon>
                                 </md-button>
-                                <md-button ng-show="GetStatusSort('Дата выдачи')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
-                                    <md-icon style="transform: rotate(180deg);"> sort</md-icon>
-                                </md-button>
+                             
                             </td>
                             <td>
                                 

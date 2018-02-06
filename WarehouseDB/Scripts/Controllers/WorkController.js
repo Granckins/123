@@ -160,19 +160,37 @@
                                          { name: 'Дата приёма', value: 0 },
                                             { name: 'Дата выдачи', value: 0 }
     ];
-    $scope.updateMyDate = function (newDate) {
+    $scope.updateCalcs = function ( ) {
         var ds = newDate;
+
+      
+        //var d = new Date();
+        //var curr_date = d.getDate();
+        //var curr_month = d.getMonth() + 1;
+        //var curr_year = d.getFullYear();
+        //var sdsd1 = curr_year + "-" + curr_month + "-" + curr_date + "T00:00:00+03:00";
+
+        //var dssds = "[\"" + sdsd1 + "\"" + "+TO+" + "\"" + sdsd1 + "\"]";
+
     }
     $scope.SortChange = function (name) {
         for (var i = 0; i < $scope.SortOptions.length ; i++) {
             if ($scope.SortOptions[i].name == name) {
                 {
-                    if ($scope.SortOptions[i].value == 0)
-                    { $scope.SortOptions[i].value = 1; break;}
-                    if ($scope.SortOptions[i].value == 1)
-                    {   $scope.SortOptions[i].value = 2; break;}
-                    if ($scope.SortOptions[i].value == 2)
-                    { $scope.SortOptions[i].value = 0; break; }
+                    if (name == 'Дата приёма' || name == 'Дата выдачи') {
+                        if ($scope.SortOptions[i].value == 0)
+                        { $scope.SortOptions[i].value = 1; break; }
+                        if ($scope.SortOptions[i].value == 1)
+                        { $scope.SortOptions[i].value = 0; break; }
+                    } else {
+
+                        if ($scope.SortOptions[i].value == 0)
+                        { $scope.SortOptions[i].value = 1; break; }
+                        if ($scope.SortOptions[i].value == 1)
+                        { $scope.SortOptions[i].value = 2; break; }
+                        if ($scope.SortOptions[i].value == 2)
+                        { $scope.SortOptions[i].value = 0; break; }
+                    }
                 }
             }
         }
@@ -202,6 +220,10 @@
                 break;
             }
         }
+        if (chip.value == 'Дата приёма')
+            $scope.Data_priyoma = false;
+        if (chip.value == 'Дата выдачи')
+            $scope.Data_vydachi = false;
         var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
         var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
         var post = new Object();
@@ -262,17 +284,10 @@
         }
         else
             obj = chip;
-        if (obj.value == 'Дата приёма') 
+        if (obj.value == 'Дата приёма')
             $scope.Data_priyoma = true;
-            if (obj.value == 'Дата выдачи')
-                $scope.Data_vydachi = true;
-            var d = new Date();
-            var curr_date = d.getDate(); 
-            var curr_month = d.getMonth() + 1; 
-            var curr_year = d.getFullYear(); 
-            var sdsd1 = curr_year + "-" + curr_month + "-" + curr_date;
-
-            var dssds = "[\"" + sdsd1 + "\"" + "+TO+" + "\"" + sdsd1 + "\"]";
+        if (obj.value == 'Дата выдачи')
+            $scope.Data_vydachi = true;
         obj.name = $scope.searchText + " (" + obj.value + ")";
         $scope.searchfiltername.push(obj.value);
         $scope.searchfiltervalue.push($scope.searchText);
