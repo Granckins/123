@@ -9,10 +9,32 @@ namespace Warehouse.Model
     {
        public List<Filter> Filters {get;set;}
        public List<Sort> Sorts { get; set; }
+       public string datepr1 { get; set; }
+       public string datepr2 { get; set; }
+
+       public string datevd1 { get; set; }
+       public string datevd2 { get; set; }
+
        public FilterSort()
        {
            Filters = new List<Filter>();
            Sorts = new List<Sort>();
+       }
+       public void FromStringToObject(string filterdate, string date1, string date2)
+       {
+           
+               var Filters  = new List<string>();
+               try { Filters = filterdate.Split(';').ToList(); }
+               catch (Exception e)
+               {
+                   Filters = new List<string>();
+               }
+
+               date1 = Filters[0];
+               date2 = Filters[1];
+             
+           
+           
        }
        public void FromStringToObject(string filtersname,string filtersvalue, string sortsname, string sortsvalue){
            if (filtersname != "" && filtersvalue != "" && filtersname != null && filtersvalue != null)

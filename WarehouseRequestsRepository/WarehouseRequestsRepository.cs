@@ -383,9 +383,10 @@ namespace Warehouse.Core.Repositories
             return list;
 
         }
-        public CouchRequest<EventCouch> FilterByDateDocuments(int page = 1, int limit = 10, bool archive = false, string startkey="",string endkey="")
+        //true - datepr; false- datevd;
+        public CouchRequestMultiKey<EventCouch> FilterByDateDocuments(bool flag,int page = 1, int limit = 10, bool archive = false, string startkey = "", string endkey = "")
         {
-            CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
+            CouchRequestMultiKey<EventCouch> list = new CouchRequestMultiKey<EventCouch>();
             var skip = (page - 1) * limit;
             if (startkey == "")
             {
@@ -395,7 +396,11 @@ namespace Warehouse.Core.Repositories
             {
                 endkey = "" + DateTime.Today.Date.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
             }
-            var url = "http://localhost:5984/events/_design/bydate/_view/foo?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+           
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+            if(!flag)
+                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+          
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.Credentials = new NetworkCredential("admin", "root");
@@ -406,7 +411,7 @@ namespace Warehouse.Core.Repositories
             {
                 var reader = new StreamReader(responseStream, Encoding.UTF8);
                 var res = reader.ReadToEnd();
-             list = JsonConvert.DeserializeObject<CouchRequest<EventCouch>>(res);
+                list = JsonConvert.DeserializeObject<CouchRequestMultiKey<EventCouch>>(res);
  
             }
             return list;

@@ -84,7 +84,7 @@ namespace WarehouseDB.Controllers
             var FS = new FilterSort();
             FS.FromStringToObject(res.filtername,res.filtervalue,"","");
 
-           var fgfdg=Repository.FilterByDateDocuments(res.page, res.limit, res.archive_str,"2017-1-1","2019-1-1");
+      //     var fgfdg=Repository.FilterByDateDocuments(true,res.page, res.limit, res.archive_str,"2017-1-1","2019-1-1");
 
             var res1=Repository.GetFilterSortDocuments(res.page, res.limit, res.archive_str,FS);
             return Json(res1, JsonRequestBehavior.AllowGet);
