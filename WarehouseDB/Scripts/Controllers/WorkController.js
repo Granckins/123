@@ -126,11 +126,69 @@
 
     $scope.Data_vydachi = false;
     $scope.Data_priyoma = false;
-    $scope.Data_priyoma_str1 = Date.now();
-    $scope.Data_vydachi_str1 = Date.now();
-    $scope.Data_priyoma_str2 = Date.now();
-    $scope.Data_vydachi_str2 = Date.now();
+    $scope.Data_priyoma_str1 = null;
+    $scope.Data_vydachi_str1 = null;
+    $scope.Data_priyoma_str2 = null;
+    $scope.Data_vydachi_str2 = null;
 
+
+    $scope.getdatepr = function () {
+        if ($scope.Data_priyoma_str1 != null && $scope.Data_priyoma_str2 != null) {
+            var Data_priyoma_str1 = new Date($scope.Data_priyoma_str1);
+            var curr_date = Data_priyoma_str1.getDate();
+           var DD = "" + curr_date;
+            if (curr_date < 10)
+                DD = "0" + curr_date;
+            var curr_month = Data_priyoma_str1.getMonth() + 1;
+            var MM = "" + curr_month;
+            if (curr_month < 10)
+                MM = "0" + curr_month;
+            var curr_year = Data_priyoma_str1.getFullYear();
+            var sdsd1 = curr_year + "-" + MM + "-" + DD;
+            var Data_priyoma_str2 = new Date($scope.Data_priyoma_str2);
+            var curr_date1 = Data_priyoma_str2.getDate();
+            DD = "" + curr_date1;
+            if (curr_date1 < 10)
+                DD = "0" + curr_date1;
+            var curr_month1 = Data_priyoma_str2.getMonth() + 1;
+             MM = "" + curr_month1;
+            if (curr_month1 < 10)
+                MM = "0" + curr_month1;
+            var curr_year1 = Data_priyoma_str2.getFullYear();
+            var sdsd2 = curr_year1 + "-" + MM + "-" + DD;
+            return sdsd1 + ";" + sdsd2;
+        }
+        return ";";
+    }
+    $scope.getdatevd = function () {
+        if ($scope.Data_vydachi_str1 != null && $scope.Data_vydachi_str2 != null) {
+            var Data_vydachi_str1 = new Date($scope.Data_vydachi_str1);
+            var curr_date = Data_vydachi_str1.getDate();
+            var DD = "" + curr_date;
+            if (curr_date < 10)
+                DD = "0" + curr_date;
+            var curr_month = Data_vydachi_str1.getMonth() + 1;
+            var MM = "" + curr_month;
+            if (curr_month < 10)
+                MM = "0" + curr_month;
+            var curr_year = Data_vydachi_str1.getFullYear();
+            var sdsd1 = curr_year + "-" + curr_month + "-" + curr_date;
+            var Data_vydachi_str2 = new Date($scope.Data_vydachi_str2);
+            var curr_date1 = Data_vydachi_str2.getDate();
+            var curr_date1 = Data_priyoma_str2.getDate();
+            DD = "" + curr_date1;
+            if (curr_date1 < 10)
+                DD = "0" + curr_date1;
+            var curr_month1 = Data_vydachi_str2.getMonth() + 1;
+            MM = "" + curr_month1;
+            if (curr_month1 < 10)
+                MM = "0" + curr_month1;
+            var curr_year1 = Data_vydachi_str2.getFullYear();
+            var sdsd2 = curr_year1 + "-" + curr_month1 + "-" + curr_date1;
+            return sdsd1 + ";" + sdsd2;
+        }
+        return ";";
+    }
     $scope.selectedOption = '';
     $scope.searchText = '';
     $scope.launchAPIQueryParams = {
@@ -161,7 +219,7 @@
                                             { name: 'Дата выдачи', value: 0 }
     ];
     $scope.updateCalcs = function ( ) {
-        var ds = newDate;
+       
 
       
         //var d = new Date();
@@ -233,6 +291,8 @@
         post["archive_str"] = $scope.archive_str;
         post["filtername"] = searchfilternameString;
         post["filtervalue"] = searchfiltervalueString;
+        post["datepr"] = $scope.getdatepr();
+        post["datevd"] = $scope.getdatevd();
         $http({
             url: '/Work/FilterSortDocument',
             method: "POST",
@@ -300,6 +360,8 @@
         post["archive_str"] = $scope.archive_str;
         post["filtername"] = searchfilternameString;
         post["filtervalue"] = searchfiltervalueString;
+        post["datepr"] = $scope.getdatepr();
+        post["datevd"] = $scope.getdatevd();
         $http({
             url: '/Work/FilterSortDocument',
             method: "POST",
@@ -387,7 +449,9 @@
        
         obj["filtername"] = searchfilternameString;
         obj["filtervalue"] = searchfiltervalueString;
-
+        obj["datepr"] = $scope.getdatepr();
+        obj["datevd"] = $scope.getdatevd();
+    
         SweetAlert.swal({
             title: "Вы уверены, что хотите удалить запись безвозвратно из базы данных?",
             text: "",
@@ -637,6 +701,8 @@ function (isConfirm) {
             emp["archive_str"] = $scope.archive_str;
             emp["filtername"] = searchfilternameString;
             emp["filtervalue"] = searchfiltervalueString;
+            emp["datepr"] = $scope.getdatepr();
+            emp["datevd"] = $scope.getdatevd();
             $http({
                 url: '/Work/ChangeEventDocument',
                 method: "POST",

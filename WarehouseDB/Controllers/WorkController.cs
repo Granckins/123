@@ -83,10 +83,19 @@ namespace WarehouseDB.Controllers
         {
             var FS = new FilterSort();
             FS.FromStringToObject(res.filtername,res.filtervalue,"","");
-
-      //     var fgfdg=Repository.FilterByDateDocuments(true,res.page, res.limit, res.archive_str,"2017-1-1","2019-1-1");
-
+            if(res.datepr!=";")
+                FS.FromStringToObject(true, res.datepr);
+            if (res.datevd != ";")
+                FS.FromStringToObject(true, res.datepr);
+            var fgfdg1=new CouchRequestMultiKey<EventCouch>();
+            var fgfdg2 = new CouchRequestMultiKey<EventCouch>();
+               if(res.datepr!=";")
+          fgfdg1=Repository.FilterByDateDocuments(true,res.page, res.limit, res.archive_str,FS.datepr1,FS.datepr2);
+               if (res.datevd != ";")
+                   fgfdg2 = Repository.FilterByDateDocuments(false, res.page, res.limit, res.archive_str, FS.datepr1, FS.datepr2);
             var res1=Repository.GetFilterSortDocuments(res.page, res.limit, res.archive_str,FS);
+            res1 = Repository.CompareResultFilter(fgfdg1,res1);
+            res1 = Repository.CompareResultFilter(fgfdg2, res1);
             return Json(res1, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]

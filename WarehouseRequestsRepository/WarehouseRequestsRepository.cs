@@ -321,7 +321,7 @@ namespace Warehouse.Core.Repositories
                     q += qq.name.Replace(" ","_") + ":" + qq.value+"*^1 AND ";
                 }
              
-            q += "archive:" + archive;
+            q += "archive:" + archive.ToString().ToLower();
           int sq=0;
           if (FS.Sorts.Count>0) sort = "&sort=";
             foreach (var qq in FS.Sorts)
@@ -382,6 +382,25 @@ namespace Warehouse.Core.Repositories
             }
             return list;
 
+        }
+        public CouchRequest<EventCouch> CompareResultFilter(CouchRequestMultiKey<EventCouch> ByDate, CouchRequest<EventCouch> ByOter)
+        {
+            if (ByDate!=null&&ByDate.rows != null&& ByDate.rows.Count>0)
+            {
+                CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
+
+                foreach (var f in ByOter.rows)
+                {
+                    if (!ByDate.rows.Exists(x => x.id == f.id))
+                    {
+                        int index = ByOter.rows.FindIndex(a => a.id == f.id);
+                        ByOter.rows.RemoveAt(index);
+                    }
+                }
+                return list;
+            }
+            else
+                return ByOter;
         }
         //true - datepr; false- datevd;
         public CouchRequestMultiKey<EventCouch> FilterByDateDocuments(bool flag,int page = 1, int limit = 10, bool archive = false, string startkey = "", string endkey = "")

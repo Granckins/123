@@ -20,7 +20,8 @@ namespace Warehouse.Model
            Filters = new List<Filter>();
            Sorts = new List<Sort>();
        }
-       public void FromStringToObject(string filterdate, string date1, string date2)
+       //true - pr, false - vd
+       public void FromStringToObject(bool flag, string filterdate )
        {
            
                var Filters  = new List<string>();
@@ -29,11 +30,17 @@ namespace Warehouse.Model
                {
                    Filters = new List<string>();
                }
-
-               date1 = Filters[0];
-               date2 = Filters[1];
-             
-           
+               if (flag)
+               {
+                   datepr1 = Filters[0];
+                   datepr2 = Filters[1];
+               }
+           else
+               {
+                   datevd1 = Filters[0];
+                   datevd2 = Filters[1];
+               }
+              
            
        }
        public void FromStringToObject(string filtersname,string filtersvalue, string sortsname, string sortsvalue){
