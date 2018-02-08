@@ -65,8 +65,8 @@ namespace Warehouse.Model
            }
            if (sortsname != "" && sortsvalue != "" && sortsname != null && sortsvalue != null)
            {
-               var SortsName = filtersname.Split(';').ToList();
-               var SortsValue = filtersvalue.Split(';').ToList();
+               var SortsName = sortsname.Split(';').ToList();
+               var SortsValue = sortsvalue.Split(';').ToList();
                for (int i = 0; i < SortsName.Count; i++)
                {
                    Sorts.Add(new Sort() { name = SortsName[i], value = SortsValue[i] });

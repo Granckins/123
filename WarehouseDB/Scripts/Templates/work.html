@@ -217,14 +217,14 @@
                             <label >Дата выдачи (Начало периода):</label>
 
                             <md-input-container   style="margin: 0 0; padding-right: 10px;"  dividercolor="primary" >
-                                <md-datepicker ng-model="Data_vydachi_str1 " md-placeholder="Введите дату"></md-datepicker>
+                                <md-datepicker ng-model="Data_vydachi_str1 " md-placeholder="Введите дату" ng-change="updateCalcs()"></md-datepicker>
 
 
                             </md-input-container>
                             <label >Дата выдачи (Конец периода):</b></label>
 
                             <md-input-container  style="margin: 0 0; " dividercolor="primary">
-                                <md-datepicker ng-model="Data_vydachi_str2 " md-placeholder="Введите дату"></md-datepicker>
+                                <md-datepicker ng-model="Data_vydachi_str2 " md-placeholder="Введите дату" ng-change="updateCalcs()"></md-datepicker>
 
 
                             </md-input-container>
@@ -359,10 +359,10 @@
                                
                             </td>
                             <td>
-                                <md-button ng-show="GetStatusSort('Дата приёма')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приёма')">
+                                <md-button ng-show="GetStatusSort('Дата приёма')==0&&GetLengthFilter()==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приёма')">
                                     <md-icon> import_export</md-icon>
                                 </md-button>
-                                <md-button ng-show="GetStatusSort('Дата приёма')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приёма')">
+                                <md-button ng-show="GetStatusSort('Дата приёма')==1&&GetLengthFilter()==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приёма')">
                                     <md-icon> sort</md-icon>
                                 </md-button>
                                
@@ -371,10 +371,10 @@
                                
                             </td>
                             <td>
-                                <md-button ng-show="GetStatusSort('Дата выдачи')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
+                                <md-button ng-show="GetStatusSort('Дата выдачи')==0&&GetLengthFilter()==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
                                     <md-icon> import_export</md-icon>
                                 </md-button>
-                                <md-button ng-show="GetStatusSort('Дата выдачи')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
+                                <md-button ng-show="GetStatusSort('Дата выдачи')==1&&GetLengthFilter()==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
                                     <md-icon> sort</md-icon>
                                 </md-button>
                              

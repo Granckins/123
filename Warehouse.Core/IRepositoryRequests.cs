@@ -26,7 +26,8 @@ namespace Warehouse.Core
       CouchRequest<EventCouch> GetRevisionFiesldsEvent(string id, List<RevsInfo> revs);
       EventCouch SearchEventByNameAndNumber(string name, string number, Boolean? archive = null);
       CouchRequestMultiKey<EventCouch> FilterByDateDocuments(bool flag, int page, int limit, bool archive, string startkey, string endkey);
-       
+      CouchRequestMultiKey<EventCouch> OrderByDateDocuments(bool flag, int page  , int limit , bool archive = false);
+     
 
         //int GetBalance(string userId);
 

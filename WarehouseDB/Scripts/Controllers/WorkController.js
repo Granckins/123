@@ -37,8 +37,43 @@
         var newDate = dateFormat(jsonDate, "mm/dd/yyyy");
         return newDate;
     }
+    $scope.selectedOption = '';
+    $scope.searchText = '';
+     $scope.searchfiltername = [];
+    $scope.searchfiltervalue = [];
     $scope.buferList = [];
     $scope.userList = [];
+    $scope.sortfiltername = "Номер упаковки";
+    $scope.sortfiltervalue = "1";
+    $scope.Data_vydachi = false;
+    $scope.Data_priyoma = false;
+    $scope.Data_priyoma_str1 = null;
+    $scope.Data_vydachi_str1 = null;
+    $scope.Data_priyoma_str2 = null;
+    $scope.Data_vydachi_str2 = null;
+    $scope.launchTypeOptions = [
+      { name: 'Номер упаковки', value: 'Номер упаковки' },
+      { name: 'Наименование', value: 'Наименование изделия' },
+      { name: 'Заводской номер', value: 'Заводской номер' },
+      { name: 'Обозначение', value: 'Обозначение' },
+          { name: 'Система', value: 'Система' },
+                      { name: 'Содержимое', value: 'Содержимое' },
+                          { name: 'Местонахождение на складе', value: 'Местонахождение на складе' },
+                                         { name: 'Примечание', value: 'Примечание' }, { name: 'Дата приёма', value: 'Дата приёма' },
+{ name: 'Дата выдачи', value: 'Дата выдачи' }
+    ];
+
+    $scope.SortOptions = [
+           { name: 'Номер упаковки', value: 1 },
+        { name: 'Наименование изделия', value: 0 },
+      { name: 'Заводской номер', value: 0 },
+      { name: 'Количество', value: 0 },
+      { name: 'Заводской номер', value: 0 },
+      { name: 'Местонахождение на складе', value: 0 },
+          { name: 'Система', value: 0 },
+                                         { name: 'Дата приёма', value: 0 },
+                                            { name: 'Дата выдачи', value: 0 }
+    ];
     $scope.isSearch = false;
     $scope.search = function (str) {
         switch (str) {
@@ -48,95 +83,12 @@
                 break
         }
     };
-    $scope.getList = function () {
-        obj = new Object();
-        obj["page"] = $scope.pageIndex;
-        obj["limit"] = $scope.pageSizeSelected;
-
-        obj["archive_str"] = $scope.archive_str;
-        obj["Nomer_upakovki_str"] = $scope.Nomer_upakovki_str;
-        obj["Naimenovanie_izdeliya_str"] = $scope.Naimenovanie_izdeliya_str;
-        obj["Zavodskoj_nomer_str"] = $scope.Zavodskoj_nomer_str;
-        obj["Oboznachenie_str"] = $scope.Oboznachenie_str;
-        obj["Soderzhimoe_str"] = $scope.Soderzhimoe_str;
-        obj["Sistema_str"] = $scope.Sistema_str;
-        obj["Prinadlezhnost_str"] = $scope.Prinadlezhnost_str;
-        obj["Mestonahozhdenie_na_sklade_str"] = $scope.Mestonahozhdenie_na_sklade_str;
-        obj["Data_priyoma_str1"] = $scope.Data_priyoma_str1;
-        obj["Data_vydachi_str1"] = $scope.Data_vydachi_str1;
-        obj["Data_priyoma_str2"] = $scope.Data_priyoma_str2;
-        obj["Data_vydachi_str2"] = $scope.Data_vydachi_str2;
-        obj["Primechanie_str"] = $scope.Primechanie_str;
-
-        obj["entity"] = null;
-        $http({
-            url: "/Work/GetDocuments",
-            method: "POST",
-            data: obj
-        }).
-           then(function (response) {
-               $scope.userList = response.data.rows;
-               $scope.totalCount = response.data.total_rows;
-              
-               angular.forEach($scope.userList, function (obj) {
-                   obj["showEdit"] = true;
-                   obj["showSub"] = false;
-                   obj["History"] = [];
-                   obj["IsHistory"] = false;
-                   obj["showHistory"] = false;
-                   if (obj.value.Data_priyoma != null)
-                       obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
-                   if (obj.value.Data_vydachi != null)
-                       obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
-
-               })
-               angular.forEach($scope.userList, function (obj) {
-
-                   $http({
-                       url: "/Work/IsEventHistory?id=" + obj.id,
-                       method: "GET",
-                       params: {
-                           page: $scope.pageIndex,
-                           limit: $scope.pageSizeSelected
-                       }
-                   }).
-                    then(function (response) {
-                     var gdfgf = response.data > 0 ? true : false;
-                    obj["IsHistory"] = gdfgf;
-
-                      });
-
-               })
-           });
-    }
-
-    $scope.$watch('pageIndex', function (newVal, oldVal) {
-        $scope.pageIndex = newVal;
-        $scope.getList();
-
-    });
-    $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; });
-    $scope.searchfiltername = [];
-    $scope.searchfiltervalue= [];
-    $scope.getList();
-    $scope.changePageSize = function () {
-        $scope.pageIndex = 1;
-        $scope.getList();
-    };
-
-    $scope.Data_vydachi = false;
-    $scope.Data_priyoma = false;
-    $scope.Data_priyoma_str1 = null;
-    $scope.Data_vydachi_str1 = null;
-    $scope.Data_priyoma_str2 = null;
-    $scope.Data_vydachi_str2 = null;
-
 
     $scope.getdatepr = function () {
         if ($scope.Data_priyoma_str1 != null && $scope.Data_priyoma_str2 != null) {
             var Data_priyoma_str1 = new Date($scope.Data_priyoma_str1);
             var curr_date = Data_priyoma_str1.getDate();
-           var DD = "" + curr_date;
+            var DD = "" + curr_date;
             if (curr_date < 10)
                 DD = "0" + curr_date;
             var curr_month = Data_priyoma_str1.getMonth() + 1;
@@ -151,7 +103,7 @@
             if (curr_date1 < 10)
                 DD = "0" + curr_date1;
             var curr_month1 = Data_priyoma_str2.getMonth() + 1;
-             MM = "" + curr_month1;
+            MM = "" + curr_month1;
             if (curr_month1 < 10)
                 MM = "0" + curr_month1;
             var curr_year1 = Data_priyoma_str2.getFullYear();
@@ -189,87 +141,346 @@
         }
         return ";";
     }
-    $scope.selectedOption = '';
-    $scope.searchText = '';
+
+    $scope.getList = function () {
+        obj = new Object();
+        obj["page"] = $scope.pageIndex;
+        obj["limit"] = $scope.pageSizeSelected;
+
+        obj["archive_str"] = $scope.archive_str;
+        obj["Nomer_upakovki_str"] = $scope.Nomer_upakovki_str;
+        obj["Naimenovanie_izdeliya_str"] = $scope.Naimenovanie_izdeliya_str;
+        obj["Zavodskoj_nomer_str"] = $scope.Zavodskoj_nomer_str;
+        obj["Oboznachenie_str"] = $scope.Oboznachenie_str;
+        obj["Soderzhimoe_str"] = $scope.Soderzhimoe_str;
+        obj["Sistema_str"] = $scope.Sistema_str;
+        obj["Prinadlezhnost_str"] = $scope.Prinadlezhnost_str;
+        obj["Mestonahozhdenie_na_sklade_str"] = $scope.Mestonahozhdenie_na_sklade_str;
+        obj["Data_priyoma_str1"] = $scope.Data_priyoma_str1;
+        obj["Data_vydachi_str1"] = $scope.Data_vydachi_str1;
+        obj["Data_priyoma_str2"] = $scope.Data_priyoma_str2;
+        obj["Data_vydachi_str2"] = $scope.Data_vydachi_str2;
+        obj["Primechanie_str"] = $scope.Primechanie_str;
+        var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
+        var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
+        obj["filtername"] = searchfilternameString;
+        obj["filtervalue"] = searchfiltervalueString;
+        obj["sortname"] = $scope.sortfiltername;
+        obj["sortvalue"] = $scope.sortfiltervalue;
+        obj["datepr"] = $scope.getdatepr();
+        obj["datevd"] = $scope.getdatevd();
+        obj["entity"] = null;
+        $http({
+            url: "/Work/FilterSortDocument",
+            method: "POST",
+            data: obj
+        }).
+           then(function (response) {
+               $scope.userList = response.data.rows;
+               $scope.totalCount = response.data.total_rows;
+
+               angular.forEach($scope.userList, function (obj) {
+                   obj["showEdit"] = true;
+                   obj["showSub"] = false;
+                   obj["History"] = [];
+                   obj["IsHistory"] = false;
+                   obj["showHistory"] = false;
+                   if (obj.value.Data_priyoma != null)
+                       obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
+                   if (obj.value.Data_vydachi != null)
+                       obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+
+               })
+               angular.forEach($scope.userList, function (obj) {
+
+                   $http({
+                       url: "/Work/IsEventHistory?id=" + obj.id,
+                       method: "GET",
+                       params: {
+                           page: $scope.pageIndex,
+                           limit: $scope.pageSizeSelected
+                       }
+                   }).
+                    then(function (response) {
+                        var gdfgf = response.data > 0 ? true : false;
+                        obj["IsHistory"] = gdfgf;
+
+                    });
+
+               })
+           });
+    }
+    $scope.getdatepr = function () {
+        if ($scope.Data_priyoma_str1 != null && $scope.Data_priyoma_str2 != null) {
+            var Data_priyoma_str1 = new Date($scope.Data_priyoma_str1);
+            var curr_date = Data_priyoma_str1.getDate();
+            var DD = "" + curr_date;
+            if (curr_date < 10)
+                DD = "0" + curr_date;
+            var curr_month = Data_priyoma_str1.getMonth() + 1;
+            var MM = "" + curr_month;
+            if (curr_month < 10)
+                MM = "0" + curr_month;
+            var curr_year = Data_priyoma_str1.getFullYear();
+            var sdsd1 = curr_year + "-" + MM + "-" + DD;
+            var Data_priyoma_str2 = new Date($scope.Data_priyoma_str2);
+            var curr_date1 = Data_priyoma_str2.getDate();
+            DD = "" + curr_date1;
+            if (curr_date1 < 10)
+                DD = "0" + curr_date1;
+            var curr_month1 = Data_priyoma_str2.getMonth() + 1;
+            MM = "" + curr_month1;
+            if (curr_month1 < 10)
+                MM = "0" + curr_month1;
+            var curr_year1 = Data_priyoma_str2.getFullYear();
+            var sdsd2 = curr_year1 + "-" + MM + "-" + DD;
+            return sdsd1 + ";" + sdsd2;
+        }
+        return ";";
+    }
+    $scope.getdatevd = function () {
+        if ($scope.Data_vydachi_str1 != null && $scope.Data_vydachi_str2 != null) {
+            var Data_vydachi_str1 = new Date($scope.Data_vydachi_str1);
+            var curr_date = Data_vydachi_str1.getDate();
+            var DD = "" + curr_date;
+            if (curr_date < 10)
+                DD = "0" + curr_date;
+            var curr_month = Data_vydachi_str1.getMonth() + 1;
+            var MM = "" + curr_month;
+            if (curr_month < 10)
+                MM = "0" + curr_month;
+            var curr_year = Data_vydachi_str1.getFullYear();
+            var sdsd1 = curr_year + "-" + curr_month + "-" + curr_date;
+            var Data_vydachi_str2 = new Date($scope.Data_vydachi_str2);
+            var curr_date1 = Data_vydachi_str2.getDate();
+            DD = "" + curr_date1;
+            if (curr_date1 < 10)
+                DD = "0" + curr_date1;
+            var curr_month1 = Data_vydachi_str2.getMonth() + 1;
+            MM = "" + curr_month1;
+            if (curr_month1 < 10)
+                MM = "0" + curr_month1;
+            var curr_year1 = Data_vydachi_str2.getFullYear();
+            var sdsd2 = curr_year1 + "-" + curr_month1 + "-" + curr_date1;
+            return sdsd1 + ";" + sdsd2;
+        }
+        return ";";
+    }
+
+    $scope.updateCalcs = function () {
+        obj = new Object();
+        obj["page"] = $scope.pageIndex;
+        obj["limit"] = $scope.pageSizeSelected;
+
+        obj["archive_str"] = $scope.archive_str;
+        obj["Nomer_upakovki_str"] = $scope.Nomer_upakovki_str;
+        obj["Naimenovanie_izdeliya_str"] = $scope.Naimenovanie_izdeliya_str;
+        obj["Zavodskoj_nomer_str"] = $scope.Zavodskoj_nomer_str;
+        obj["Oboznachenie_str"] = $scope.Oboznachenie_str;
+        obj["Soderzhimoe_str"] = $scope.Soderzhimoe_str;
+        obj["Sistema_str"] = $scope.Sistema_str;
+        obj["Prinadlezhnost_str"] = $scope.Prinadlezhnost_str;
+        obj["Mestonahozhdenie_na_sklade_str"] = $scope.Mestonahozhdenie_na_sklade_str;
+        obj["Data_priyoma_str1"] = $scope.Data_priyoma_str1;
+        obj["Data_vydachi_str1"] = $scope.Data_vydachi_str1;
+        obj["Data_priyoma_str2"] = $scope.Data_priyoma_str2;
+        obj["Data_vydachi_str2"] = $scope.Data_vydachi_str2;
+        obj["Primechanie_str"] = $scope.Primechanie_str;
+        var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
+        var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
+        obj["filtername"] = searchfilternameString;
+        obj["filtervalue"] = searchfiltervalueString;
+        obj["sortname"] = $scope.sortfiltername;
+        obj["sortvalue"] = $scope.sortfiltervalue;
+        obj["datepr"] = $scope.getdatepr();
+        obj["datevd"] = $scope.getdatevd();
+        obj["entity"] = null;
+        $http({
+            url: "/Work/FilterSortDocument",
+            method: "POST",
+            data: obj
+        }).
+           then(function (response) {
+               $scope.userList = response.data.rows;
+               $scope.totalCount = response.data.total_rows;
+
+               angular.forEach($scope.userList, function (obj) {
+                   obj["showEdit"] = true;
+                   obj["showSub"] = false;
+                   obj["History"] = [];
+                   obj["IsHistory"] = false;
+                   obj["showHistory"] = false;
+                   if (obj.value.Data_priyoma != null)
+                       obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
+                   if (obj.value.Data_vydachi != null)
+                       obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+
+               })
+               angular.forEach($scope.userList, function (obj) {
+
+                   $http({
+                       url: "/Work/IsEventHistory?id=" + obj.id,
+                       method: "GET",
+                       params: {
+                           page: $scope.pageIndex,
+                           limit: $scope.pageSizeSelected
+                       }
+                   }).
+                    then(function (response) {
+                        var gdfgf = response.data > 0 ? true : false;
+                        obj["IsHistory"] = gdfgf;
+
+                    });
+
+               })
+           });
+    };
+    $scope.$watch('pageIndex', function (newVal, oldVal) {
+        $scope.pageIndex = newVal;
+        $scope.getList();
+
+    });
+    $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; });
+   
+  //  $scope.getList();
+    $scope.changePageSize = function () {
+        $scope.pageIndex = 1;
+        $scope.getList();
+    };
+  
+    $scope.GetLengthFilter = function () {
+        return $scope.searchfiltername.length;
+    };
+
+ 
     $scope.launchAPIQueryParams = {
         types: [],
     };
 
-    $scope.launchTypeOptions = [
-        { name: 'Номер упаковки', value: 'Номер упаковки' },
-        { name: 'Наименование', value: 'Наименование изделия' },
-        { name: 'Заводской номер', value: 'Заводской номер' },
-        { name: 'Обозначение', value: 'Обозначение' },
-            { name: 'Система', value: 'Система' },
-                        { name: 'Содержимое', value: 'Содержимое' },
-                            { name: 'Местонахождение', value: 'Местонахождение' },
-                                           { name: 'Примечание', value: 'Примечание' }, { name: 'Дата приёма', value: 'Дата приёма' },
-{ name: 'Дата выдачи', value: 'Дата выдачи' }
-    ];
-
-    $scope.SortOptions = [
-           { name: 'Номер упаковки', value: 0 },
-        { name: 'Наименование изделия', value: 0 },
-      { name: 'Заводской номер', value:0 },
-      { name: 'Количество', value: 0 },
-      { name: 'Заводской номер', value: 0 },
-      { name: 'Местонахождение на складе', value: 0 },
-          { name: 'Система', value: 0 }, 
-                                         { name: 'Дата приёма', value: 0 },
-                                            { name: 'Дата выдачи', value: 0 }
-    ];
-    $scope.updateCalcs = function ( ) {
-       
-
-      
-        //var d = new Date();
-        //var curr_date = d.getDate();
-        //var curr_month = d.getMonth() + 1;
-        //var curr_year = d.getFullYear();
-        //var sdsd1 = curr_year + "-" + curr_month + "-" + curr_date + "T00:00:00+03:00";
-
-        //var dssds = "[\"" + sdsd1 + "\"" + "+TO+" + "\"" + sdsd1 + "\"]";
-
-    }
-    $scope.SortChange = function (name) {
+  
+    $scope.SortReset= function (name) {
         for (var i = 0; i < $scope.SortOptions.length ; i++) {
-            if ($scope.SortOptions[i].name == name) {
+            if ($scope.SortOptions[i].name != name) {
                 {
-                    if (name == 'Дата приёма' || name == 'Дата выдачи') {
-                        if ($scope.SortOptions[i].value == 0)
-                        { $scope.SortOptions[i].value = 1; break; }
-                        if ($scope.SortOptions[i].value == 1)
-                        { $scope.SortOptions[i].value = 0; break; }
-                    } else {
-
-                        if ($scope.SortOptions[i].value == 0)
-                        { $scope.SortOptions[i].value = 1; break; }
-                        if ($scope.SortOptions[i].value == 1)
-                        { $scope.SortOptions[i].value = 2; break; }
-                        if ($scope.SortOptions[i].value == 2)
-                        { $scope.SortOptions[i].value = 0; break; }
-                    }
+                    
+                    $scope.SortOptions[i].value = 0;
+                         
+                     
                 }
             }
         }
     };
+    $scope.SortChange = function (name) {
+       var value=0;
+        for (var i = 0; i < $scope.SortOptions.length ; i++) {
+            if ($scope.SortOptions[i].name == name) {
+                { 
+                    if (name == 'Дата приёма' || name == 'Дата выдачи') {
+                        if ($scope.SortOptions[i].value == 0)
+                        { $scope.SortOptions[i].value = 1; 
+                        value= $scope.SortOptions[i].value;
+                        break; }
+                        if ($scope.SortOptions[i].value == 1)
+                        { $scope.SortOptions[i].value = 0;
+                        value= $scope.SortOptions[i].value;    
+                        break; }
+                    } else {
+
+                        if ($scope.SortOptions[i].value == 0)
+                        { $scope.SortOptions[i].value = 1;
+                        value= $scope.SortOptions[i].value;    
+                        break; }
+                        if ($scope.SortOptions[i].value == 1)
+                        { $scope.SortOptions[i].value = 2; 
+                        value= $scope.SortOptions[i].value;    
+                        break; }
+                        if ($scope.SortOptions[i].value == 2)
+                        { $scope.SortOptions[i].value = 0; 
+                        value= $scope.SortOptions[i].value;    
+                        break; }
+                    }
+                }
+            }
+        }
+        $scope.SortReset(name);
+
+
+        var post = new Object();
+        $scope.pageIndex = 1;
+        post["page"] = $scope.pageIndex;
+        post["limit"] = $scope.pageSizeSelected;
+        var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
+        var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
+        post["archive_str"] = $scope.archive_str;
+        post["filtername"] = searchfilternameString;
+        post["filtervalue"] = searchfiltervalueString;
+        $scope.sortfiltername = "" + name;
+        $scope.sortfiltervalue = "" + value;
+        post["sortname"] = $scope.sortfiltername;
+        post["sortvalue"] = $scope.sortfiltervalue;
+
+        post["datepr"] = $scope.getdatepr();
+        post["datevd"] = $scope.getdatevd();
+        $http({
+            url: '/Work/FilterSortDocument',
+            method: "POST",
+            data: post
+        }).
+            then(function (response) {
+                $scope.userList = response.data.rows;
+                $scope.totalCount = response.data.total_rows;
+
+                angular.forEach($scope.userList, function (obj) {
+                    obj["showEdit"] = true;
+                    obj["showSub"] = false;
+                    obj["History"] = [];
+                    obj["IsHistory"] = false;
+                    obj["showHistory"] = false;
+                    if (obj.value.Data_priyoma != null)
+                        obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
+                    if (obj.value.Data_vydachi != null)
+                        obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+
+                })
+                angular.forEach($scope.userList, function (obj) {
+
+                    $http({
+                        url: "/Work/IsEventHistory?id=" + obj.id,
+                        method: "GET",
+                        params: {
+                            page: $scope.pageIndex,
+                            limit: $scope.pageSizeSelected
+                        }
+                    }).
+                     then(function (response) {
+                         var gdfgf = response.data > 0 ? true : false;
+                         obj["IsHistory"] = gdfgf;
+
+                     });
+
+                })
+
+            });
+
+
+    };
     $scope.searchTextChange = function (searchText) {
         $scope.searchText = searchText;
     };
-        $scope.GetStatusSort = function (name) {
-            for (var i = 0; i < $scope.SortOptions.length ; i++) { 
-                if ($scope.SortOptions[i].name == name) {
-                    return $scope.SortOptions[i].value;
-                }
+    $scope.GetStatusSort = function (name) {
+        for (var i = 0; i < $scope.SortOptions.length ; i++) {
+            if ($scope.SortOptions[i].name == name) {
+                return $scope.SortOptions[i].value;
             }
-        };
+        }
+    };
 
     $scope.chipdelete = function (chip) {
-        for (var i = 0;i< $scope.launchTypeOptions.length ; i++) {
+        for (var i = 0; i < $scope.launchTypeOptions.length ; i++) {
             if ($scope.launchTypeOptions[i].$$hashKey === chip.$$hashKey) {
                 $scope.launchTypeOptions[i].name = $scope.launchTypeOptions[i].value;
                 break;
-            } 
+            }
         }
         for (var i = 0; i < $scope.searchfiltername.length ; i++) {
             if ($scope.searchfiltername[i] === chip.value) {
@@ -291,6 +502,8 @@
         post["archive_str"] = $scope.archive_str;
         post["filtername"] = searchfilternameString;
         post["filtervalue"] = searchfiltervalueString;
+        post["sortname"] = $scope.sortfiltername;
+        post["sortvalue"] = $scope.sortfiltervalue;
         post["datepr"] = $scope.getdatepr();
         post["datevd"] = $scope.getdatevd();
         $http({
@@ -354,12 +567,15 @@
         var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
         var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
         var post = new Object();
+        $scope.pageIndex = 1;
         post["page"] = $scope.pageIndex;
         post["limit"] = $scope.pageSizeSelected;
 
         post["archive_str"] = $scope.archive_str;
         post["filtername"] = searchfilternameString;
         post["filtervalue"] = searchfiltervalueString;
+        post["sortname"] = $scope.sortfiltername;
+        post["sortvalue"] = $scope.sortfiltervalue;
         post["datepr"] = $scope.getdatepr();
         post["datevd"] = $scope.getdatevd();
         $http({
@@ -402,7 +618,7 @@
                 })
 
             });
-        
+
 
 
     };
@@ -445,13 +661,15 @@
 
         var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
         var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
-       
-       
+
+
         obj["filtername"] = searchfilternameString;
         obj["filtervalue"] = searchfiltervalueString;
+        obj["sortname"] = $scope.sortfiltername;
+        obj["sortvalue"] = $scope.sortfiltervalue;
         obj["datepr"] = $scope.getdatepr();
         obj["datevd"] = $scope.getdatevd();
-    
+
         SweetAlert.swal({
             title: "Вы уверены, что хотите удалить запись безвозвратно из базы данных?",
             text: "",
@@ -520,13 +738,6 @@ function (isConfirm) {
 
 
     }
-
-
-
-
-
-
-
 
     $scope.toggleEdit = function (emp) {
         emp.showEdit = emp.showEdit ? false : true;
@@ -701,6 +912,8 @@ function (isConfirm) {
             emp["archive_str"] = $scope.archive_str;
             emp["filtername"] = searchfilternameString;
             emp["filtervalue"] = searchfiltervalueString;
+            emp["sortname"] = $scope.sortfiltername;
+            emp["sortvalue"] = $scope.sortfiltervalue;
             emp["datepr"] = $scope.getdatepr();
             emp["datevd"] = $scope.getdatevd();
             $http({
@@ -709,40 +922,40 @@ function (isConfirm) {
                 data: emp
             }).
                then(function (response) {
-                 //  if (response.data != "") {
-                       $scope.userList = response.data.rows;
-                       $scope.totalCount = response.data.total_rows;
+                   //  if (response.data != "") {
+                   $scope.userList = response.data.rows;
+                   $scope.totalCount = response.data.total_rows;
 
-                       angular.forEach($scope.userList, function (obj) {
-                           obj["showEdit"] = true;
-                           obj["showSub"] = false;
-                           obj["History"] = [];
-                           obj["IsHistory"] = false;
-                           obj["showHistory"] = false;
-                           if (obj.value.Data_priyoma != null)
-                               obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
-                           if (obj.value.Data_vydachi != null)
-                               obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+                   angular.forEach($scope.userList, function (obj) {
+                       obj["showEdit"] = true;
+                       obj["showSub"] = false;
+                       obj["History"] = [];
+                       obj["IsHistory"] = false;
+                       obj["showHistory"] = false;
+                       if (obj.value.Data_priyoma != null)
+                           obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
+                       if (obj.value.Data_vydachi != null)
+                           obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
 
-                       })
-                       angular.forEach($scope.userList, function (obj) {
+                   })
+                   angular.forEach($scope.userList, function (obj) {
 
-                           $http({
-                               url: "/Work/IsEventHistory?id=" + obj.id,
-                               method: "GET",
-                               params: {
-                                   page: $scope.pageIndex,
-                                   limit: $scope.pageSizeSelected
-                               }
-                           }).
-                            then(function (response) {
-                                var gdfgf = response.data > 0 ? true : false;
-                                obj["IsHistory"] = gdfgf;
+                       $http({
+                           url: "/Work/IsEventHistory?id=" + obj.id,
+                           method: "GET",
+                           params: {
+                               page: $scope.pageIndex,
+                               limit: $scope.pageSizeSelected
+                           }
+                       }).
+                        then(function (response) {
+                            var gdfgf = response.data > 0 ? true : false;
+                            obj["IsHistory"] = gdfgf;
 
-                            });
+                        });
 
-                       });
-                //   }
+                   });
+                   //   }
                    //else {
                    //    // ничего не изменилось
                    //    SweetAlert.swal("Отмена", "Запись не была обновлена, так как текущая версия записи совпадает с предыдущей!", "warning");

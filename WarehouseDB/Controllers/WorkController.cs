@@ -82,20 +82,50 @@ namespace WarehouseDB.Controllers
         public JsonResult FilterSortDocument(PostRequest<RowCouch<EventCouch>> res)
         {
             var FS = new FilterSort();
-            FS.FromStringToObject(res.filtername,res.filtervalue,"","");
+            FS.FromStringToObject(res.filtername,res.filtervalue,res.sortname,res.sortvalue);
+            if (FS.Filters.Count == 0)
+            {
+                if (FS.Sorts.Count > 0)
+                {
+                    if (FS.Sorts[0].name == "Дата приёма")
+                    {
+                        var res3 = Repository.OrderByDateDocumentsCR(true, res.page, res.limit, res.archive_str);
+                        return Json(res3, JsonRequestBehavior.AllowGet);
+                    }
+                    if (FS.Sorts[0].name == "Дата выдачи")
+                    {
+                        var res3 = Repository.OrderByDateDocumentsCR(false, res.page, res.limit, res.archive_str);
+                        return Json(res3, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+
             if(res.datepr!=";")
                 FS.FromStringToObject(true, res.datepr);
             if (res.datevd != ";")
                 FS.FromStringToObject(true, res.datepr);
             var fgfdg1=new CouchRequestMultiKey<EventCouch>();
             var fgfdg2 = new CouchRequestMultiKey<EventCouch>();
+
+     
                if(res.datepr!=";")
-          fgfdg1=Repository.FilterByDateDocuments(true,res.page, res.limit, res.archive_str,FS.datepr1,FS.datepr2);
+                   fgfdg1 = Repository.FilterByDateDocuments(true, res.page, res.limit, res.archive_str, FS.datepr1, FS.datepr2);
                if (res.datevd != ";")
-                   fgfdg2 = Repository.FilterByDateDocuments(false, res.page, res.limit, res.archive_str, FS.datepr1, FS.datepr2);
-            var res1=Repository.GetFilterSortDocuments(res.page, res.limit, res.archive_str,FS);
-            res1 = Repository.CompareResultFilter(fgfdg1,res1);
-            res1 = Repository.CompareResultFilter(fgfdg2, res1);
+                   fgfdg2 = Repository.FilterByDateDocuments(false,res.page, res.limit, res.archive_str, FS.datepr1, FS.datepr2);
+            
+                  
+               var res1 = Repository.GetFilterSortDocuments(res.page, res.limit, res.archive_str, FS);
+            if(res.datepr!=";"&&fgfdg1.rows.Count==0)
+                fgfdg1=fgfdg1;
+            if (res.datevd != ";" && fgfdg2.rows.Count == 0)
+                fgfdg1 = fgfdg2;
+            if (!(res.datepr != ";" && fgfdg1.rows.Count == 0) && !(res.datevd != ";" && fgfdg2.rows.Count == 0))
+            {
+                fgfdg1 = Repository.CompareResultFilter(fgfdg1, fgfdg2);
+                res1 = Repository.CompareResultFilter(fgfdg1, res1);
+            }
+            else
+                res1 = new CouchRequest<EventCouch>();
             return Json(res1, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
