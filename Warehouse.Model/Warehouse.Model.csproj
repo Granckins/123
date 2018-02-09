@@ -44,7 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EditSubEvent.cs" />
+<<<<<<< HEAD
     <Compile Include="Filter.cs" />
+=======
+    <Compile Include="FilterSort.cs" />
+>>>>>>> 39b1ab6b25d0da8b96f91526734f2649cae5b17e
     <Compile Include="ImportResultResponse.cs" />
     <Compile Include="SelectParametrs.cs" />
     <Compile Include="Sort.cs" />

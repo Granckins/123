@@ -308,7 +308,296 @@ namespace Warehouse.Core.Repositories
             }
             return ev;
         }
-         public CouchRequest<EventCouch> GetEventPaginDocuments(int page = 1, int limit = 10, bool archive= false)
+        public CouchRequest<EventCouch> GetFilterSortDocuments(int page = 1, int limit = 10, bool archive = false, FilterSort FS=null)
+        {
+            CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
+            var skip = (page - 1) * limit;
+            var q = "";
+            var sort="";
+             
+            
+                foreach (var qq in FS.Filters)
+                {if(qq.value!="")
+                    q += qq.name.Replace(" ","_") + ":" + qq.value+"*^1 AND ";
+                }
+             
+            q += "archive:" + archive.ToString().ToLower();
+          int sq=0;
+          if (FS.Sorts.Count > 0 && FS.Sorts[0].name!="Дата приёма"&&  FS.Sorts[0].name!="Дата выдачи") sort = "&sort=";
+            var qs=FS.Sorts[0];
+            if (qs.name == "Номер упаковки" || qs.name == "Количество")
+                   {
+                       if (qs.value == "1")
+                           sort += "/" + qs.name.Replace(" ", "_") + "<int>"; 
+                       else
+                           sort += "\\" + qs.name.Replace(" ", "_") + "<int>"; 
+                   }
+               if (qs.name == "Наименование изделия" || qs.name == "Заводской номер" || qs.name == "Местонахождение на складе" || qs.name == "Система")
+               {
+                   if (qs.value == "1")
+                       sort += "/" + qs.name.Replace(" ", "_");
+                   else
+                       sort += "\\" + qs.name.Replace(" ", "_");
+               }
+                
+           
+            var url = "http://localhost:5984/_fti/local/events/_design/searchdocuments/by_fields?q=" + q + sort+"&skip=" + skip + "&limit=" + limit;
+             var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+
+            var user = new User();
+            var lucene1 = new LuceneRequest<EventCouch>();
+            lucene1.rows = new List<Row<EventCouch>>();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<LuceneRequest<EventWar>>(res);
+
+                foreach (var l in lucene.rows)
+                {
+                    var sod = l.fields.Содержимое;
+                    var sub = JsonConvert.DeserializeObject<List<SubEvent>>(sod);
+                    EventCouch ev = new EventCouch();
+                    ev = EventManager.ConvertEventWarToEventCouchParent(l.fields);
+                    ev.Soderzhimoe = sub;
+
+                    lucene1.rows.Add(new Row<EventCouch>() { id = l.id, fields = ev });
+                }
+
+
+                var couch = new CouchRequest<EventCouch>();
+                couch.total_rows = lucene.total_rows;
+                couch.offset = lucene.skip;
+                
+                couch.rows = new List<RowCouch<EventCouch>>();
+                foreach (var r in lucene1.rows)
+                {
+                    couch.rows.Add(new RowCouch<EventCouch>() { id = r.id, key = r.id, value = r.fields });
+                }
+                list = couch;
+            }
+            return list;
+
+        }
+      
+        public CouchRequestMultiKey<EventCouch> CompareResultFilter(CouchRequestMultiKey<EventCouch> ByDate, CouchRequestMultiKey<EventCouch> ByOter)
+        {
+            if (ByOter == null || ByOter.rows == null || ByOter.rows.Count== 0)
+                return ByDate;
+            if (ByDate != null && ByDate.rows != null && ByDate.rows.Count > 0)
+            {
+                CouchRequestMultiKey<EventCouch> list = new CouchRequestMultiKey<EventCouch>();
+                var buf = new List<RowCouchMultiKey<EventCouch>>();
+                foreach (var f in ByOter.rows)
+                {
+                    if (!ByDate.rows.Exists(x => x.id == f.id))
+                    {
+                        int index = ByOter.rows.FindIndex(a => a.id == f.id);
+                        buf.Add(ByOter.rows.ElementAt(index));
+                    }
+                }
+                foreach(var t in buf)
+                {
+                    ByOter.rows.Remove(t);
+                }
+
+                return ByOter;
+            }
+            else
+                return ByOter;
+        }
+
+        public CouchRequest<EventCouch> CompareResultFilter(CouchRequestMultiKey<EventCouch> ByDate, CouchRequest<EventCouch> ByOter)
+        {
+            if (ByDate!=null&&ByDate.rows != null&& ByDate.rows.Count==0)
+            {
+                CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
+                var buf = new List<RowCouch<EventCouch>>(); 
+                foreach (var f in ByOter.rows)
+                {
+                    if (!ByDate.rows.Exists(x => x.id == f.id))
+                    {
+                        int index = ByOter.rows.FindIndex(a => a.id == f.id);
+                        buf.Add(ByOter.rows.ElementAt(index));
+                    }
+                }
+                foreach (var t in buf)
+                {
+                    ByOter.rows.Remove(t);
+                }
+
+                return ByOter;
+            }
+            else
+                return ByOter;
+        }
+        //true - datepr; false- datevd;
+ 
+        public CouchRequestMultiKey<EventCouch> OrderByDateDocuments(bool flag, int page = 1, int limit = 10, bool archive = false )
+        {
+            CouchRequestMultiKey<EventCouch> list = new CouchRequestMultiKey<EventCouch>();
+            var skip = (page - 1) * limit;
+           
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+            if (!flag)
+                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+            var user = new User();
+
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                list = JsonConvert.DeserializeObject<CouchRequestMultiKey<EventCouch>>(res);
+
+            }
+            return list;
+        }
+        public CouchRequest<EventCouch> OrderByDateDocumentsCR(bool flag, int page = 1, int limit = 10, bool archive = false)
+        {
+            CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
+            var skip = (page - 1) * limit;
+
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "{}," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+            if (!flag)
+                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "{}," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+            var user = new User();
+            var lucene1 = new LuceneRequest<EventCouch>();
+            lucene1.rows = new List<Row<EventCouch>>();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<CouchRequestMultiKey<EventCouch>>(res);
+
+                foreach (var l in lucene.rows)
+                {
+
+                    lucene1.rows.Add(new Row<EventCouch>() { id = l.id, fields = l.value });
+                }
+
+
+                var couch = new CouchRequest<EventCouch>();
+                couch.total_rows = lucene.total_rows;
+                couch.offset = lucene.offset;
+
+                couch.rows = new List<RowCouch<EventCouch>>();
+                foreach (var r in lucene1.rows)
+                {
+                    couch.rows.Add(new RowCouch<EventCouch>() { id = r.id, key = r.id, value = r.fields });
+                }
+                list = couch;
+
+
+
+
+
+            }
+            return list;
+        }
+        //true - datepr; false- datevd;
+        public CouchRequestMultiKey<EventCouch> FilterByDateDocuments(bool flag,int page = 1, int limit = 10, bool archive = false, string startkey = "", string endkey = "")
+        {
+            CouchRequestMultiKey<EventCouch> list = new CouchRequestMultiKey<EventCouch>();
+            var skip = (page - 1) * limit;
+            if (startkey == "")
+            {
+                startkey = "" + DateTime.Today.Date.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
+            }
+            if (endkey == "")
+            {
+                endkey = "" + DateTime.Today.Date.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
+            }
+           
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+            if(!flag)
+                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+          
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+            var user = new User();
+         
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                list = JsonConvert.DeserializeObject<CouchRequestMultiKey<EventCouch>>(res);
+ 
+            }
+            return list;
+        }
+        //true - datepr; false- datevd;
+        public CouchRequest<EventCouch> FilterByDateDocumentsCR(bool flag, int page = 1, int limit = 10, bool archive = false, string startkey = "", string endkey = "")
+        {
+            CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
+            var skip = (page - 1) * limit;
+            if (startkey == "")
+            {
+                startkey = "" + DateTime.Today.Date.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
+            }
+            if (endkey == "")
+            {
+                endkey = "" + DateTime.Today.Date.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
+            }
+
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+            if (!flag)
+                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+            var user = new User();
+            var lucene1 = new LuceneRequest<EventCouch>();
+            lucene1.rows = new List<Row<EventCouch>>();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<CouchRequestMultiKey<EventCouch>>(res);
+
+                foreach (var l in lucene.rows)
+                {
+     
+                    lucene1.rows.Add(new Row<EventCouch>() { id = l.id, fields = l.value });
+                }
+
+
+                var couch = new CouchRequest<EventCouch>();
+                couch.total_rows = lucene.total_rows;
+                couch.offset = lucene.offset;
+
+                couch.rows = new List<RowCouch<EventCouch>>();
+                foreach (var r in lucene1.rows)
+                {
+                    couch.rows.Add(new RowCouch<EventCouch>() { id = r.id, key = r.id, value = r.fields });
+                }
+                list = couch;
+
+
+
+
+
+            }
+            return list;
+        }
+       
+        public CouchRequest<EventCouch> GetEventPaginDocuments(int page = 1, int limit = 10, bool archive= false)
         {
             CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
             var skip = (page - 1) * limit;

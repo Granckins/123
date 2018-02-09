@@ -11,6 +11,22 @@ namespace Warehouse.Model.Db
        
         [JsonProperty("page")]
     public  int page { get; set; }
+
+        [JsonProperty("filtername")]
+        public string filtername { get; set; }
+        [JsonProperty("filtervalue")]
+        public string filtervalue { get; set; }
+
+        [JsonProperty("sortname")]
+        public string sortname { get; set; }
+        [JsonProperty("sortvalue")]
+        public string sortvalue { get; set; }
+
+        [JsonProperty("datepr")]
+        public string datepr { get; set; }
+        [JsonProperty("datevd")]
+        public string datevd { get; set; }
+
           [JsonProperty("limit")]
     public int limit { get; set; }
           [JsonProperty("archive_str")]
