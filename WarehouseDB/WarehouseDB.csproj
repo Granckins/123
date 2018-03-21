@@ -941,10 +941,6 @@
     <Content Include="plugins\angular-paging\test\paging-display.spec.js" />
     <Content Include="plugins\angular-paging\test\paging-number.spec.js" />
     <Content Include="plugins\angular-paging\test\paging-text.spec.js" />
-    <Content Include="plugins\angular-sweetalert\node_modules\angular\angular-csp.css" />
-    <Content Include="plugins\angular-sweetalert\node_modules\angular\angular.js" />
-    <Content Include="plugins\angular-sweetalert\node_modules\angular\angular.min.js" />
-    <Content Include="plugins\angular-sweetalert\node_modules\angular\index.js" />
     <Content Include="plugins\angular-sweetalert\sweet-alert.css" />
     <Content Include="plugins\angular-sweetalert\SweetAlert.js" />
     <Content Include="plugins\angular-sweetalert\SweetAlert.min.js" />
@@ -1378,12 +1374,6 @@
     <Content Include="plugins\angular-sweetalert\bower.json" />
     <Content Include="plugins\angular-sweetalert\CHANGELOG.md" />
     <Content Include="plugins\angular-sweetalert\LICENSE" />
-    <Content Include="plugins\angular-sweetalert\node_modules\angular\angular.min.js.gzip" />
-    <Content Include="plugins\angular-sweetalert\node_modules\angular\angular.min.js.map" />
-    <Content Include="plugins\angular-sweetalert\node_modules\angular\bower.json" />
-    <Content Include="plugins\angular-sweetalert\node_modules\angular\LICENSE.md" />
-    <Content Include="plugins\angular-sweetalert\node_modules\angular\package.json" />
-    <Content Include="plugins\angular-sweetalert\node_modules\angular\README.md" />
     <Content Include="plugins\angular-sweetalert\package.json" />
     <Content Include="plugins\angular-sweetalert\README.md" />
     <Content Include="plugins\fine-uploader\all.fine-uploader\all.fine-uploader.core.js.map" />
@@ -1449,6 +1439,7 @@
     <Content Include="plugins\angular-moment\LICENSE" />
     <Content Include="plugins\angular-moment\package.json" />
     <Content Include="plugins\angular-moment\README.md" />
+    <None Include="Properties\PublishProfiles\ftp.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="js\admin.js" />
     <Content Include="js\demo.js" />
@@ -4923,6 +4914,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="plugins\angular-sweetalert\node_modules\" />
     <Folder Include="uploads\" />
   </ItemGroup>
   <ItemGroup>

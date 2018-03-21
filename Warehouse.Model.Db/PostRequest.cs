@@ -8,6 +8,7 @@ namespace Warehouse.Model.Db
 {
     public class PostRequest<Obj>
     {
+       
         [JsonProperty("page")]
     public  int page { get; set; }
 
@@ -36,6 +37,8 @@ namespace Warehouse.Model.Db
           public string Naimenovanie_izdeliya_str { get; set; }
           [JsonProperty("Zavodskoj_nomer_str")]
           public string Zavodskoj_nomer_str { get; set; }
+          [JsonProperty("str")]
+          public string str { get; set; }
           [JsonProperty("Oboznachenie_str")]
           public string Oboznachenie_str { get; set; }
           [JsonProperty("Soderzhimoe_str")]

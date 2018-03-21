@@ -73,6 +73,8 @@ namespace Warehouse.Model.Db
                                                        public string Примечание { get; set; }
             [JsonProperty("Добавил")]
             public string Добавил { get; set; }
+            [JsonProperty("Дата_изменения")]
+            public DateTime Дата_изменения { get; set; }
             public List<RevsInfo> _revs_info { get; set; }
           public  EventWar()
             {
