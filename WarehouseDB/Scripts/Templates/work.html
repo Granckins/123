@@ -439,8 +439,11 @@
                                 <md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub &&( IsSub(user) || !user.showEdit) " ng-click="childInfo(user )">storage</md-icon>
                                 <md-icon data-toggle="collapse" style="    color: #ddd;" data-target="#row-{{$index}}" ng-show=" !IsSub(user)&& user.showEdit">storage</md-icon>
 
-                                <md-button ng-show="!archive" class="md-icon-button  waves-effect waves-purple   " ng-click="archivete()">
+                                <md-button ng-show="!archive" class="md-icon-button  waves-effect waves-purple   " ng-click="archivete(user)">
                                     <md-icon style=" color :#555;"> archive</md-icon>
+                                </md-button>
+                                <md-button ng-show="archive" class="md-icon-button  waves-effect waves-purple   " ng-click="unarchivete(user)">
+                                    <md-icon style=" color :#555;"> unarchive</md-icon>
                                 </md-button>
                                 <md-icon style=" color :#555;" ng-show="user.showEdit" ng-click="toggleEdit(user)">edit</md-icon>
                                 <md-icon style=" color :#555;" ng-show="!user.showEdit" ng-click="cancelEdit(user)">close</md-icon>

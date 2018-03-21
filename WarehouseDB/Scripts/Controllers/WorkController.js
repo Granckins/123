@@ -340,16 +340,12 @@
         $scope.getList();
 
     });
-    $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; });
-<<<<<<< HEAD
+    $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; }); 
     $scope.filters = ("Дата приёма;Дата выдачи").split(';').map(function (state) { return { abbrev: state }; });
     $scope.searchfilters = "";
     $scope.searchsorts = "";
     $scope.getList();
-=======
-   
-  //  $scope.getList();
->>>>>>> 39b1ab6b25d0da8b96f91526734f2649cae5b17e
+ 
     $scope.changePageSize = function () {
         $scope.pageIndex = 1;
         $scope.getList();
@@ -364,7 +360,7 @@
         types: [],
     };
 
-<<<<<<< HEAD
+
     $scope.launchTypeOptions = [
         { name: 'Номер упаковки', value: 'Номер упаковки' },
         { name: 'Наименование', value: 'Наименование' },
@@ -384,7 +380,7 @@
             }
         }
     };
-=======
+
   
     $scope.SortReset= function (name) {
         for (var i = 0; i < $scope.SortOptions.length ; i++) {
@@ -492,7 +488,7 @@
 
 
     };
->>>>>>> 39b1ab6b25d0da8b96f91526734f2649cae5b17e
+
     $scope.searchTextChange = function (searchText) {
         $scope.searchText = searchText;
     };
@@ -586,38 +582,15 @@
         }
         else
             obj = chip;
+        var flagSod = false;
+        if (obj.value == 'Содержимое')
+            flagSod = true;
         if (obj.value == 'Дата приёма')
             $scope.Data_priyoma = true;
         if (obj.value == 'Дата выдачи')
             $scope.Data_vydachi = true;
         obj.name = $scope.searchText + " (" + obj.value + ")";
-<<<<<<< HEAD
-        var filter = new Object();
-        filter.name= obj.value;
-        filter.value = $scope.searchText;
-        $scope.searchfilters += $scope.searchText+";";
-        var post = new Object();
-        post.page = $scope.pageIndex;
-        post.limit = $scope.pageSizeSelected; 
-        post.archive_str = $scope.archive_str;
- 
-        post.str = $scope.searchfilters; 
-        if ($scope.searchfilters.length > 0) {
-            $.ajax({
-                url: '/Work/FilterSortDocument',
-                type: 'POST',
-                data: JSON.stringify(post), 
-                 contentType: 'application/json;',
-            dataType: 'json',
-                success: function (data) {
 
-                }
-        
-            });
-       
-        }
-        return obj;
-=======
         $scope.searchfiltername.push(obj.value);
         $scope.searchfiltervalue.push($scope.searchText);
         var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
@@ -645,7 +618,10 @@
 
                 angular.forEach($scope.userList, function (obj) {
                     obj["showEdit"] = true;
-                    obj["showSub"] = false;
+                    if (!flagSod)
+                        obj["showSub"] = false;
+                    else
+                        obj["showSub"] = true;
                     obj["History"] = [];
                     obj["IsHistory"] = false;
                     obj["showHistory"] = false;
@@ -675,7 +651,7 @@
 
             });
 
->>>>>>> 39b1ab6b25d0da8b96f91526734f2649cae5b17e
+
 
 
     };
@@ -748,6 +724,7 @@ function (isConfirm) {
                 data: obj
             }).
                    then(function (response) {
+              
                        $scope.userList = response.data.rows;
                        $scope.totalCount = response.data.total_rows;
 
@@ -781,12 +758,9 @@ function (isConfirm) {
 
                        })
                    });
-        }
-        else {
-            $scope.userList.splice(0, 1);
+        } 
             SweetAlert.swal("Запись удалена!");
-
-        }
+         
     } else {
         SweetAlert.swal("Запись не  удалена!");
     }
@@ -881,7 +855,7 @@ function (isConfirm) {
         //});
     };
     $scope.IsSub = function (user) {
-        if (user.value.Soderzhimoe != null && user.value.Soderzhimoe.length > 0) {
+        if (user.value != null && user.value.Soderzhimoe != null && user.value.Soderzhimoe.length > 0) {
             return true;
         }
         else {
@@ -955,6 +929,67 @@ function (isConfirm) {
         });
         return flag;
     }
+    $scope.archivete = function (emp) {
+         
+          
+            var idx = $scope.buferList.indexOf(emp.key);
+            $scope.buferList.splice(idx);
+            var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
+            var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
+            var post = new Object();
+            emp["page"] = $scope.pageIndex;
+            emp["limit"] = $scope.pageSizeSelected;
+            emp["showEdit"] = false;
+            emp["archive_str"] = $scope.archive_str;
+            emp["filtername"] = searchfilternameString;
+            emp["filtervalue"] = searchfiltervalueString;
+            emp["sortname"] = $scope.sortfiltername;
+            emp["sortvalue"] = $scope.sortfiltervalue;
+            emp["datepr"] = $scope.getdatepr();
+            emp["datevd"] = $scope.getdatevd();
+            emp.value.archive = true;
+            $http({
+                url: '/Work/ChangeEventDocument',
+                method: "POST",
+                data: emp
+            }).
+               then(function (response) {
+                   $scope.getList();
+
+               });
+  
+    };
+    $scope.unarchivete = function (emp) {
+
+
+        var idx = $scope.buferList.indexOf(emp.key);
+        $scope.buferList.splice(idx);
+        var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
+        var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
+        var post = new Object();
+        emp["page"] = $scope.pageIndex;
+        emp["limit"] = $scope.pageSizeSelected;
+        emp["showEdit"] = false;
+        emp["archive_str"] = $scope.archive_str;
+        emp["filtername"] = searchfilternameString;
+        emp["filtervalue"] = searchfiltervalueString;
+        emp["sortname"] = $scope.sortfiltername;
+        emp["sortvalue"] = $scope.sortfiltervalue;
+        emp["datepr"] = $scope.getdatepr();
+        emp["datevd"] = $scope.getdatevd();
+        emp.value.archive = false;
+        emp.value.Data_vydachi = null;
+        $http({
+            url: '/Work/ChangeEventDocument',
+            method: "POST",
+            data: emp
+        }).
+           then(function (response) {
+               $scope.getList();
+
+           });
+
+    };
     $scope.acceptEdit = function (emp) {
         if ($scope.checkevent(emp)) {
             emp.showEdit = emp.showEdit ? false : true;
@@ -965,7 +1000,7 @@ function (isConfirm) {
             var post = new Object();
             emp["page"] = $scope.pageIndex;
             emp["limit"] = $scope.pageSizeSelected;
-
+            emp["showEdit"] = false;
             emp["archive_str"] = $scope.archive_str;
             emp["filtername"] = searchfilternameString;
             emp["filtervalue"] = searchfiltervalueString;
@@ -1034,6 +1069,7 @@ function (isConfirm) {
     }
     $scope.showarchive = function () {
         $scope.archive = $scope.archive ? false : true;
+        $scope.archive_str = $scope.archive;
         $scope.getList();
     }
     $scope.IschildInfoHis = function (emp) {
