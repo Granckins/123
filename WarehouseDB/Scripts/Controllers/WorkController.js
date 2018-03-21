@@ -341,8 +341,15 @@
 
     });
     $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; });
+<<<<<<< HEAD
+    $scope.filters = ("Дата приёма;Дата выдачи").split(';').map(function (state) { return { abbrev: state }; });
+    $scope.searchfilters = "";
+    $scope.searchsorts = "";
+    $scope.getList();
+=======
    
   //  $scope.getList();
+>>>>>>> 39b1ab6b25d0da8b96f91526734f2649cae5b17e
     $scope.changePageSize = function () {
         $scope.pageIndex = 1;
         $scope.getList();
@@ -357,6 +364,27 @@
         types: [],
     };
 
+<<<<<<< HEAD
+    $scope.launchTypeOptions = [
+        { name: 'Номер упаковки', value: 'Номер упаковки' },
+        { name: 'Наименование', value: 'Наименование' },
+        { name: 'Заводской номер', value: 'Заводской номер' },
+        { name: 'Обозначение', value: 'Обозначение' },
+            { name: 'Система', value: 'Система' },
+                        { name: 'Содержимое', value: 'Содержимое' },
+                            { name: 'Местонахождение', value: 'Местонахождение' },
+                                           { name: 'Примечание', value: 'Примечание' },
+    ];
+    $scope.deletechipsToList = function (chip) {
+        var length = $scope.launchTypeOptions.length;
+        for (var i = 0; i < length; i++) {
+            if ($scope.launchTypeOptions[i].$$hashKey === chip.$$hashKey) {
+                
+                $scope.launchTypeOptions[i].name = $scope.launchTypeOptions[i].value;
+            }
+        }
+    };
+=======
   
     $scope.SortReset= function (name) {
         for (var i = 0; i < $scope.SortOptions.length ; i++) {
@@ -464,6 +492,7 @@
 
 
     };
+>>>>>>> 39b1ab6b25d0da8b96f91526734f2649cae5b17e
     $scope.searchTextChange = function (searchText) {
         $scope.searchText = searchText;
     };
@@ -562,6 +591,33 @@
         if (obj.value == 'Дата выдачи')
             $scope.Data_vydachi = true;
         obj.name = $scope.searchText + " (" + obj.value + ")";
+<<<<<<< HEAD
+        var filter = new Object();
+        filter.name= obj.value;
+        filter.value = $scope.searchText;
+        $scope.searchfilters += $scope.searchText+";";
+        var post = new Object();
+        post.page = $scope.pageIndex;
+        post.limit = $scope.pageSizeSelected; 
+        post.archive_str = $scope.archive_str;
+ 
+        post.str = $scope.searchfilters; 
+        if ($scope.searchfilters.length > 0) {
+            $.ajax({
+                url: '/Work/FilterSortDocument',
+                type: 'POST',
+                data: JSON.stringify(post), 
+                 contentType: 'application/json;',
+            dataType: 'json',
+                success: function (data) {
+
+                }
+        
+            });
+       
+        }
+        return obj;
+=======
         $scope.searchfiltername.push(obj.value);
         $scope.searchfiltervalue.push($scope.searchText);
         var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
@@ -619,6 +675,7 @@
 
             });
 
+>>>>>>> 39b1ab6b25d0da8b96f91526734f2649cae5b17e
 
 
     };
