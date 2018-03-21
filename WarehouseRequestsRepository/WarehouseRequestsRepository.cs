@@ -318,28 +318,33 @@ namespace Warehouse.Core.Repositories
             
                 foreach (var qq in FS.Filters)
                 {if(qq.value!="")
+                    if(qq.value.Contains("-"))
+                        q += qq.name.Replace(" ", "_") + ":" + qq.value + "^1 AND ";
+                    else
                     q += qq.name.Replace(" ","_") + ":" + qq.value+"*^1 AND ";
                 }
              
             q += "archive:" + archive.ToString().ToLower();
           int sq=0;
-          if (FS.Sorts.Count > 0 && FS.Sorts[0].name!="Дата приёма"&&  FS.Sorts[0].name!="Дата выдачи") sort = "&sort=";
-            var qs=FS.Sorts[0];
-            if (qs.name == "Номер упаковки" || qs.name == "Количество")
-                   {
-                       if (qs.value == "1")
-                           sort += "/" + qs.name.Replace(" ", "_") + "<int>"; 
-                       else
-                           sort += "\\" + qs.name.Replace(" ", "_") + "<int>"; 
-                   }
-               if (qs.name == "Наименование изделия" || qs.name == "Заводской номер" || qs.name == "Местонахождение на складе" || qs.name == "Система")
-               {
-                   if (qs.value == "1")
-                       sort += "/" + qs.name.Replace(" ", "_");
-                   else
-                       sort += "\\" + qs.name.Replace(" ", "_");
-               }
-                
+          if (FS.Sorts.Count > 0 && FS.Sorts[0].name != "Дата приёма" && FS.Sorts[0].name != "Дата выдачи")
+          {
+              sort = "&sort=";
+              var qs = FS.Sorts[0];
+              if (qs.name == "Номер упаковки" || qs.name == "Количество")
+              {
+                  if (qs.value == "1")
+                      sort += "/" + qs.name.Replace(" ", "_") + "<int>";
+                  else
+                      sort += "\\" + qs.name.Replace(" ", "_") + "<int>";
+              }
+              if (qs.name == "Наименование изделия" || qs.name == "Заводской номер" || qs.name == "Местонахождение на складе" || qs.name == "Система")
+              {
+                  if (qs.value == "1")
+                      sort += "/" + qs.name.Replace(" ", "_");
+                  else
+                      sort += "\\" + qs.name.Replace(" ", "_");
+              }
+          }
            
             var url = "http://localhost:5984/_fti/local/events/_design/searchdocuments/by_fields?q=" + q + sort+"&skip=" + skip + "&limit=" + limit;
              var request = (HttpWebRequest)WebRequest.Create(url);
