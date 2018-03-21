@@ -410,7 +410,7 @@ namespace Warehouse.Core.Repositories
                 return ByOter;
         }
 
-        public CouchRequest<EventCouch> CompareResultFilter(CouchRequestMultiKey<EventCouch> ByDate, CouchRequest<EventCouch> ByOter)
+        public CouchRequest<EventCouch> CompareResultFilter(CouchRequest<EventCouch> ByDate, CouchRequest<EventCouch> ByOter)
         {
             if (ByDate!=null&&ByDate.rows != null&& ByDate.rows.Count==0)
             {
