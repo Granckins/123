@@ -986,9 +986,9 @@ function (isConfirm) {
            });
 
     };
-    $scope.activate = function (emp) {
+    $scope.activate = function (emp, user) {
         if ($scope.checkevent(emp)) {
-            emp.showEdit = emp.showEdit ? false : true;
+            user["showHistory"] = false;
             var idx = $scope.buferList.indexOf(emp.key);
             $scope.buferList.splice(idx);
             var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
@@ -996,7 +996,7 @@ function (isConfirm) {
             var post = new Object();
             emp["page"] = $scope.pageIndex;
             emp["limit"] = $scope.pageSizeSelected;
-            emp["showEdit"] = false;
+            
             emp["archive_str"] = $scope.archive_str;
             emp["filtername"] = searchfilternameString;
             emp["filtervalue"] = searchfiltervalueString;
@@ -1004,14 +1004,45 @@ function (isConfirm) {
             emp["sortvalue"] = $scope.sortfiltervalue;
             emp["datepr"] = $scope.getdatepr();
             emp["datevd"] = $scope.getdatevd();
-        
             $http({
                 url: '/Work/ChangeEventDocument',
                 method: "POST",
                 data: emp
             }).
                then(function (response) {
-                   $scope.getList();
+                   //  if (response.data != "") {
+                   $scope.userList = response.data.rows;
+                   $scope.totalCount = response.data.total_rows;
+
+                   angular.forEach($scope.userList, function (obj) {
+                       obj["showEdit"] = true;
+                       obj["showSub"] = false;
+                       obj["History"] = [];
+                    
+                       obj["showHistory"] = false;
+                       if (obj.value.Data_priyoma != null)
+                           obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
+                       if (obj.value.Data_vydachi != null)
+                           obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+
+                   })
+                   angular.forEach($scope.userList, function (obj) {
+
+                       $http({
+                           url: "/Work/IsEventHistory?id=" + obj.id,
+                           method: "GET",
+                           params: {
+                               page: $scope.pageIndex,
+                               limit: $scope.pageSizeSelected
+                           }
+                       }).
+                        then(function (response) {
+                            var gdfgf = response.data > 0 ? true : false;
+                            obj["IsHistory"] = gdfgf;
+
+                        });
+
+                   }); 
                });
         }
     };

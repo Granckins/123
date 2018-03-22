@@ -155,7 +155,7 @@ namespace Warehouse.Core.Repositories
           //}
           
               CouchDataSet.Dobavil = user;
-              var listrev = GetEventDocument(id);
+              var listrev = GetEventDocument(id1);
               if (listrev._rev != CouchDataSet._rev)
                   CouchDataSet._rev = listrev._rev;
             var json = JsonConvert.SerializeObject(CouchDataSet); 

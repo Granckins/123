@@ -779,7 +779,7 @@
 
                                 </table>
 
-                                <table ng-show="user.IsHistory" class="table table-striped  collapse collapsible  noPadding" id="rowH-{{$index}}" style="width: 30%;  float: left;">
+                                <table ng-show="user.showHistory" class="table table-striped  collapse collapsible  noPadding" id="rowH-{{$index}}" style="width: 30%;  float: left;">
                                     <tr>
                                         <th style="padding: 2% !important;"> </th>
                                         <th style="padding: 2% !important;"> </th>
@@ -803,7 +803,7 @@
                                         <th class="rotate-45"><div><span>Вес нетто</span></div></th>
                                         <th class="rotate-45"><div><span>Длина</span></div></th>
                                         <th class="rotate-45"><div><span>Ширина</span></div></th>
-                                        <th class="rotate-45"><div><span>Высота</span></div></th> 
+                                        <th class="rotate-45"><div><span>Высота</span></div></th>
                                         <th class="rotate-45"><div><span>Примечание</span></div></th>
                                         <th class="rotate-45"><div><span>Добавил</span></div></th>
                                     </tr>
@@ -811,7 +811,7 @@
                                     <tr ng-repeat-start="his in user.History track by $index" class="accordion-toggle">
 
 
-                                        <td >
+                                        <td>
                                             <a ng-show="!IschildInfoHis(his)" class=" shortinfo" style="    color: #555;" href="javascript:;" ng-click="childInfoHis(his )" title="Click to view more">
                                                 <i class="material-icons" data-toggle="collapse" data-target="#rowHS-{{$index}}">storage</i>
 
@@ -823,15 +823,15 @@
 
                                         </td>
                                         <td>
-                                              <md-button class="md-icon-button  waves-effect waves-pink " ng-click="acceptEdit(his)">
+                                            <md-button class="md-icon-button  waves-effect waves-pink " ng-click="activate(his,user)">
                                                 <md-icon> grade</md-icon>
                                             </md-button>
 
 
                                         </td>
                                         <td>
-          
-                                          
+
+
                                             <md-icon style="    color: rgb(255,64,129);" ng-show=" his.value.archive">archive</md-icon>
 
                                         </td>
@@ -853,7 +853,7 @@
                                         <td class="special">
                                             {{his.value.Mestonahozhdenie_na_sklade}}
                                         </td>
-                                          <td class="special">
+                                        <td class="special">
                                             {{his.value.Oboznachenie}}
                                         </td>
                                         <td class="special">
@@ -883,8 +883,8 @@
                                         <td class="special">
                                             {{his.value.Stoimost}}
                                         </td>
-                                      
-                                        
+
+
                                         <td class="special">
                                             {{his.value.Ves_brutto}}
                                         </td>
@@ -900,7 +900,7 @@
                                         <td class="special">
                                             {{his.value.Vysota}}
                                         </td>
-                                       
+
                                         <td class="special">
                                             {{his.value.Primechanie}}
                                         </td>
