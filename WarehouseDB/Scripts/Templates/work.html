@@ -437,7 +437,8 @@
 
                                 <md-icon data-toggle="collapse" style="    color: #555;" data-target="#row-{{$index}}" ng-show="!user.showSub && (IsSub(user) || !user.showEdit )" ng-click="childInfo(user )">storage</md-icon>
                                 <md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub &&( IsSub(user) || !user.showEdit) " ng-click="childInfo(user )">storage</md-icon>
-                                <md-icon data-toggle="collapse" style="    color: #ddd;" data-target="#row-{{$index}}" ng-show=" !IsSub(user)&& user.showEdit">storage</md-icon>
+                                
+                                 <md-icon data-toggle="collapse" style="    color: #ddd;" data-target="#row-{{$index}}" ng-show=" !IsSub(user)&& user.showEdit">storage</md-icon>
 
                                 <md-button ng-show="!archive" class="md-icon-button  waves-effect waves-purple   " ng-click="archivete(user)">
                                     <md-icon style=" color :#555;"> archive</md-icon>
@@ -781,7 +782,8 @@
                                 <table ng-show="user.IsHistory" class="table table-striped  collapse collapsible  noPadding" id="rowH-{{$index}}" style="width: 30%;  float: left;">
                                     <tr>
                                         <th style="padding: 2% !important;"> </th>
-
+                                        <th style="padding: 2% !important;"> </th>
+                                        <th style="padding: 2% !important;"> </th>
                                         <th class="rotate-45"><div><span>Номер упаковки</span></div></th>
                                         <th class="rotate-45"><div><span>Наименование изделия</span></div></th>
                                         <th class="rotate-45"><div><span>Заводской номер</span></div></th>
@@ -820,7 +822,19 @@
 
 
                                         </td>
+                                        <td>
+                                              <md-button class="md-icon-button  waves-effect waves-pink " ng-click="acceptEdit(his)">
+                                                <md-icon> grade</md-icon>
+                                            </md-button>
 
+
+                                        </td>
+                                        <td>
+          
+                                          
+                                            <md-icon style="    color: rgb(255,64,129);" ng-show=" his.value.archive">archive</md-icon>
+
+                                        </td>
                                         <td scope="row" class="special">
                                             {{his.value.Nomer_upakovki}}
                                         </td>

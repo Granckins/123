@@ -617,11 +617,7 @@
                 $scope.totalCount = response.data.total_rows;
 
                 angular.forEach($scope.userList, function (obj) {
-                    obj["showEdit"] = true;
-                    if (!flagSod)
-                        obj["showSub"] = false;
-                    else
-                        obj["showSub"] = true;
+                    obj["showEdit"] = true; 
                     obj["History"] = [];
                     obj["IsHistory"] = false;
                     obj["showHistory"] = false;
@@ -990,6 +986,35 @@ function (isConfirm) {
            });
 
     };
+    $scope.activate = function (emp) {
+        if ($scope.checkevent(emp)) {
+            emp.showEdit = emp.showEdit ? false : true;
+            var idx = $scope.buferList.indexOf(emp.key);
+            $scope.buferList.splice(idx);
+            var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
+            var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
+            var post = new Object();
+            emp["page"] = $scope.pageIndex;
+            emp["limit"] = $scope.pageSizeSelected;
+            emp["showEdit"] = false;
+            emp["archive_str"] = $scope.archive_str;
+            emp["filtername"] = searchfilternameString;
+            emp["filtervalue"] = searchfiltervalueString;
+            emp["sortname"] = $scope.sortfiltername;
+            emp["sortvalue"] = $scope.sortfiltervalue;
+            emp["datepr"] = $scope.getdatepr();
+            emp["datevd"] = $scope.getdatevd();
+        
+            $http({
+                url: '/Work/ChangeEventDocument',
+                method: "POST",
+                data: emp
+            }).
+               then(function (response) {
+                   $scope.getList();
+               });
+        }
+    };
     $scope.acceptEdit = function (emp) {
         if ($scope.checkevent(emp)) {
             emp.showEdit = emp.showEdit ? false : true;
@@ -1020,7 +1045,7 @@ function (isConfirm) {
 
                    angular.forEach($scope.userList, function (obj) {
                        obj["showEdit"] = true;
-                       obj["showSub"] = false;
+                       obj["showSub"] = false; 
                        obj["History"] = [];
                        obj["IsHistory"] = false;
                        obj["showHistory"] = false;
