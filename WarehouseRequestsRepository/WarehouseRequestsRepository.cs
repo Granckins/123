@@ -324,7 +324,10 @@ namespace Warehouse.Core.Repositories
              
             
                 foreach (var qq in FS.Filters)
-                {if(qq.value!="")
+                {
+                if (qq.value == "Наименование")
+                    qq.value = "Наименование_изделия";
+                 if (qq.value!="")
                     if(qq.value.Contains("-"))
                         q += qq.name.Replace(" ", "_") + ":" + qq.value + "^1 AND ";
                     else
@@ -344,7 +347,7 @@ namespace Warehouse.Core.Repositories
                   else
                       sort += "\\" + qs.name.Replace(" ", "_") + "<int>";
               }
-              if (qs.name == "Наименование изделия" || qs.name == "Заводской номер" || qs.name == "Местонахождение на складе" || qs.name == "Система")
+              if (qs.name == "Наименование изделия" || qs.name == "Заводской номер" || qs.name == "Местонахождение на складе" || qs.name == "Система" || qs.name == "Ответственный" || qs.name == "Принадлежность")
               {
                   if (qs.value == "1")
                       sort += "/" + qs.name.Replace(" ", "_");
