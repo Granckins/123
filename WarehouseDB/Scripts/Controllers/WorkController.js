@@ -617,11 +617,7 @@
                 $scope.totalCount = response.data.total_rows;
 
                 angular.forEach($scope.userList, function (obj) {
-                    obj["showEdit"] = true;
-                    if (!flagSod)
-                        obj["showSub"] = false;
-                    else
-                        obj["showSub"] = true;
+                    obj["showEdit"] = true; 
                     obj["History"] = [];
                     obj["IsHistory"] = false;
                     obj["showHistory"] = false;
@@ -990,6 +986,66 @@ function (isConfirm) {
            });
 
     };
+    $scope.activate = function (emp, user) {
+        if ($scope.checkevent(emp)) {
+            user["showHistory"] = false;
+            var idx = $scope.buferList.indexOf(emp.key);
+            $scope.buferList.splice(idx);
+            var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
+            var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
+            var post = new Object();
+            emp["page"] = $scope.pageIndex;
+            emp["limit"] = $scope.pageSizeSelected;
+            
+            emp["archive_str"] = $scope.archive_str;
+            emp["filtername"] = searchfilternameString;
+            emp["filtervalue"] = searchfiltervalueString;
+            emp["sortname"] = $scope.sortfiltername;
+            emp["sortvalue"] = $scope.sortfiltervalue;
+            emp["datepr"] = $scope.getdatepr();
+            emp["datevd"] = $scope.getdatevd();
+            $http({
+                url: '/Work/ChangeEventDocument',
+                method: "POST",
+                data: emp
+            }).
+               then(function (response) {
+                   //  if (response.data != "") {
+                   $scope.userList = response.data.rows;
+                   $scope.totalCount = response.data.total_rows;
+
+                   angular.forEach($scope.userList, function (obj) {
+                       obj["showEdit"] = true;
+                       obj["showSub"] = false;
+                       obj["History"] = [];
+                    
+                       obj["showHistory"] = false;
+                       if (obj.value.Data_priyoma != null)
+                           obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
+                       if (obj.value.Data_vydachi != null)
+                           obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+
+                   })
+                   angular.forEach($scope.userList, function (obj) {
+
+                       $http({
+                           url: "/Work/IsEventHistory?id=" + obj.id,
+                           method: "GET",
+                           params: {
+                               page: $scope.pageIndex,
+                               limit: $scope.pageSizeSelected
+                           }
+                       }).
+                        then(function (response) {
+                            var gdfgf = response.data > 0 ? true : false;
+                            obj["IsHistory"] = gdfgf;
+
+                        });
+
+                   }); 
+               });
+        }
+    };
     $scope.acceptEdit = function (emp) {
         if ($scope.checkevent(emp)) {
             emp.showEdit = emp.showEdit ? false : true;
@@ -1020,7 +1076,7 @@ function (isConfirm) {
 
                    angular.forEach($scope.userList, function (obj) {
                        obj["showEdit"] = true;
-                       obj["showSub"] = false;
+                       obj["showSub"] = false; 
                        obj["History"] = [];
                        obj["IsHistory"] = false;
                        obj["showHistory"] = false;

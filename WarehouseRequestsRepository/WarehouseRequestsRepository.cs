@@ -146,15 +146,18 @@ namespace Warehouse.Core.Repositories
                 if (t)
                     return list;
             }
-          var pruf=  SearchEventByNameAndNumber(CouchDataSet.Naimenovanie_izdeliya, CouchDataSet.Oboznachenie);
-          if (pruf!=null&&pruf._id != id)
-          {
+          //var pruf=  SearchEventByNameAndNumber(CouchDataSet.Naimenovanie_izdeliya, CouchDataSet.);
+          //if (pruf!=null&&pruf._id != id)
+          //{
 
-              list.Add(new ImportResultResponse() { id = "000000000000000000000000" });
-              return list;
-          }
+          //    list.Add(new ImportResultResponse() { id = "000000000000000000000000" });
+          //    return list;
+          //}
           
               CouchDataSet.Dobavil = user;
+              var listrev = GetEventDocument(id1);
+              if (listrev._rev != CouchDataSet._rev)
+                  CouchDataSet._rev = listrev._rev;
             var json = JsonConvert.SerializeObject(CouchDataSet); 
                 var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id1);
 
@@ -177,8 +180,12 @@ namespace Warehouse.Core.Repositories
                     }
                     else
                     {
-                        var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json);  
+                      
+                        var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json);
+                    
+
                         var json1 = JsonConvert.SerializeObject(o);
+                     
                         streamWriter.Write(json1);
                     }
                 }
@@ -222,20 +229,20 @@ namespace Warehouse.Core.Repositories
                     e.Dobavil = user;
                 var json = JsonConvert.SerializeObject(e);
                 var id = GetUUID();
-                var pruf = SearchEventByNameAndNumber(e.Naimenovanie_izdeliya,e.Zavodskoj_nomer);
-                if (pruf != null && pruf._id != id)
-                {
+                //var pruf = SearchEventByNameAndNumber(e.Naimenovanie_izdeliya,e.Zavodskoj_nomer);
+                //if (pruf != null && pruf._id != id)
+                //{
 
-                    list.Add(
-                     new ImportResultResponse()
-                     {
-                         result = false,
-                         number_pack = e.Nomer_upakovki,
-                         name = e.Naimenovanie_izdeliya,
-                         Content = e.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList()
-                     });
-                    continue;
-                }
+                //    list.Add(
+                //     new ImportResultResponse()
+                //     {
+                //         result = false,
+                //         number_pack = e.Nomer_upakovki,
+                //         name = e.Naimenovanie_izdeliya,
+                //         Content = e.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList()
+                //     });
+                //    continue;
+                //}
                 var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id);
 
                 ServicePointManager.DefaultConnectionLimit = 1000;

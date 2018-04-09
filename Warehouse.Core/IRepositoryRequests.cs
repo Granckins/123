@@ -12,16 +12,11 @@ namespace Warehouse.Core
         ///// <summary>
 
 
-        UserIdentity GetUserIdentityByName(string username);
-
-        List<string> GetUserRoles(UserIdentity user);
-        string GetUUID();
-        List<ImportResultResponse> SetEventDocuments(List<EventCouch> CouchDataSet, string user);
-        CouchRequest<EventCouch> GetEventPaginDocuments(int page, int limit, bool archive);
-        CouchRequest<EventCouch> GetFilterSortDocuments(int page, int limit, bool archive, FilterSort FS = null);
-        EventCouch GetEventDocument(string id);
-        List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string user, string id);
-        bool DeleteEventDocument(EventCouch CouchDataSet, string id);
+       
+         string GetUUID();
+         CouchRequest<EventCouch> GetEventPaginDocuments(int page, int limit, bool archive);
+          EventCouch GetEventDocument(string id);
+          bool DeleteEventDocument(EventCouch CouchDataSet, string id);
         List<RevsInfo> GetRevisionListEvent(string id);
         CouchRequest<EventCouch> GetRevisionFiesldsEvent(string id, List<RevsInfo> revs);
         EventCouch SearchEventByNameAndNumber(string name, string number, Boolean? archive = null);
