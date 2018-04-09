@@ -8,6 +8,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Warehouse.Core.Repositories;
+using Warehouse.Model;
 using Warehouse.Model.Db;
 using WarehouseDB.Models;
 using WarehouseDB.Services;
@@ -135,12 +136,13 @@ namespace WarehouseDB.Controllers
 
             HttpPostedFileBase uploadedFile = files[0];
             Stream fileStream = uploadedFile.InputStream;
-
+            List<ImportResultResponse> list = new List<ImportResultResponse>();
             System.Collections.Generic.List<EventWar> ListE = new List<EventWar>();
             using (StreamReader sr = new StreamReader(fileStream, Encoding.GetEncoding(1251)))
             {
                 var csv = new CsvReader(sr);
                 csv.Configuration.Delimiter = ";";
+            
                 var model = new EventWar();
                 while (csv.Read())
                 {
@@ -178,9 +180,19 @@ namespace WarehouseDB.Controllers
                     }
                     catch (Exception e)
                     {
+                        if (csv.GetField<string>(5) == "")
+                        {
 
+                            list.Add(
+                       new ImportResultResponse()
+                       {
+                           result = false,
+                           number_pack = csv.GetField<string>(0) == "" ? 0 : csv.GetField<int>(0),
+                           name = csv.GetField<string>(1),
+                           Content = new List<string>()
+                       });
                     }
-
+                    }
                 }
             }
             // string output = JsonConvert.SerializeObject(ListE);
@@ -237,9 +249,9 @@ namespace WarehouseDB.Controllers
            var str=JsonConvert.SerializeObject(CouchDataSet);
            var memberId = User.Identity.Name;
            var resp = Repository.SetEventDocuments(CouchDataSet, memberId);
-        
-            
-           return Json(resp);
+
+            var r = resp.Union(list).ToList() ;
+           return Json(r);
         }
         [HttpPost]
         public FineUploaderResult UploadFile(FineUpload upload, string extraParam1 = null, int extraParam2 = 0)
