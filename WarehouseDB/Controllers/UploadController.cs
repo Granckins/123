@@ -176,7 +176,9 @@ namespace WarehouseDB.Controllers
                         model.Куда = csv.GetField<string>(24);
                         model.Номер_пломбы = csv.GetField<string>(25);
                         model.Примечание = csv.GetField<string>(26);
+                        model.Дата_изменения = DateTime.Now;
                         ListE.Add(model);
+
                     }
                     catch (Exception e)
                     {

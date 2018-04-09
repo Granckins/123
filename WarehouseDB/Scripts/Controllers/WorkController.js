@@ -192,6 +192,8 @@
                        obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                    if (obj.value.Data_vydachi != null)
                        obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+                   if (obj.value.Data_ismenen != null)
+                       obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
 
                })
                angular.forEach($scope.userList, function (obj) {
@@ -317,7 +319,8 @@
                        obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                    if (obj.value.Data_vydachi != null)
                        obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
-
+                   if (obj.value.Data_ismenen != null)
+                       obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
                })
                angular.forEach($scope.userList, function (obj) {
 
@@ -458,7 +461,8 @@
                         obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                     if (obj.value.Data_vydachi != null)
                         obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
-
+                    if (obj.value.Data_ismenen != null)
+                        obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
                 })
                 angular.forEach($scope.userList, function (obj) {
 
@@ -544,7 +548,8 @@
                         obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                     if (obj.value.Data_vydachi != null)
                         obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
-
+                    if (obj.value.Data_ismenen != null)
+                        obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
                 })
                 angular.forEach($scope.userList, function (obj) {
 
@@ -619,7 +624,8 @@
                         obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                     if (obj.value.Data_vydachi != null)
                         obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
-
+                    if (obj.value.Data_ismenen != null)
+                        obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
                 })
                 angular.forEach($scope.userList, function (obj) {
 
@@ -728,7 +734,8 @@ function (isConfirm) {
                                obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                            if (obj.value.Data_vydachi != null)
                                obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
-
+                           if (obj.value.Data_ismenen != null)
+                               obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
                        })
                        angular.forEach($scope.userList, function (obj) {
 
@@ -807,7 +814,8 @@ function (isConfirm) {
                          obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                      if (obj.value.Data_vydachi != null)
                          obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
-
+                     if (obj.value.Data_ismenen != null)
+                         obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
                  })
 
              });
@@ -1018,7 +1026,8 @@ function (isConfirm) {
                            obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                        if (obj.value.Data_vydachi != null)
                            obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
-
+                       if (obj.value.Data_ismenen != null)
+                           obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
                    })
                    angular.forEach($scope.userList, function (obj) {
 
@@ -1078,7 +1087,8 @@ function (isConfirm) {
                            obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
                        if (obj.value.Data_vydachi != null)
                            obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
-
+                       if (obj.value.Data_ismenen != null)
+                           obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
                    })
                    angular.forEach($scope.userList, function (obj) {
 

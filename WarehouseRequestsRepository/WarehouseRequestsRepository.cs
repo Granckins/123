@@ -158,7 +158,8 @@ namespace Warehouse.Core.Repositories
               var listrev = GetEventDocument(id1);
               if (listrev._rev != CouchDataSet._rev)
                   CouchDataSet._rev = listrev._rev;
-            var json = JsonConvert.SerializeObject(CouchDataSet); 
+            CouchDataSet.Data_ismenen = DateTime.Now.Date;
+          var json = JsonConvert.SerializeObject(CouchDataSet); 
                 var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id1);
 
                 ServicePointManager.DefaultConnectionLimit = 1000;

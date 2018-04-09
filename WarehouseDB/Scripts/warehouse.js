@@ -48,7 +48,7 @@ var app = angular.module('app', ['ui.router', 'bw.paging', 'ngAnimate', 'ngMater
 
 app.controller('appCtrl', appCtrl);
 app.controller('ImportController', ImportController);
-
+app.controller('ExportController',ExportController);
 app.controller('LoginController', LoginController);
 app.controller('WorkController', WorkController);
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
@@ -90,7 +90,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 url: '/import',
                 templateUrl: 'Scripts/Templates/import.html',
                 controller: ImportController
-            })
+        })
+        .state('export', {
+            url: '/export',
+            templateUrl: 'Scripts/Templates/export.html',
+            controller: ExportController
+        })
           .state('logoff', {
               url: '/logoff',
               templateUrl: '/Account/LogOff'

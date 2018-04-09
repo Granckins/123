@@ -291,6 +291,7 @@
 
                         <th class="rotate-45"><div><span>Примечание</span></div></th>
                         <th class="rotate-45"><div><span>Добавил</span></div></th>
+                        <th class="rotate-45"><div><span>Дата изменения</span></div></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -417,7 +418,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-
+                        <td></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -719,6 +720,12 @@
                             </span>
 
                         </td>
+                        <td ng-show="user.showEdit" class="special">
+                            <span>
+                                {{user.value.Data_ismenen |  amDateFormat:'DD.MM.YYYY' }}
+                            </span>
+
+                        </td>
                     </tr>
                     <tr ng-repeat-end>
                         <td colspan="23" class="noPadding">
@@ -814,6 +821,7 @@
                                     <th class="rotate-45"><div><span>Высота</span></div></th>
                                     <th class="rotate-45"><div><span>Примечание</span></div></th>
                                     <th class="rotate-45"><div><span>Добавил</span></div></th>
+                                    <th class="rotate-45"><div><span>Дата изменения</span></div></th>
                                 </tr>
 
                                 <tr ng-repeat-start="his in user.History track by $index" class="accordion-toggle">
@@ -914,6 +922,12 @@
                                     </td>
                                     <td class="special">
                                         {{his.value.Dobavil}}
+                                    </td>
+                                    <td class="special">
+                                        
+                                            {{user.value.Data_ismenen |  amDateFormat:'DD.MM.YYYY' }}
+                                       
+
                                     </td>
                                 </tr>
                                 <tr ng-repeat-end>
