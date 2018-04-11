@@ -114,7 +114,40 @@ namespace Warehouse.Model.Db
             EC.Data_ismenen = e.Дата_изменения;
             return EC;
         }
-      private static SubEvent ConvertEventWarToSubEvent(EventWar e)
+        public static EventCouchFull ConvertEventWarToEventCouchFullParent(EventWar e)
+        {
+            EventCouchFull EC = new EventCouchFull();
+            EC._rev = e._rev;
+            EC._id = e._id;
+            EC.archive = e.archive;
+            EC.Nomer_upakovki = e.Номер_упаковки;
+            EC.Naimenovanie_izdeliya = e.Наименование_изделия;
+            EC.Zavodskoj_nomer = e.Заводской_номер;
+            EC.Kolichestvo = e.Количество;
+            EC.Oboznachenie = e.Обозначение;
+            EC.Soderzhimoe = new List<SubEvent>();
+            EC.Sistema = e.Система;
+            EC.Prinadlezhnost = e.Принадлежность;
+            EC.Stoimost = e.Стоимость;
+            EC.Otvetstvennyj = e.Ответственный;
+            EC.Mestonahozhdenie_na_sklade = e.Местонахождение_на_складе;
+            EC.Ves_brutto = e.Вес_брутто;
+            EC.Ves_netto = e.Вес_нетто;
+            EC.Dlina = e.Длина;
+            EC.Shirina = e.Ширина;
+            EC.Vysota = e.Высота;
+            EC.Data_priyoma = e.Дата_приёма;
+            EC.Otkuda = e.Откуда;
+            EC.Data_vydachi = e.Дата_выдачи;
+            EC.Kuda = e.Куда;
+            EC.Nomer_plomby = e.Номер_пломбы;
+            EC.Primechanie = e.Примечание;
+            EC.Dobavil = e.Добавил;
+            EC.Data_ismenen = e.Дата_изменения;
+            return EC;
+        }
+      
+        private static SubEvent ConvertEventWarToSubEvent(EventWar e)
         {
             SubEvent SE = new SubEvent();
                

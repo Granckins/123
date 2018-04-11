@@ -569,7 +569,7 @@ namespace Warehouse.Core.Repositories
             {
                 endkey = "" + DateTime.Today.Date.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
             }
-
+           
             var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
             if (!flag)
                 url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
@@ -612,7 +612,252 @@ namespace Warehouse.Core.Repositories
             }
             return list;
         }
-       
+        public CouchRequest<EventCouchFull> FilterByDateIzmen(    string startkey = "", string endkey = "")
+        {
+            CouchRequest<EventCouchFull> list = new CouchRequest<EventCouchFull>();
+            DateTime current_date1 = DateTime.Today;
+            DateTime current_date2 = DateTime.Today;
+  
+            
+
+            if (startkey == "")
+            {
+                current_date1 = current_date1.AddDays(-1);
+                startkey = "" + current_date1.Date.Year + "-" + current_date1.Month.ToString().PadLeft(2, '0') + "-" + current_date1.Day.ToString().PadLeft(2, '0');
+            }
+            else
+            {
+                current_date1 = Convert.ToDateTime(startkey);
+                current_date1 = current_date1.AddDays(-1);
+                startkey = "" + current_date1.Date.Year + "-" + current_date1.Month.ToString().PadLeft(2, '0') + "-" + current_date1.Day.ToString().PadLeft(2, '0');
+            }
+            if (endkey == "")
+            {
+                current_date2 = current_date2.AddDays(1);
+                endkey = "" + current_date2.Date.Year + "-" + current_date2.Month.ToString().PadLeft(2, '0') + "-" + current_date2.Day.ToString().PadLeft(2, '0');
+            }
+            else
+            {
+                current_date2 = Convert.ToDateTime(endkey);
+                current_date2 = current_date2.AddDays(1);
+                endkey = "" + current_date2.Date.Year + "-" + current_date2.Month.ToString().PadLeft(2, '0') + "-" + current_date2.Day.ToString().PadLeft(2, '0');
+            }
+
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydateiz?startkey=" + "\"" + startkey + "\"" +  "&endkey=" + "\"" + endkey + "\"";
+            
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+            var user = new User();
+            var lucene1 = new LuceneRequest<EventCouchFull>();
+            lucene1.rows = new List<Row<EventCouchFull>>();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<CouchRequest<EventCouchFull>>(res);
+
+                foreach (var l in lucene.rows)
+                {
+
+                    lucene1.rows.Add(new Row<EventCouchFull>() { id = l.id, fields = l.value });
+                }
+
+
+                var couch = new CouchRequest<EventCouchFull>();
+                couch.total_rows = lucene.total_rows;
+                couch.offset = lucene.offset;
+
+                couch.rows = new List<RowCouch<EventCouchFull>>();
+                foreach (var r in lucene1.rows)
+                {
+                    couch.rows.Add(new RowCouch<EventCouchFull>() { id = r.id, key = r.id, value = r.fields });
+                }
+                list = couch; 
+            }
+            return list;
+        }
+        public CouchRequest<EventCouchFull> GetAllEvents()
+        {
+            CouchRequest<EventCouchFull> list = new CouchRequest<EventCouchFull>();
+            bool archive = false;
+            int skip = 0;
+            int limit = 10;
+            int total_rows = 0;
+            var url = "http://localhost:5984/_fti/local/events/_design/getdocuments/by_archive?q=archive:" + archive + "&skip=" + skip + "&limit=" + limit;
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+
+            var user = new User();
+            var lucene1 = new LuceneRequest<EventCouchFull>();
+            lucene1.rows = new List<Row<EventCouchFull>>();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<LuceneRequest<EventWar>>(res);
+
+                foreach (var l in lucene.rows)
+                {
+                    var sod = l.fields.Содержимое;
+                    var sub = JsonConvert.DeserializeObject<List<SubEvent>>(sod);
+                    EventCouchFull ev = new EventCouchFull();
+                    ev = EventManager.ConvertEventWarToEventCouchFullParent(l.fields);
+                    ev.Soderzhimoe = sub;
+
+                    lucene1.rows.Add(new Row<EventCouchFull>() { id = l.id, fields = ev });
+                }
+
+
+                var couch = new CouchRequest<EventCouchFull>();
+                couch.total_rows = lucene.total_rows;
+                total_rows = lucene.total_rows;
+                couch.offset = lucene.skip;
+                couch.rows = new List<RowCouch<EventCouchFull>>();
+                foreach (var r in lucene1.rows)
+                {
+                    couch.rows.Add(new RowCouch<EventCouchFull>() { id = r.id, key = r.id, value = r.fields });
+                }
+                list = couch;
+            }
+            int i = 0;
+            skip = limit;
+            if(limit<total_rows)
+            {
+                for (i=skip;i<total_rows;i+=skip)
+                {
+                     url = "http://localhost:5984/_fti/local/events/_design/getdocuments/by_archive?q=archive:" + archive + "&skip=" + skip + "&limit=" + limit;
+                     request = (HttpWebRequest)WebRequest.Create(url);
+
+                    request.Credentials = new NetworkCredential("admin", "root");
+                    response = request.GetResponse();
+
+                     user = new User();
+                     lucene1 = new LuceneRequest<EventCouchFull>();
+                    lucene1.rows = new List<Row<EventCouchFull>>();
+                    using (var responseStream = response.GetResponseStream())
+                    {
+                        var reader = new StreamReader(responseStream, Encoding.UTF8);
+                        var res = reader.ReadToEnd();
+                        var lucene = JsonConvert.DeserializeObject<LuceneRequest<EventWar>>(res);
+
+                        foreach (var l in lucene.rows)
+                        {
+                            var sod = l.fields.Содержимое;
+                            var sub = JsonConvert.DeserializeObject<List<SubEvent>>(sod);
+                            EventCouchFull ev = new EventCouchFull();
+                            ev = EventManager.ConvertEventWarToEventCouchFullParent(l.fields);
+                            ev.Soderzhimoe = sub;
+
+                            lucene1.rows.Add(new Row<EventCouchFull>() { id = l.id, fields = ev });
+                        }
+
+
+                        var couch = new CouchRequest<EventCouchFull>();
+                        couch.total_rows = lucene.total_rows;
+                        total_rows = lucene.total_rows;
+                        couch.offset = lucene.skip;
+                        couch.rows = new List<RowCouch<EventCouchFull>>();
+                        foreach (var r in lucene1.rows)
+                        {
+                            couch.rows.Add(new RowCouch<EventCouchFull>() { id = r.id, key = r.id, value = r.fields });
+                        }
+                       list.rows= list.rows.Union(couch.rows).ToList();
+                    }
+                }
+            }
+             archive = true;
+            
+            url = "http://localhost:5984/_fti/local/events/_design/getdocuments/by_archive?q=archive:" + archive + "&skip=" + skip + "&limit=" + limit;
+             request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            response = request.GetResponse();
+
+             user = new User();
+           lucene1 = new LuceneRequest<EventCouchFull>();
+            lucene1.rows = new List<Row<EventCouchFull>>();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<LuceneRequest<EventWar>>(res);
+
+                foreach (var l in lucene.rows)
+                {
+                    var sod = l.fields.Содержимое;
+                    var sub = JsonConvert.DeserializeObject<List<SubEvent>>(sod);
+                    EventCouchFull ev = new EventCouchFull();
+                    ev = EventManager.ConvertEventWarToEventCouchFullParent(l.fields);
+                    ev.Soderzhimoe = sub;
+
+                    lucene1.rows.Add(new Row<EventCouchFull>() { id = l.id, fields = ev });
+                }
+
+
+                var couch = new CouchRequest<EventCouchFull>();
+                couch.total_rows = lucene.total_rows;
+                total_rows = lucene.total_rows;
+                couch.offset = lucene.skip;
+                couch.rows = new List<RowCouch<EventCouchFull>>();
+                foreach (var r in lucene1.rows)
+                {
+                    couch.rows.Add(new RowCouch<EventCouchFull>() { id = r.id, key = r.id, value = r.fields });
+                }
+                list.rows = list.rows.Union(couch.rows).ToList();
+            }
+          i = 0;
+            skip = limit;
+            if (limit < total_rows)
+            {
+                for (i = skip; i < total_rows; i += skip)
+                {
+                    url = "http://localhost:5984/_fti/local/events/_design/getdocuments/by_archive?q=archive:" + archive + "&skip=" + skip + "&limit=" + limit;
+                    request = (HttpWebRequest)WebRequest.Create(url);
+
+                    request.Credentials = new NetworkCredential("admin", "root");
+                    response = request.GetResponse();
+
+                    user = new User();
+                    lucene1 = new LuceneRequest<EventCouchFull>();
+                    lucene1.rows = new List<Row<EventCouchFull>>();
+                    using (var responseStream = response.GetResponseStream())
+                    {
+                        var reader = new StreamReader(responseStream, Encoding.UTF8);
+                        var res = reader.ReadToEnd();
+                        var lucene = JsonConvert.DeserializeObject<LuceneRequest<EventWar>>(res);
+
+                        foreach (var l in lucene.rows)
+                        {
+                            var sod = l.fields.Содержимое;
+                            var sub = JsonConvert.DeserializeObject<List<SubEvent>>(sod);
+                            EventCouchFull ev = new EventCouchFull();
+                            ev = EventManager.ConvertEventWarToEventCouchFullParent(l.fields);
+                            ev.Soderzhimoe = sub;
+
+                            lucene1.rows.Add(new Row<EventCouchFull>() { id = l.id, fields = ev });
+                        }
+
+
+                        var couch = new CouchRequest<EventCouchFull>();
+                        couch.total_rows = lucene.total_rows;
+                        total_rows = lucene.total_rows;
+                        couch.offset = lucene.skip;
+                        couch.rows = new List<RowCouch<EventCouchFull>>();
+                        foreach (var r in lucene1.rows)
+                        {
+                            couch.rows.Add(new RowCouch<EventCouchFull>() { id = r.id, key = r.id, value = r.fields });
+                        }
+                        list.rows = list.rows.Union(couch.rows).ToList();
+                    }
+                }
+            }
+            return list;
+
+        }
         public CouchRequest<EventCouch> GetEventPaginDocuments(int page = 1, int limit = 10, bool archive= false)
         {
             CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();

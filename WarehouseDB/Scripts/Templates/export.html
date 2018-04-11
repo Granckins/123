@@ -48,6 +48,9 @@
          md-icon svg {
   fill: inherit;
 }
+    .ng-hide.ng-hide-animate {
+        display: none !important;
+    }
      </style>
 <div class="container-fluid">
     <div class=" card" ng-controller="ExportController as vm">
@@ -61,7 +64,42 @@
         <div class="body table-responsive">
             <md-content flex="nogrow" >
                 <div>
-                    
+                    <div class="row" style="padding-bottom: 20px; text-align: left;" >
+                        <md-button aria-label="Custom Icon Button" ng-show="all_events" class="md-icon-button md-accent  waves-effect waves-pink " ng-click="get_all_events()">
+                            <md-icon> archive</md-icon>
+
+                        </md-button>
+
+                        <md-button ng-show="!all_events" class="md-icon-button  waves-effect waves-pink " ng-click="get_all_events()">
+                            <md-icon> archive</md-icon>
+                        </md-button>
+                        <label style="padding-right: 10px ;">Записи за весь период времени</label>
+                    </div>
+                        <div class="row" style="padding-bottom: 20px;" ng-show="!all_events">
+                            <label>Дата изменения/внесения в БД (Начало периода):</label>
+
+                            <md-input-container style="margin: 0 0; padding-right: 10px;" dividercolor="primary" ng-model="Data_ismenen_str1 ">
+                                <md-datepicker ng-model="Data_ismenen_str1 "  md-placeholder="Введите дату"></md-datepicker>
+
+
+                            </md-input-container>
+                            <label>Дата изменения/внесения в БД (Конец периода):</label>
+
+                            <md-input-container style="margin: 0 0; " dividercolor="primary">
+                                <md-datepicker ng-model="Data_ismenen_str2 " md-placeholder="Введите дату"  ></md-datepicker>
+
+
+                            </md-input-container>
+                        </div>
+                    <div flex layout="row" layout-align="end top">
+
+                        <button type="button" class="btn bg-green waves-effect" ng-click="updateCalcs()"  >
+                            <i class="material-icons">file_upload</i>
+                            <span>Экспортировать</span>
+                        </button>
+                    </div>
+                   
+ 
                     </div>
             </md-content>
         </div>

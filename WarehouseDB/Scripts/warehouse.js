@@ -44,11 +44,12 @@
     return self;
 }]);
 
-var app = angular.module('app', ['ui.router', 'bw.paging', 'ngAnimate', 'ngMaterial', 'md.chips.select', 'md-steppers', 'angularFileUpload', 'datatables', 'oitozero.ngSweetAlert', 'angularMoment']);
+var app = angular.module('app', ['ui.router', 'bw.paging', 'ngAnimate', 'ngMaterial', 'md.chips.select', 'md-steppers', 'angularFileUpload', 'datatables', 'oitozero.ngSweetAlert', 'angularMoment','ngFileSaver']);
 
 app.controller('appCtrl', appCtrl);
 app.controller('ImportController', ImportController);
-app.controller('ExportController',ExportController);
+app.controller('ExportController', ExportController);
+app.controller('UpdateController', UpdateController);
 app.controller('LoginController', LoginController);
 app.controller('WorkController', WorkController);
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
@@ -90,6 +91,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                 url: '/import',
                 templateUrl: 'Scripts/Templates/import.html',
                 controller: ImportController
+        })
+        .state('update', {
+            url: '/update',
+            templateUrl: 'Scripts/Templates/update.html',
+            controller: UpdateController
         })
         .state('export', {
             url: '/export',

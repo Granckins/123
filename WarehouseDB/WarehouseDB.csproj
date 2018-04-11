@@ -270,6 +270,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TodoController.cs" />
     <Compile Include="Controllers\TodoListController.cs" />
+    <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\WorkController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -1417,6 +1418,7 @@
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\Controllers\ExportController.js" />
+    <Content Include="Scripts\Controllers\UpdateController.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="fonts\roboto\Roboto-Bold.eot" />
     <Content Include="fonts\roboto\Roboto-Bold.ttf" />
@@ -4762,6 +4764,7 @@
     <Content Include="Scripts\md-steppers.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Templates\export.html" />
+    <Content Include="Scripts\Templates\update.html" />
     <Content Include="Scripts\Templates\work.html" />
     <Content Include="Scripts\Templates\import.html" />
     <Content Include="Scripts\Templates\InputChose.html" />

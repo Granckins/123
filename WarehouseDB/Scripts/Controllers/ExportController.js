@@ -1,181 +1,76 @@
-﻿var ExportController = function ($scope, $q, $timeout,FileUploader) {
+﻿var ExportController = function ($scope, $q, $timeout, FileUploader, moment, $http, SweetAlert, FileSaver, Blob) {
  
-    var vm = this;
+    
+    $scope.get_all_events = function () {
+        $scope.all_events = $scope.all_events ? false : true; 
+       
+    }
+    $scope.Data_ismenen_str1 = null;
+    $scope.Data_ismenen_str2 = null; 
+    $scope.getdateiz= function () {
+        if ($scope.Data_ismenen_str1 != null && $scope.Data_ismenen_str2 != null) {
+            var Data_ismenen_str1 = new Date($scope.Data_ismenen_str1);
+            var curr_date = $scope.Data_ismenen_str1.getDate();
+            var DD = "" + curr_date;
+            if (curr_date < 10)
+                DD = "0" + curr_date;
+            var curr_month = $scope.Data_ismenen_str1.getMonth() + 1;
+            var MM = "" + curr_month;
+            if (curr_month < 10)
+                MM = "0" + curr_month;
+            var curr_year = $scope.Data_ismenen_str1.getFullYear();
+            var sdsd1 = curr_year + "-" + MM + "-" + DD;
+            var Data_priyoma_str2 = new Date($scope.Data_priyoma_str2);
+            var curr_date1 = $scope.Data_ismenen_str2.getDate();
+            DD = "" + curr_date1;
+            if (curr_date1 < 10)
+                DD = "0" + curr_date1;
+            var curr_month1 = $scope.Data_ismenen_str2.getMonth() + 1;
+            MM = "" + curr_month1;
+            if (curr_month1 < 10)
+                MM = "0" + curr_month1;
+            var curr_year1 = $scope.Data_ismenen_str2.getFullYear();
+            var sdsd2 = curr_year1 + "-" + MM + "-" + DD;
+            return sdsd1 + ";" + sdsd2;
+        }
+        return ";";
+    }
+    $scope.updateCalcs = function () {
+        obj = new Object();
+     
+        obj["dateiz"] = $scope.getdateiz();
+        obj["all_events"] = $scope.all_events ;
+        $http({
+            url: "/Export/ExportDocument",
+            method: "Post",
+            data: obj
+        }).
+            then(function (response) {
 
-    vm.selectedStep = 0;
-    vm.logimport = [];
-    vm.stepProgress =1;
-    vm.maxStep = 3;
-    vm.showBusyText = false;
-    vm.stepData = [
-        { step: 1, completed: false, optional: false, data: {} },
-        { step: 2, completed: false, optional: false, data: {} },
-        { step: 3, completed: false, optional: false, data: {} },
-    ];
+                var data = new Blob([JSON.stringify(response.data)], { type: 'application/json;charset=utf-8' });
+                var filename = "";
+                var currentdate = new Date();
+                var datetime =  currentdate.getDate() + "/"
+                    + (currentdate.getMonth() + 1) + "/"
+                    + currentdate.getFullYear() + " @ "
+                    + currentdate.getHours() + ":"
+                    + currentdate.getMinutes() + ":"
+                    + currentdate.getSeconds();
+                FileSaver.saveAs(data, 'backup-' + datetime+'.json');
+            });
+    };
+    $scope.loadMore = function () {
+        if ($scope.logimport + 5 < $scope.logimport.length) {
+            vm.logimport += 5;
+        } else {
+            $scope.logimport = $scope.logimport.length;
+        }
+    };
     $scope.upload = function () {
         angular.element(document.querySelector('#fileInput')).click();
     };
-    vm.enableNextStep = function nextStep() {
-        //do not exceed into max step
-        if (vm.selectedStep >= vm.maxStep) {
-            return;
-        }
-        //do not increment vm.stepProgress when submitting from previously completed step
-        if (vm.selectedStep === vm.stepProgress - 1) {
-            vm.stepProgress = vm.stepProgress + 1;
-        }
-        vm.selectedStep = vm.selectedStep + 1;
-    }
-
-    vm.moveToPreviousStep = function moveToPreviousStep() {
-        if (vm.selectedStep > 0) {
-            vm.selectedStep = vm.selectedStep - 1;
-        }
-    }
-
-   
-    vm.submitCurrentStep = function submitCurrentStep(stepData, isSkip) {
-        var deferred = $q.defer();
-        vm.showBusyText = true;
-        console.log('On before submit');
-        if (!stepData.completed && !isSkip) {
-            //simulate $http
-            $timeout(function () {
-                vm.showBusyText = false;
-                console.log('On submit success');
-                deferred.resolve({ status: 200, statusText: 'success', data: {} });
-                //move to next step when success
-                stepData.completed = true;
-                vm.enableNextStep();
-            }, 1000)
-        } else {
-            vm.showBusyText = false;
-            vm.enableNextStep();
-        }
-    }
-    vm.NextStep = function NextStep() {
-          
-          
-            
-                vm.showBusyText = false;
-              
-               
-                vm.enableNextStep();
-           
-        
-    }
-    vm.restart = function restart() {
-        vm.selectedStep = 0;
-        vm.stepProgress = 1;
-        uploader.clearQueue(); 
-        vm.logimport = [];
-    }
-    vm.preview = function preview() {
-       
-        vm.showBusyText = false; 
-        vm.enableNextStep();
-
-    }
-    var uploader = $scope.uploader = new FileUploader({
-        type: "POST",
-        url: 'Upload/Upload',
-        headers: [{ name: 'Accept', value: 'application/json' }],
-        
-    });
-    var uploaderpreview = $scope.uploaderpreview = new FileUploader({
-        type: "POST",
-        url: 'Upload/UploadPreview',
-        headers: [{ name: 'Accept', value: 'application/json' }],
-
-    });
- 
-    // FILTERS
-
-    // a sync filter
-    uploader.filters.push({
-        name: 'syncFilter',
-        fn: function (item /*{File|FileLikeObject}*/, options) {
-            console.log('syncFilter');
-            
-            return this.queue.length < 10;
-        }
-    });
-
-    // an async filter
-    uploader.filters.push({
-        name: 'asyncFilter',
-        fn: function (item /*{File|FileLikeObject}*/, options, deferred) {
-            console.log('asyncFilter');
-            setTimeout(deferred.resolve, 1e3);
-        }
-    });
-
-    // CALLBACKS
-
-    uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
-        console.info('onWhenAddingFileFailed', item, filter, options);
-    };
-    uploader.onAfterAddingFile = function (fileItem) {
-      
-    };
-    uploader.onAfterAddingAll = function (addedFileItems) { 
-        console.info('onAfterAddingAll', addedFileItems);
-    };
-    uploader.onBeforeUploadItem = function (item) {
-        console.info('onBeforeUploadItem', item);
-    };
-    uploader.onProgressItem = function (fileItem, progress) {
-        console.info('onProgressItem', fileItem, progress);
-    };
-    uploader.onProgressAll = function (progress) {
-
-        console.info('onProgressAll', progress);
-    };
-    uploader.onSuccessItem = function (fileItem, response, status, headers) {
-        vm.logimport = vm.logimport.concat(response);
-        console.info('onSuccessItem', fileItem, response, status, headers);
-    };
-   vm.numberToDisplay=5;
-    vm.loadMore = function() {
-        if (vm.logimport + 5 < vm.logimport.length) {
-            vm.logimport += 5;
-        } else {
-            vm.logimport = vm.logimport.length;
-        }
-    };
-    vm.HasErrorResp = function () { 
-        var counter = 0;
-        for (var i = 0; i < vm.logimport.length; i++) {
-            if (vm.logimport[i].result == false) {
-                counter++;
-            }
-        }
-        if (counter == 0)
-            return 1;
-        else {
-            if (counter == vm.logimport.length)
-                return 3;
-            else
-                return 2;
-        }
-        };
-    uploader.onErrorItem = function (fileItem, response, status, headers) {
-        console.info('onErrorItem', fileItem, response, status, headers);
-    };
-    uploader.onCancelItem = function (fileItem, response, status, headers) {
-        console.info('onCancelItem', fileItem, response, status, headers);
-    };
-    uploader.onCompleteItem = function (fileItem, response, status, headers) {
-        console.info('onCompleteItem', fileItem, response, status, headers);
-    };
-    uploader.onCompleteAll = function () { 
-        vm.selectedStep = 3;
-        vm.stepProgress = 3;
-        console.info('onCompleteAll');
-    };
-
-    console.info('uploader', uploader);
+    
 }
 
 // The $inject property of every controller (and pretty much every other type of object in Angular) needs to be a string array equal to the controllers arguments, only as strings
-ImportController.$inject = ['$scope', '$q', '$timeout','FileUploader'];
+ExportController.$inject = ['$scope', '$q', '$timeout', 'FileUploader', 'moment', '$http', 'SweetAlert', 'FileSaver', 'Blob'];

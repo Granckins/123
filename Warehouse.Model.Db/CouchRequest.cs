@@ -23,6 +23,7 @@ namespace Warehouse.Model.Db
         public int limit { get; set; } 
         public bool archive_str { get; set; }
         public Obj value { get; set; }
+
     }
      
     public class CouchRequest<Obj>
@@ -30,6 +31,15 @@ namespace Warehouse.Model.Db
         public int total_rows { get; set; }
         public int offset { get; set; }
         public List<RowCouch<Obj>> rows { get; set; }
+        public List<Obj> ToEventCouch()
+        {
+            var list = new List<Obj>();
+            foreach (var r in this.rows)
+            {
+                list.Add(r.value);
+            }
+            return list;
+        }
     }
     public class CouchRequestMultiKey<Obj>
     {

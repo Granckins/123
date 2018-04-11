@@ -49,11 +49,13 @@
   <ItemGroup>
     <Compile Include="CouchRequest.cs" />
     <Compile Include="DeleteCouchResp.cs" />
+    <Compile Include="EventCouchFull.cs" />
     <Compile Include="EventCouch.cs" />
     <Compile Include="EventManager.cs" />
     <Compile Include="EventWar.cs" />
     <Compile Include="Loaders\Roles.cs" />
     <Compile Include="LuceneRequest.cs" />
+    <Compile Include="PostRequestExport.cs" />
     <Compile Include="PostRequest.cs" />
     <Compile Include="ResponseCouch.cs" />
     <Compile Include="RevsInfo.cs" />
