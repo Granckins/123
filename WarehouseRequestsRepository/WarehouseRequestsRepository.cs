@@ -132,6 +132,150 @@ namespace Warehouse.Core.Repositories
           bool count= CouchDataSet.Soderzhimoe.Count == last.Soderzhimoe.Count;
             return main&&child&&count;
         }
+        public List<ImportResultResponse> UpdateEventDocumentRevs(EventCouch CouchDataSet, string user, string id)
+        {
+            List<ImportResultResponse> list = new List<ImportResultResponse>();
+            var id1 = "";
+
+
+            id1 = id;
+            CouchDataSet._id = id;
+            var t = CompareEvent(CouchDataSet, id);
+            if (t)
+                return list;
+
+            //var pruf=  SearchEventByNameAndNumber(CouchDataSet.Naimenovanie_izdeliya, CouchDataSet.);
+            //if (pruf!=null&&pruf._id != id)
+            //{
+
+            //    list.Add(new ImportResultResponse() { id = "000000000000000000000000" });
+            //    return list;
+            //}
+
+
+
+            CouchDataSet.Data_ismenen = DateTime.Now.Date;
+            var json = JsonConvert.SerializeObject(CouchDataSet);
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id1);
+
+            ServicePointManager.DefaultConnectionLimit = 1000;
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            request.Method = "PUT";
+            request.ContentType = "application/json";
+            request.KeepAlive = false;
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+
+                var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json);
+               
+                var json1 = JsonConvert.SerializeObject(o);
+                streamWriter.Write(json1);
+
+            }
+            var httpResponse = (HttpWebResponse)request.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var responseText = streamReader.ReadToEnd();
+
+                var response = JsonConvert.DeserializeObject<ResponseCouch>(responseText);
+                if (response.ok == null)
+                    list.Add(
+                        new ImportResultResponse()
+                        {
+                            result = false,
+                            id = id1,
+                            number_pack = CouchDataSet.Nomer_upakovki,
+                            name = CouchDataSet.Naimenovanie_izdeliya,
+                            Content = CouchDataSet.Soderzhimoe != null ? CouchDataSet.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList() : null
+                        });
+                else
+                    list.Add(
+                        new ImportResultResponse()
+                        {
+                            result = true,
+                            id = id1,
+                            number_pack = CouchDataSet.Nomer_upakovki,
+                            name = CouchDataSet.Naimenovanie_izdeliya,
+                            Content = CouchDataSet.Soderzhimoe != null ? CouchDataSet.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList() : null
+                        });
+            }
+
+            return list;
+        }
+
+        public List<ImportResultResponse> UpdateEventDocument(EventCouch CouchDataSet, string user, string id)
+        {
+            List<ImportResultResponse> list = new List<ImportResultResponse>();
+            var id1 = "";
+           
+           
+                id1 = id;
+                CouchDataSet._id = id;
+                var t = CompareEvent(CouchDataSet, id);
+                if (t)
+                    return list;
+           
+            //var pruf=  SearchEventByNameAndNumber(CouchDataSet.Naimenovanie_izdeliya, CouchDataSet.);
+            //if (pruf!=null&&pruf._id != id)
+            //{
+
+            //    list.Add(new ImportResultResponse() { id = "000000000000000000000000" });
+            //    return list;
+            //}
+
+  
+            
+            CouchDataSet.Data_ismenen = DateTime.Now.Date;
+            var json = JsonConvert.SerializeObject(CouchDataSet);
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id1);
+
+            ServicePointManager.DefaultConnectionLimit = 1000;
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            request.Method = "PUT";
+            request.ContentType = "application/json";
+            request.KeepAlive = false;
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                 
+                    var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(json);
+                    o.Property("_rev").Remove(); 
+                    var json1 = JsonConvert.SerializeObject(o);
+                    streamWriter.Write(json1);
+                
+            }
+            var httpResponse = (HttpWebResponse)request.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var responseText = streamReader.ReadToEnd();
+
+                var response = JsonConvert.DeserializeObject<ResponseCouch>(responseText);
+                if (response.ok == null)
+                    list.Add(
+                        new ImportResultResponse()
+                        {
+                            result = false,
+                            id = id1,
+                            number_pack = CouchDataSet.Nomer_upakovki,
+                            name = CouchDataSet.Naimenovanie_izdeliya,
+                            Content = CouchDataSet.Soderzhimoe != null ? CouchDataSet.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList() : null
+                        });
+                else
+                    list.Add(
+                        new ImportResultResponse()
+                        {
+                            result = true,
+                            id = id1,
+                            number_pack = CouchDataSet.Nomer_upakovki,
+                            name = CouchDataSet.Naimenovanie_izdeliya,
+                            Content = CouchDataSet.Soderzhimoe != null ? CouchDataSet.Soderzhimoe.Select(x => x.Naimenovanie_sostavnoj_edinicy).ToList() : null
+                        });
+            }
+
+            return list;
+        }
+
         public List<ImportResultResponse> SetEventDocument(EventCouch CouchDataSet, string user, string id=null)
         {
             List<ImportResultResponse> list = new List<ImportResultResponse>();

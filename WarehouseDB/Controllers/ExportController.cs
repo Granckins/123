@@ -48,6 +48,7 @@ namespace WarehouseDB.Controllers
                 var revs = Repository.GetRevisionListEvent(rr.id);
                 var r1 = Repository.GetRevisionFiesldsEvent(rr.id, revs);
                 rr.value._revs = r1.ToEventCouch();
+                rr.value._id = rr.id;
             }
             string output = JsonConvert.SerializeObject(res1.rows);
             byte[] contents = System.Text.Encoding.UTF8.GetBytes(output);
