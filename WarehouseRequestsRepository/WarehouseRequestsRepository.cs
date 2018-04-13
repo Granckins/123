@@ -673,14 +673,38 @@ namespace Warehouse.Core.Repositories
         {
             CouchRequestMultiKey<EventCouch> list = new CouchRequestMultiKey<EventCouch>();
             var skip = (page - 1) * limit;
+
+
+            DateTime current_date1 = DateTime.Today;
+            DateTime current_date2 = DateTime.Today;
+
+
+
             if (startkey == "")
             {
-                startkey = "" + DateTime.Today.Date.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
+             //   current_date1 = current_date1.AddDays(-1);
+                startkey = "" + current_date1.Date.Year + "-" + current_date1.Month.ToString().PadLeft(2, '0') + "-" + current_date1.Day.ToString().PadLeft(2, '0');
+            }
+            else
+            {
+                current_date1 = Convert.ToDateTime(startkey);
+            //    current_date1 = current_date1.AddDays(-1);
+                startkey = "" + current_date1.Date.Year + "-" + current_date1.Month.ToString().PadLeft(2, '0') + "-" + current_date1.Day.ToString().PadLeft(2, '0');
             }
             if (endkey == "")
             {
-                endkey = "" + DateTime.Today.Date.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
+                current_date2 = current_date2.AddDays(1);
+                endkey = "" + current_date2.Date.Year + "-" + current_date2.Month.ToString().PadLeft(2, '0') + "-" + current_date2.Day.ToString().PadLeft(2, '0');
             }
+            else
+            {
+                current_date2 = Convert.ToDateTime(endkey);
+                current_date2 = current_date2.AddDays(1);
+                endkey = "" + current_date2.Date.Year + "-" + current_date2.Month.ToString().PadLeft(2, '0') + "-" + current_date2.Day.ToString().PadLeft(2, '0');
+            }
+
+
+             
            
             var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
             if(!flag)
@@ -706,15 +730,35 @@ namespace Warehouse.Core.Repositories
         {
             CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
             var skip = (page - 1) * limit;
+            DateTime current_date1 = DateTime.Today;
+            DateTime current_date2 = DateTime.Today;
+
+
+
             if (startkey == "")
             {
-                startkey = "" + DateTime.Today.Date.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
+              //  current_date1 = current_date1.AddDays(-1);
+                startkey = "" + current_date1.Date.Year + "-" + current_date1.Month.ToString().PadLeft(2, '0') + "-" + current_date1.Day.ToString().PadLeft(2, '0');
+            }
+            else
+            {
+                current_date1 = Convert.ToDateTime(startkey);
+              //  current_date1 = current_date1.AddDays(-1);
+                startkey = "" + current_date1.Date.Year + "-" + current_date1.Month.ToString().PadLeft(2, '0') + "-" + current_date1.Day.ToString().PadLeft(2, '0');
             }
             if (endkey == "")
             {
-                endkey = "" + DateTime.Today.Date.Year + "-" + DateTime.Today.Month + "-" + DateTime.Today.Day;
+                current_date2 = current_date2.AddDays(1);
+                endkey = "" + current_date2.Date.Year + "-" + current_date2.Month.ToString().PadLeft(2, '0') + "-" + current_date2.Day.ToString().PadLeft(2, '0');
             }
-           
+            else
+            {
+                current_date2 = Convert.ToDateTime(endkey);
+                current_date2 = current_date2.AddDays(1);
+                endkey = "" + current_date2.Date.Year + "-" + current_date2.Month.ToString().PadLeft(2, '0') + "-" + current_date2.Day.ToString().PadLeft(2, '0');
+            }
+
+
             var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
             if (!flag)
                 url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
@@ -767,13 +811,13 @@ namespace Warehouse.Core.Repositories
 
             if (startkey == "")
             {
-                current_date1 = current_date1.AddDays(-1);
+              //  current_date1 = current_date1.AddDays(-1);
                 startkey = "" + current_date1.Date.Year + "-" + current_date1.Month.ToString().PadLeft(2, '0') + "-" + current_date1.Day.ToString().PadLeft(2, '0');
             }
             else
             {
                 current_date1 = Convert.ToDateTime(startkey);
-                current_date1 = current_date1.AddDays(-1);
+              //  current_date1 = current_date1.AddDays(-1);
                 startkey = "" + current_date1.Date.Year + "-" + current_date1.Month.ToString().PadLeft(2, '0') + "-" + current_date1.Day.ToString().PadLeft(2, '0');
             }
             if (endkey == "")

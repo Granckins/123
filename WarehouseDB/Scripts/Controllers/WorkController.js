@@ -513,9 +513,18 @@
             }
         }
         if (chip.value == 'Дата приёма')
-            $scope.Data_priyoma = false;
+        {
+        $scope.Data_priyoma_str1 = null;
+        $scope.Data_priyoma_str2 = null;
+        $scope.Data_priyoma = false;
+        }
+           
         if (chip.value == 'Дата выдачи')
+        {
+            $scope.Data_vydachi_str1 = null;
+            $scope.Data_vydachi_str2 = null;
             $scope.Data_vydachi = false;
+        }
         var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
         var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
         var post = new Object();
