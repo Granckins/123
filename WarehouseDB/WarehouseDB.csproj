@@ -415,6 +415,10 @@
     <Content Include="plugins\angular-aria\angular-aria.js" />
     <Content Include="plugins\angular-aria\angular-aria.min.js" />
     <Content Include="plugins\angular-aria\index.js" />
+    <Content Include="plugins\angular-file-saver\dist\angular-file-saver.bundle.js" />
+    <Content Include="plugins\angular-file-saver\dist\angular-file-saver.bundle.min.js" />
+    <Content Include="plugins\angular-file-saver\dist\angular-file-saver.js" />
+    <Content Include="plugins\angular-file-saver\dist\angular-file-saver.min.js" />
     <Content Include="plugins\angular-material-data-table\app\app.js" />
     <Content Include="plugins\angular-material-data-table\app\index.html" />
     <Content Include="plugins\angular-material-data-table\app\scripts\nutritionController.js" />
