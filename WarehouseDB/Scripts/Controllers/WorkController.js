@@ -1146,7 +1146,12 @@ function (isConfirm) {
 
     }
 
+    $scope.NullDate = function (date) {
+        var df = new Date('0001-01-01T00:00:00.000Z');
+        var dfsd = (date.valueOf() == df.valueOf());
+        return dfsd;
 
+    }
 }
 
 WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert', 'moment'];

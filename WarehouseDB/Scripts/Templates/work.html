@@ -160,18 +160,7 @@
                         Cведения О МТЦ
                         <small>Сведения о МТЦ, поступающих, хранящихся и выдаваемых со склада КТ</small>
                     </h2>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Action</a></li>
-                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Another action</a></li>
-                                <li><a href="javascript:void(0);" class=" waves-effect waves-block">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                  
                 </div>
                 <div class="body table-responsive js-sweetalert   chipsdemobasicusage">
 
@@ -603,7 +592,7 @@
                             </md-input-container>
                         </td>
                         <td class="special">
-                            <span ng-show="user.showEdit">
+                            <span ng-show="user.showEdit" ng-if=" !NullDate(user.value.Data_vydachi)">
                                 {{user.value.Data_vydachi  |  amDateFormat:'DD.MM.YYYY'}}
                             </span>
                             <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
@@ -888,8 +877,10 @@
                                         {{his.value.Otkuda}}
                                     </td>
                                     <td class="special">
-                                        {{his.value.Data_vydachi  |  amDateFormat:'DD.MM.YYYY'}}
-                                    </td>
+                                        <span ng-if=" !NullDate(his.value.Data_vydachi)">
+                                            {{his.value.Data_vydachi  |  amDateFormat:'DD.MM.YYYY'}}
+                                        </span> 
+                                          </td>
                                     <td class="special">
                                         {{his.value.Kuda}}
                                     </td>
