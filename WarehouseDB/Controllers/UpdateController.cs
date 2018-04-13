@@ -44,20 +44,39 @@ namespace WarehouseDB.Controllers
                 if (dsd._id == null)
                 {
                     if (e.value._revs.Count > 1)
-                    { int i = 0;
+                    {
+                        int i = 0;
                         int count = e.value._revs.Count;
-                       for (i = count - 1; i > 0; i--)
+                        for (i = count - 1; i > 0; i--)
                         {
-                            Repository.UpdateEventDocument(e.value._revs[i], e.value._revs[i].Dobavil, e.value._revs[i]._id);
+                            if (i != count - 1)
+                                Repository.SetEventDocument(e.value._revs[i], e.value.Dobavil, e.value._id);
+                            else
+                                Repository.UpdateEventDocument(e.value._revs[i], e.value._revs[i].Dobavil, e.value._revs[i]._id);
 
                         }
                     }
-                    Repository.UpdateEventDocument(EventManager.ConvertEventCouchFullToEventCouch(e.value), e.value.Dobavil, e.value._id);
+                    else
+                        Repository.UpdateEventDocument(EventManager.ConvertEventCouchFullToEventCouch(e.value), e.value.Dobavil, e.value._id);
                 }
                 else
-                    Repository.SetEventDocument(EventManager.ConvertEventCouchFullToEventCouch(e.value), e.value.Dobavil, e.value._id);
-              
-                   
+                {
+                    if (e.value._revs.Count > 1)
+                    {
+                        int i = 0;
+                        int count = e.value._revs.Count;
+                        for (i = count - 1; i > 0; i--)
+                        {
+                             
+                                Repository.SetEventDocument(e.value._revs[i], e.value.Dobavil, e.value._id);
+                             
+
+                        }
+                    }
+                    else
+                        Repository.SetEventDocument(EventManager.ConvertEventCouchFullToEventCouch(e.value), e.value.Dobavil, e.value._id);
+
+                }
             }
  
             var r = "";

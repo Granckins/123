@@ -100,6 +100,7 @@ namespace Warehouse.Core.Repositories
         }
         public bool DeleteEventDocument(EventCouch CouchDataSet, string id)
         {
+
             List<ImportResultResponse> list = new List<ImportResultResponse>();
             var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id + "?rev=" + CouchDataSet._rev);
 
