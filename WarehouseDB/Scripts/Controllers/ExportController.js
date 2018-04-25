@@ -1,4 +1,4 @@
-﻿var ExportController = function ($scope, $q, $timeout, FileUploader, moment, $http, SweetAlert, FileSaver, Blob) {
+﻿  var ExportController = function ($scope, $q, $timeout, FileUploader, moment, $http, SweetAlert, FileSaver, Blob) {
  
     
     $scope.get_all_events = function () {

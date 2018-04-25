@@ -30,16 +30,9 @@ namespace WarehouseDB
              bundles.Add(new ScriptBundle("~/bundles/countTo").Include(
  "~/plugins/jquery-countto/jquery.countTo.js"));
 
-             bundles.Add(new ScriptBundle("~/bundles/Chart").Include(
-  "~/plugins/chartjs/Chart.bundle.js"));
 
-             bundles.Add(new ScriptBundle("~/bundles/flot").Include(
-  "~/plugins/flot-charts/jquery.flot.js",
-  "~/plugins/flot-charts/jquery.flot.resize.js",
-  "~/plugins/flot-charts/jquery.flot.pie.js",
-  "~/plugins/flot-charts/jquery.flot.categories.js",
-  "~/plugins/flot-charts/jquery.flot.time.js"
-  ));
+
+    
              bundles.Add(new ScriptBundle("~/bundles/sparkline").Include(
   "~/plugins/jquery-sparkline/jquery.sparkline.js"));
              bundles.Add(new ScriptBundle("~/bundles/md-stepper").Include(
@@ -84,7 +77,7 @@ namespace WarehouseDB
                       "~/plugins/angular-material-data-table/dist/md-data-table.min.css" ,
                         "~/css/datatables.bootstrap.css" 
                    ));
-            BundleTable.EnableOptimizations = false;
+            BundleTable.EnableOptimizations = false  ;
         }
     }
 }

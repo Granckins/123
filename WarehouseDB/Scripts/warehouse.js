@@ -44,7 +44,7 @@
     return self;
 }]);
 
-var app = angular.module('app', ['ui.router', 'bw.paging', 'ngAnimate', 'ngMaterial', 'md.chips.select', 'md-steppers', 'angularFileUpload', 'datatables', 'oitozero.ngSweetAlert', 'angularMoment','ngFileSaver']);
+var app = angular.module('app', ['ui.router', 'bw.paging', 'ngAnimate', 'ngMaterial', 'md.chips.select', 'md-steppers', 'angularFileUpload', 'datatables', 'oitozero.ngSweetAlert', 'angularMoment','ngFileSaver','sly']);
 
 app.controller('appCtrl', appCtrl);
 app.controller('ImportController', ImportController);
@@ -56,6 +56,7 @@ app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 app.factory('LoginFactory', LoginFactory);
 app.factory('PreviewFactory', PreviewFactory);
 app.factory('WorkFactory', WorkFactory);
+app.factory('HistoryUpdateFactory', HistoryUpdateFactory);
 app.directive('tmpl', testComp);
 
 

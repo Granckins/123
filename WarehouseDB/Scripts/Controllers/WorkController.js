@@ -1,4 +1,4 @@
-﻿var WorkController = function ($scope, $http, DTOptionsBuilder, DTColumnBuilder, $compile, SweetAlert, moment) {
+﻿var WorkController = function ($scope, $http, DTOptionsBuilder, DTColumnBuilder, $compile, SweetAlert, moment, HistoryUpdateFactory) {
     $scope.message = "fdf";
     $scope.vm = {};
     $scope.vm.dtInstance = {};
@@ -6,7 +6,7 @@
     $scope.archive = false;
 
     $scope.currentPage = 1;
-    $scope.numPerPage = 10;
+    $scope.numPerPage = 5;
     $scope.maxSize = 5;
 
 
@@ -144,7 +144,17 @@
         }
         return ";";
     }
-
+    $scope.login = function () {
+        var result = HistoryUpdateFactory($scope.userList);
+        result.then(function (result) {
+            if (result.success) {
+              
+            }
+            else {
+                
+            }
+        });
+    }
     $scope.getList = function () {
         obj = new Object();
         obj["page"] = $scope.pageIndex;
@@ -179,10 +189,11 @@
             data: obj
         }).
            then(function (response) {
-               $scope.userList = response.data.rows;
+             $scope.userList = [];
                $scope.totalCount = response.data.total_rows;
-
-               angular.forEach($scope.userList, function (obj) {
+               var i = 0;
+               var lcount = $scope.userList.length;
+               angular.forEach(response.data.rows, function (obj) {
                    obj["showEdit"] = true;
                    obj["showSub"] = false;
                    obj["History"] = [];
@@ -194,23 +205,28 @@
                        obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                    if (obj.value.Data_ismenen != null)
                        obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
-
+                   if (i == 0)
+                       $scope.userList = [];
+                   if (i < lcount) {
+                       $scope.userList[i] = obj;
+                   }
+                   else {  
+                       $scope.userList.push(obj);
+                   }
+                   i++;
                })
                angular.forEach($scope.userList, function (obj) {
 
-                   $http({
-                       url: "/Work/IsEventHistory?id=" + obj.id,
-                       method: "GET",
-                       params: {
-                           page: $scope.pageIndex,
-                           limit: $scope.pageSizeSelected
+                   var result = HistoryUpdateFactory(obj.id);
+                   result.then(function (result) {
+                       if (result.success) {
+                          
+                           obj["IsHistory"] = true;
+                       } else {
+                           obj["IsHistory"] = false;
                        }
-                   }).
-                    then(function (response) {
-                        var gdfgf = response.data > 0 ? true : false;
-                        obj["IsHistory"] = gdfgf;
-
-                    });
+                      
+                   });
 
                })
            });
@@ -306,10 +322,12 @@
             data: obj
         }).
            then(function (response) {
-               $scope.userList = response.data.rows;
+               $scope.userList = [];
                $scope.totalCount = response.data.total_rows;
+               var i = 0;
+               var lcount = $scope.userList.length;
 
-               angular.forEach($scope.userList, function (obj) {
+               angular.forEach(response.data.rows, function (obj) {
                    obj["showEdit"] = true;
                    obj["showSub"] = false;
                    obj["History"] = [];
@@ -321,22 +339,27 @@
                        obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                    if (obj.value.Data_ismenen != null)
                        obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
+                   if (i == 0)
+                       $scope.userList = [];
+                   if (i < lcount) {
+                       $scope.userList[i] = obj;
+                   }
+                   else {
+                       $scope.userList.push(obj);
+                   }
+                   i++;
                })
                angular.forEach($scope.userList, function (obj) {
 
-                   $http({
-                       url: "/Work/IsEventHistory?id=" + obj.id,
-                       method: "GET",
-                       params: {
-                           page: $scope.pageIndex,
-                           limit: $scope.pageSizeSelected
-                       }
-                   }).
-                    then(function (response) {
-                        var gdfgf = response.data > 0 ? true : false;
-                        obj["IsHistory"] = gdfgf;
+                   var result = HistoryUpdateFactory(obj.id);
+                   result.then(function (result) {
+                       if (result.success) {
 
-                    });
+                           obj["IsHistory"] = true;
+                       } else {
+                           obj["IsHistory"] = false;
+                       }
+                   });
 
                })
            });
@@ -448,10 +471,11 @@
             data: post
         }).
             then(function (response) {
-                $scope.userList = response.data.rows;
+                $scope.userList = [];
                 $scope.totalCount = response.data.total_rows;
-
-                angular.forEach($scope.userList, function (obj) {
+                var i = 0;
+                var lcount = $scope.userList.length;
+                angular.forEach(response.data.rows, function (obj) {
                     obj["showEdit"] = true;
                     obj["showSub"] = false;
                     obj["History"] = [];
@@ -463,22 +487,27 @@
                         obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                     if (obj.value.Data_ismenen != null)
                         obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
+                    if (i == 0)
+                        $scope.userList = [];
+                    if (i < lcount) {
+                        $scope.userList[i] = obj;
+                    }
+                    else {
+                        $scope.userList.push(obj);
+                    }
+                    i++;
                 })
                 angular.forEach($scope.userList, function (obj) {
 
-                    $http({
-                        url: "/Work/IsEventHistory?id=" + obj.id,
-                        method: "GET",
-                        params: {
-                            page: $scope.pageIndex,
-                            limit: $scope.pageSizeSelected
-                        }
-                    }).
-                     then(function (response) {
-                         var gdfgf = response.data > 0 ? true : false;
-                         obj["IsHistory"] = gdfgf;
+                    var result = HistoryUpdateFactory(obj.id);
+                    result.then(function (result) {
+                        if (result.success) {
 
-                     });
+                            obj["IsHistory"] = true;
+                        } else {
+                            obj["IsHistory"] = false;
+                        }
+                    });
 
                 })
 
@@ -544,10 +573,12 @@
             data: post
         }).
             then(function (response) {
-                $scope.userList = response.data.rows;
+                $scope.userList = [];
                 $scope.totalCount = response.data.total_rows;
+                var i = 0;
+                var lcount = $scope.userList.length;
 
-                angular.forEach($scope.userList, function (obj) {
+                angular.forEach(response.data.rows, function (obj) {
                     obj["showEdit"] = true;
                     obj["showSub"] = false;
                     obj["History"] = [];
@@ -559,22 +590,27 @@
                         obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                     if (obj.value.Data_ismenen != null)
                         obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
+                    if (i == 0)
+                        $scope.userList = [];
+                    if (i < lcount) {
+                        $scope.userList[i] = obj;
+                    }
+                    else {
+                        $scope.userList.push(obj);
+                    }
+                    i++;
                 })
                 angular.forEach($scope.userList, function (obj) {
 
-                    $http({
-                        url: "/Work/IsEventHistory?id=" + obj.id,
-                        method: "GET",
-                        params: {
-                            page: $scope.pageIndex,
-                            limit: $scope.pageSizeSelected
-                        }
-                    }).
-                     then(function (response) {
-                         var gdfgf = response.data > 0 ? true : false;
-                         obj["IsHistory"] = gdfgf;
+                    var result = HistoryUpdateFactory(obj.id);
+                    result.then(function (result) {
+                        if (result.success) {
 
-                     });
+                            obj["IsHistory"] = true;
+                        } else {
+                            obj["IsHistory"] = false;
+                        }
+                    });
 
                 })
 
@@ -621,10 +657,12 @@
             data: post
         }).
             then(function (response) {
-                $scope.userList = response.data.rows;
+                $scope.userList = [];
                 $scope.totalCount = response.data.total_rows;
+                var i = 0;
+                var lcount = $scope.userList.length;
 
-                angular.forEach($scope.userList, function (obj) {
+                angular.forEach(response.data.rows, function (obj) {
                     obj["showEdit"] = true; 
                     obj["History"] = [];
                     obj["IsHistory"] = false;
@@ -635,22 +673,27 @@
                         obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                     if (obj.value.Data_ismenen != null)
                         obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
+                    if (i == 0)
+                        $scope.userList = [];
+                    if (i < lcount) {
+                        $scope.userList[i] = obj;
+                    }
+                    else {
+                        $scope.userList.push(obj);
+                    }
+                    i++;
                 })
                 angular.forEach($scope.userList, function (obj) {
 
-                    $http({
-                        url: "/Work/IsEventHistory?id=" + obj.id,
-                        method: "GET",
-                        params: {
-                            page: $scope.pageIndex,
-                            limit: $scope.pageSizeSelected
-                        }
-                    }).
-                     then(function (response) {
-                         var gdfgf = response.data > 0 ? true : false;
-                         obj["IsHistory"] = gdfgf;
+                    var result = HistoryUpdateFactory(obj.id);
+                    result.then(function (result) {
+                        if (result.success) {
 
-                     });
+                            obj["IsHistory"] = true;
+                        } else {
+                            obj["IsHistory"] = false;
+                        }
+                    });
 
                 })
 
@@ -730,10 +773,12 @@ function (isConfirm) {
             }).
                    then(function (response) {
               
-                       $scope.userList = response.data.rows;
+                       $scope.userList = [];
                        $scope.totalCount = response.data.total_rows;
+                       var i = 0;
+                       var lcount = $scope.userList.length;
 
-                       angular.forEach($scope.userList, function (obj) {
+                       angular.forEach(response.data.rows, function (obj) {
                            obj["showEdit"] = true;
                            obj["showSub"] = false;
                            obj["History"] = [];
@@ -745,22 +790,27 @@ function (isConfirm) {
                                obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                            if (obj.value.Data_ismenen != null)
                                obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
+                           if (i == 0)
+                               $scope.userList = [];
+                           if (i < lcount) {
+                               $scope.userList[i] = obj;
+                           }
+                           else {
+                               $scope.userList.push(obj);
+                           }
+                           i++;
                        })
                        angular.forEach($scope.userList, function (obj) {
 
-                           $http({
-                               url: "/Work/IsEventHistory?id=" + obj.id,
-                               method: "GET",
-                               params: {
-                                   page: $scope.pageIndex,
-                                   limit: $scope.pageSizeSelected
-                               }
-                           }).
-                            then(function (response) {
-                                var gdfgf = response.data > 0 ? true : false;
-                                obj["IsHistory"] = gdfgf;
+                           var result = HistoryUpdateFactory(obj.id);
+                           result.then(function (result) {
+                               if (result.success) {
 
-                            });
+                                   obj["IsHistory"] = true;
+                               } else {
+                                   obj["IsHistory"] = false;
+                               }
+                           });
 
                        })
                    });
@@ -825,6 +875,15 @@ function (isConfirm) {
                          obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                      if (obj.value.Data_ismenen != null)
                          obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
+                     if (i == 0)
+                         $scope.userList = [];
+                     if (i < lcount) {
+                         $scope.userList[i] = obj;
+                     }
+                     else {
+                         $scope.userList.push(obj);
+                     }
+                     i++;
                  })
 
              });
@@ -1022,10 +1081,12 @@ function (isConfirm) {
             }).
                then(function (response) {
                    //  if (response.data != "") {
-                   $scope.userList = response.data.rows;
+                   $scope.userList = [];
                    $scope.totalCount = response.data.total_rows;
+                   var i = 0;
+                   var lcount = $scope.userList.length;
 
-                   angular.forEach($scope.userList, function (obj) {
+                   angular.forEach(response.data.rows, function (obj) {
                        obj["showEdit"] = true;
                        obj["showSub"] = false;
                        obj["History"] = [];
@@ -1037,24 +1098,29 @@ function (isConfirm) {
                            obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                        if (obj.value.Data_ismenen != null)
                            obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
+                       if (i == 0)
+                           $scope.userList = [];
+                       if (i < lcount) {
+                           $scope.userList[i] = obj;
+                       }
+                       else {
+                           $scope.userList.push(obj);
+                       }
+                       i++;
                    })
                    angular.forEach($scope.userList, function (obj) {
 
-                       $http({
-                           url: "/Work/IsEventHistory?id=" + obj.id,
-                           method: "GET",
-                           params: {
-                               page: $scope.pageIndex,
-                               limit: $scope.pageSizeSelected
+                       var result = HistoryUpdateFactory(obj.id);
+                       result.then(function (result) {
+                           if (result.success) {
+
+                               obj["IsHistory"] = true;
+                           } else {
+                               obj["IsHistory"] = false;
                            }
-                       }).
-                        then(function (response) {
-                            var gdfgf = response.data > 0 ? true : false;
-                            obj["IsHistory"] = gdfgf;
+                       });
 
-                        });
-
-                   }); 
+                   })
                });
         }
     };
@@ -1083,10 +1149,12 @@ function (isConfirm) {
             }).
                then(function (response) {
                    //  if (response.data != "") {
-                   $scope.userList = response.data.rows;
+                   $scope.userList = [];
                    $scope.totalCount = response.data.total_rows;
+                   var i = 0;
+                   var lcount = $scope.userList.length;
 
-                   angular.forEach($scope.userList, function (obj) {
+                   angular.forEach(response.data.rows, function (obj) {
                        obj["showEdit"] = true;
                        obj["showSub"] = false; 
                        obj["History"] = [];
@@ -1098,24 +1166,29 @@ function (isConfirm) {
                            obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                        if (obj.value.Data_ismenen != null)
                            obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
+                       if (i == 0)
+                           $scope.userList = [];
+                       if (i < lcount) {
+                           $scope.userList[i] = obj;
+                       }
+                       else {
+                           $scope.userList.push(obj);
+                       }
+                       i++;
                    })
                    angular.forEach($scope.userList, function (obj) {
 
-                       $http({
-                           url: "/Work/IsEventHistory?id=" + obj.id,
-                           method: "GET",
-                           params: {
-                               page: $scope.pageIndex,
-                               limit: $scope.pageSizeSelected
+                       var result = HistoryUpdateFactory(obj.id);
+                       result.then(function (result) {
+                           if (result.success) {
+
+                               obj["IsHistory"] = true;
+                           } else {
+                               obj["IsHistory"] = false;
                            }
-                       }).
-                        then(function (response) {
-                            var gdfgf = response.data > 0 ? true : false;
-                            obj["IsHistory"] = gdfgf;
+                       });
 
-                        });
-
-                   });
+                   }) 
                    //   }
                    //else {
                    //    // ничего не изменилось
@@ -1158,4 +1231,4 @@ function (isConfirm) {
     }
 }
 
-WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert', 'moment'];
+WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert', 'moment','HistoryUpdateFactory'];
