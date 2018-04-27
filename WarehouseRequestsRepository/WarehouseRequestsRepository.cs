@@ -601,10 +601,10 @@ namespace Warehouse.Core.Repositories
         {
             CouchRequestMultiKey<EventCouch> list = new CouchRequestMultiKey<EventCouch>();
             var skip = (page - 1) * limit;
-           
-            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit + "&reduce=false";
             if (!flag)
-                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit + "&reduce=false";
 
             var request = (HttpWebRequest)WebRequest.Create(url);
 
@@ -626,9 +626,9 @@ namespace Warehouse.Core.Repositories
             CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
             var skip = (page - 1) * limit;
 
-            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "{}," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "{}," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit + "&reduce=false";
             if (!flag)
-                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "{}," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"0001-01-01\"," + archive.ToString().ToLower() + "]&endkey=[" + "{}," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit + "&reduce=false";
 
             var request = (HttpWebRequest)WebRequest.Create(url);
 
@@ -704,12 +704,17 @@ namespace Warehouse.Core.Repositories
             }
 
 
-             
-           
-            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+
+
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit + "&reduce=false";
             if(!flag)
-                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
-          
+                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit + "&reduce=false";
+            int count = 0;
+            if (flag)
+                count = GetCountRowsFilterByDate(flag, "startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]");
+            else
+                count = GetCountRowsFilterByDate(flag, "startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]");
+       
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.Credentials = new NetworkCredential("admin", "root");
@@ -721,7 +726,7 @@ namespace Warehouse.Core.Repositories
                 var reader = new StreamReader(responseStream, Encoding.UTF8);
                 var res = reader.ReadToEnd();
                 list = JsonConvert.DeserializeObject<CouchRequestMultiKey<EventCouch>>(res);
- 
+                list.total_rows = count;
             }
             return list;
         }
@@ -861,7 +866,7 @@ namespace Warehouse.Core.Repositories
                 endkey = "" + current_date2.Date.Year + "-" + current_date2.Month.ToString().PadLeft(2, '0') + "-" + current_date2.Day.ToString().PadLeft(2, '0');
             }
 
-            var url = "http://localhost:5984/events/_design/bydate/_view/bydateiz?startkey=" + "\"" + startkey + "\"" +  "&endkey=" + "\"" + endkey + "\"";
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydateiz?startkey=" + "\"" + startkey + "\"" + "&endkey=" + "\"" + endkey + "\"" + "&reduce=false";
             
             var request = (HttpWebRequest)WebRequest.Create(url);
 

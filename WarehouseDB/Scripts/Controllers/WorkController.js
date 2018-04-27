@@ -1158,6 +1158,10 @@ function (isConfirm) {
             var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
             var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
             var post = new Object();
+            if (emp.value.Data_vydachi != null) {
+                $scope.archive = true;
+                $scope.archive_str = $scope.archive;
+            }
             emp["page"] = $scope.pageIndex;
             emp["limit"] = $scope.pageSizeSelected;
             emp["showEdit"] = false;
@@ -1168,13 +1172,14 @@ function (isConfirm) {
             emp["sortvalue"] = $scope.sortfiltervalue;
             emp["datepr"] = $scope.getdatepr();
             emp["datevd"] = $scope.getdatevd();
+         
             $http({
                 url: '/Work/ChangeEventDocument',
                 method: "POST",
                 data: emp
             }).
                then(function (response) {
-                   //  if (response.data != "") {
+                   if (emp.value.Data_vydachi == null) {
                    $scope.userList = [];
                    $scope.totalCount = response.data.total_rows;
                    var i = 0;
@@ -1215,14 +1220,14 @@ function (isConfirm) {
                        });
 
                    })
-                   //   }
-                   //else {
+                 }
+                    else {
                    //    // ничего не изменилось
                    //    SweetAlert.swal("Отмена", "Запись не была обновлена, так как текущая версия записи совпадает с предыдущей!", "warning");
                    //    if (emp.id == null)
                    //        $scope.userList.shift();
-
-                   //}
+                       $scope.archivete(emp);
+                  }
 
                });
         }
