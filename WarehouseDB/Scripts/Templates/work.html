@@ -262,7 +262,7 @@
                         <th class="rotate-45"><div><span>Заводской номер</span></div></th>
                         <th class="rotate-45"><div><span>Количество</span></div></th>
                         <th class="rotate-45"><div><span>Местонахождение на складе</span></div></th>
-                        <!--<th class="rotate-45"><div><span>Обозначение</span></div></th>-->
+                        <th class="rotate-45"><div><span>Обозначение</span></div></th>
                         <th class="rotate-45"><div><span>Система</span></div></th>
                         <th class="rotate-45"><div><span>Ответственный</span></div></th>
                         <th class="rotate-45"><div><span>Принадлежность</span></div></th>
@@ -346,7 +346,17 @@
                                 <md-icon> sort</md-icon>
                             </md-button>
                         </td>
-
+                        <td>
+                            <md-button ng-show="GetStatusSort('Обозначение')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Обозначение')">
+                                <md-icon> import_export</md-icon>
+                            </md-button>
+                            <md-button ng-show="GetStatusSort('Обозначение')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Обозначение')">
+                                <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                            </md-button>
+                            <md-button ng-show="GetStatusSort('Обозначение')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Обозначение')">
+                                <md-icon> sort</md-icon>
+                            </md-button>
+                        </td>
                         <td>
                             <md-button ng-show="GetStatusSort('Система')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Система')">
                                 <md-icon> import_export</md-icon>
@@ -524,7 +534,7 @@
                             </md-input-container>
 
                         </td>
-                        <!--<td class="special">
+                        <td class="special">
                             <span ng-show="user.showEdit">
                                 {{user.value.Oboznachenie}}
                             </span>
@@ -532,7 +542,7 @@
                                 <input aria-label="Обозначение" ng-show="!user.showEdit" type="text" ng-model="user.value.Oboznachenie">
 
                             </md-input-container>
-                        </td>-->
+                        </td>
                         <td class="special">
                             <span ng-show="user.showEdit">
                                 {{user.value.Sistema}}
@@ -858,9 +868,9 @@
                                     <td class="special">
                                         {{his.value.Mestonahozhdenie_na_sklade}}
                                     </td>
-                                    <!--<td class="special">
+                                    <td class="special">
                                         {{his.value.Oboznachenie}}
-                                    </td>-->
+                                    </td>
                                     <td class="special">
                                         {{his.value.Sistema}}
                                     </td>
@@ -985,7 +995,7 @@
 
 
 
-                            <paging page="pageIndex"
+                            <paging ng page="pageIndex"
                                     page-size="pageSizeSelected"
                                     total="totalCount"
                                     show-prev-next="true"

@@ -39,7 +39,7 @@
     }
     $scope.selectedOption = '';
     $scope.searchText = '';
-     $scope.searchfiltername = [];
+    $scope.searchfiltername = [];
     $scope.searchfiltervalue = [];
     $scope.buferList = [];
     $scope.userList = [];
@@ -55,6 +55,7 @@
       { name: 'Номер упаковки', value: 'Номер упаковки' },
       { name: 'Наименование', value: 'Наименование изделия' },
       { name: 'Заводской номер', value: 'Заводской номер' },
+       { name: 'Обозначение', value: 'Обозначение' },
       { name: 'Ответственный', value: 'Ответственный' },
       { name: 'Принадлежность', value: 'Принадлежность' },
           { name: 'Система', value: 'Система' },
@@ -68,12 +69,13 @@
            { name: 'Номер упаковки', value: 1 },
         { name: 'Наименование изделия', value: 0 },
       { name: 'Заводской номер', value: 0 },
+           { name: 'Обозначение', value: 0 },
       { name: 'Количество', value: 0 },
       { name: 'Заводской номер', value: 0 },
       { name: 'Местонахождение на складе', value: 0 },
       { name: 'Система', value: 0 },
       { name: 'Ответственный', value: 0 },
-      { name: 'Принадлежность', value: 0},
+      { name: 'Принадлежность', value: 0 },
                                          { name: 'Дата приёма', value: 0 },
                                             { name: 'Дата выдачи', value: 0 }
     ];
@@ -148,10 +150,10 @@
         var result = HistoryUpdateFactory($scope.userList);
         result.then(function (result) {
             if (result.success) {
-              
+
             }
             else {
-                
+
             }
         });
     }
@@ -189,7 +191,7 @@
             data: obj
         }).
            then(function (response) {
-             $scope.userList = [];
+               $scope.userList = [];
                $scope.totalCount = response.data.total_rows;
                var i = 0;
                var lcount = $scope.userList.length;
@@ -210,7 +212,7 @@
                    if (i < lcount) {
                        $scope.userList[i] = obj;
                    }
-                   else {  
+                   else {
                        $scope.userList.push(obj);
                    }
                    i++;
@@ -220,12 +222,12 @@
                    var result = HistoryUpdateFactory(obj.id);
                    result.then(function (result) {
                        if (result.success) {
-                          
+
                            obj["IsHistory"] = true;
                        } else {
                            obj["IsHistory"] = false;
                        }
-                      
+
                    });
 
                })
@@ -369,85 +371,104 @@
         $scope.getList();
 
     });
-    $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; }); 
+    $scope.pageSizes = ('5 10 25 50').split(' ').map(function (state) { return { abbrev: state }; });
     $scope.filters = ("Дата приёма;Дата выдачи").split(';').map(function (state) { return { abbrev: state }; });
     $scope.searchfilters = "";
     $scope.searchsorts = "";
     $scope.getList();
- 
+
     $scope.changePageSize = function () {
         $scope.pageIndex = 1;
         $scope.getList();
     };
-  
+
     $scope.GetLengthFilter = function () {
         return $scope.searchfiltername.length;
     };
 
- 
+
     $scope.launchAPIQueryParams = {
         types: [],
     };
 
 
-  
+
     $scope.deletechipsToList = function (chip) {
         var length = $scope.launchTypeOptions.length;
         for (var i = 0; i < length; i++) {
             if ($scope.launchTypeOptions[i].$$hashKey === chip.$$hashKey) {
-                
+
                 $scope.launchTypeOptions[i].name = $scope.launchTypeOptions[i].value;
             }
         }
     };
 
-  
-    $scope.SortReset= function (name) {
+
+    $scope.SortReset = function (name) {
         for (var i = 0; i < $scope.SortOptions.length ; i++) {
             if ($scope.SortOptions[i].name != name) {
                 {
-                    
+
                     $scope.SortOptions[i].value = 0;
-                         
-                     
+
+
                 }
             }
         }
     };
+  
     $scope.SortChange = function (name) {
-       var value=0;
+        var value = 0;
         for (var i = 0; i < $scope.SortOptions.length ; i++) {
             if ($scope.SortOptions[i].name == name) {
-                { 
+                {
                     if (name == 'Дата приёма' || name == 'Дата выдачи') {
-                        if ($scope.SortOptions[i].value == 0)
-                        { $scope.SortOptions[i].value = 1; 
-                        value= $scope.SortOptions[i].value;
-                        break; }
-                        if ($scope.SortOptions[i].value == 1)
-                        { $scope.SortOptions[i].value = 0;
-                        value= $scope.SortOptions[i].value;    
-                        break; }
+                        if ($scope.SortOptions[i].value == 0) {
+                            $scope.SortOptions[i].value = 1;
+                            value = $scope.SortOptions[i].value;
+                            break;
+                        }
+                        if ($scope.SortOptions[i].value == 1) {
+                            $scope.SortOptions[i].value = 0;
+                            value = $scope.SortOptions[i].value;
+                            break;
+                        }
                     } else {
 
-                        if ($scope.SortOptions[i].value == 0)
-                        { $scope.SortOptions[i].value = 1;
-                        value= $scope.SortOptions[i].value;    
-                        break; }
-                        if ($scope.SortOptions[i].value == 1)
-                        { $scope.SortOptions[i].value = 2; 
-                        value= $scope.SortOptions[i].value;    
-                        break; }
-                        if ($scope.SortOptions[i].value == 2)
-                        { $scope.SortOptions[i].value = 0; 
-                        value= $scope.SortOptions[i].value;    
-                        break; }
+                        if ($scope.SortOptions[i].value == 0) {
+                            $scope.SortOptions[i].value = 1;
+                            value = $scope.SortOptions[i].value;
+                            break;
+                        }
+                        if ($scope.SortOptions[i].value == 1) {
+                            $scope.SortOptions[i].value = 2;
+                            value = $scope.SortOptions[i].value;
+                            break;
+                        }
+                        if ($scope.SortOptions[i].value == 2) {
+                            $scope.SortOptions[i].value = 0;
+                            value = $scope.SortOptions[i].value;
+                            break;
+                        }
                     }
                 }
             }
         }
         $scope.SortReset(name);
-
+        var count = 0;
+        for (var i = 0; i < $scope.SortOptions.length ; i++) {
+            if ($scope.SortOptions[i].value != 0) {
+                {
+                    count++;
+                    break;
+                }
+            }
+        }
+        if (count == 0) {
+            $scope.SortOptions[0].value = 1;
+            value = $scope.SortOptions[0].value;
+            name = $scope.SortOptions[0].name;
+        }
 
         var post = new Object();
         $scope.pageIndex = 1;
@@ -537,22 +558,22 @@
         for (var i = 0; i < $scope.searchfiltername.length ; i++) {
             if ($scope.searchfiltername[i] === chip.value) {
                 $scope.searchfiltername.splice(i, 1);
-                $scope.searchfiltervalue.splice(i, 1);
+                $scope.searchfiltervalue.splice(i, 1); 
                 break;
             }
         }
-        if (chip.value == 'Дата приёма')
-        {
-        $scope.Data_priyoma_str1 = null;
-        $scope.Data_priyoma_str2 = null;
-        $scope.Data_priyoma = false;
+        if (chip.value == 'Дата приёма') {
+            $scope.Data_priyoma_str1 = null;
+            $scope.Data_priyoma_str2 = null;
+            $scope.Data_priyoma = false;
         }
-           
-        if (chip.value == 'Дата выдачи')
-        {
+
+        if (chip.value == 'Дата выдачи') {
             $scope.Data_vydachi_str1 = null;
             $scope.Data_vydachi_str2 = null;
             $scope.Data_vydachi = false;
+            $scope.archive = false;
+            $scope.archive_str = $scope.archive;
         }
         var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
         var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
@@ -631,8 +652,12 @@
             flagSod = true;
         if (obj.value == 'Дата приёма')
             $scope.Data_priyoma = true;
-        if (obj.value == 'Дата выдачи')
+        if (obj.value == 'Дата выдачи') {
             $scope.Data_vydachi = true;
+            $scope.archive = true;
+            $scope.archive_str = $scope.archive;
+
+        }
         obj.name = $scope.searchText + " (" + obj.value + ")";
 
         $scope.searchfiltername.push(obj.value);
@@ -663,7 +688,7 @@
                 var lcount = $scope.userList.length;
 
                 angular.forEach(response.data.rows, function (obj) {
-                    obj["showEdit"] = true; 
+                    obj["showEdit"] = true;
                     obj["History"] = [];
                     obj["IsHistory"] = false;
                     obj["showHistory"] = false;
@@ -772,13 +797,14 @@ function (isConfirm) {
                 data: obj
             }).
                    then(function (response) {
-              
+
                        $scope.userList = [];
                        $scope.totalCount = response.data.total_rows;
                        var i = 0;
                        var lcount = $scope.userList.length;
-
-                       angular.forEach(response.data.rows, function (obj) {
+                       for (var i = 0; i < lcount; i++) {
+                           obj = response.data.rows[i];
+                           //   angular.forEach(response.data.rows, function (obj) {
                            obj["showEdit"] = true;
                            obj["showSub"] = false;
                            obj["History"] = [];
@@ -799,7 +825,7 @@ function (isConfirm) {
                                $scope.userList.push(obj);
                            }
                            i++;
-                       })
+                       }
                        angular.forEach($scope.userList, function (obj) {
 
                            var result = HistoryUpdateFactory(obj.id);
@@ -814,9 +840,9 @@ function (isConfirm) {
 
                        })
                    });
-        } 
-            SweetAlert.swal("Запись удалена!");
-         
+        }
+        SweetAlert.swal("Запись удалена!");
+
     } else {
         SweetAlert.swal("Запись не  удалена!");
     }
@@ -996,34 +1022,34 @@ function (isConfirm) {
         return flag;
     }
     $scope.archivete = function (emp) {
-         
-          
-            var idx = $scope.buferList.indexOf(emp.key);
-            $scope.buferList.splice(idx);
-            var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
-            var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
-            var post = new Object();
-            emp["page"] = $scope.pageIndex;
-            emp["limit"] = $scope.pageSizeSelected;
-            emp["showEdit"] = false;
-            emp["archive_str"] = $scope.archive_str;
-            emp["filtername"] = searchfilternameString;
-            emp["filtervalue"] = searchfiltervalueString;
-            emp["sortname"] = $scope.sortfiltername;
-            emp["sortvalue"] = $scope.sortfiltervalue;
-            emp["datepr"] = $scope.getdatepr();
-            emp["datevd"] = $scope.getdatevd();
-            emp.value.archive = true;
-            $http({
-                url: '/Work/ChangeEventDocument',
-                method: "POST",
-                data: emp
-            }).
-               then(function (response) {
-                   $scope.getList();
 
-               });
-  
+
+        var idx = $scope.buferList.indexOf(emp.key);
+        $scope.buferList.splice(idx);
+        var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
+        var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
+        var post = new Object();
+        emp["page"] = $scope.pageIndex;
+        emp["limit"] = $scope.pageSizeSelected;
+        emp["showEdit"] = false;
+        emp["archive_str"] = $scope.archive_str;
+        emp["filtername"] = searchfilternameString;
+        emp["filtervalue"] = searchfiltervalueString;
+        emp["sortname"] = $scope.sortfiltername;
+        emp["sortvalue"] = $scope.sortfiltervalue;
+        emp["datepr"] = $scope.getdatepr();
+        emp["datevd"] = $scope.getdatevd();
+        emp.value.archive = true;
+        $http({
+            url: '/Work/ChangeEventDocument',
+            method: "POST",
+            data: emp
+        }).
+           then(function (response) {
+               $scope.getList();
+
+           });
+
     };
     $scope.unarchivete = function (emp) {
 
@@ -1066,7 +1092,7 @@ function (isConfirm) {
             var post = new Object();
             emp["page"] = $scope.pageIndex;
             emp["limit"] = $scope.pageSizeSelected;
-            
+
             emp["archive_str"] = $scope.archive_str;
             emp["filtername"] = searchfilternameString;
             emp["filtervalue"] = searchfiltervalueString;
@@ -1090,7 +1116,7 @@ function (isConfirm) {
                        obj["showEdit"] = true;
                        obj["showSub"] = false;
                        obj["History"] = [];
-                    
+
                        obj["showHistory"] = false;
                        if (obj.value.Data_priyoma != null)
                            obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
@@ -1156,7 +1182,7 @@ function (isConfirm) {
 
                    angular.forEach(response.data.rows, function (obj) {
                        obj["showEdit"] = true;
-                       obj["showSub"] = false; 
+                       obj["showSub"] = false;
                        obj["History"] = [];
                        obj["IsHistory"] = false;
                        obj["showHistory"] = false;
@@ -1188,7 +1214,7 @@ function (isConfirm) {
                            }
                        });
 
-                   }) 
+                   })
                    //   }
                    //else {
                    //    // ничего не изменилось
@@ -1231,4 +1257,4 @@ function (isConfirm) {
     }
 }
 
-WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert', 'moment','HistoryUpdateFactory'];
+WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert', 'moment', 'HistoryUpdateFactory'];

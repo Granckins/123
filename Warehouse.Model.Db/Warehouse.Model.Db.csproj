@@ -57,6 +57,7 @@
     <Compile Include="LuceneRequest.cs" />
     <Compile Include="PostRequestExport.cs" />
     <Compile Include="PostRequest.cs" />
+    <Compile Include="Reduce.cs" />
     <Compile Include="ResponseCouch.cs" />
     <Compile Include="RevsInfo.cs" />
     <Compile Include="Roles.cs" />

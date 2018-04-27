@@ -493,7 +493,7 @@ namespace Warehouse.Core.Repositories
                   else
                       sort += "\\" + qs.name.Replace(" ", "_") + "<int>";
               }
-              if (qs.name == "Наименование изделия" || qs.name == "Заводской номер" || qs.name == "Местонахождение на складе" || qs.name == "Система" || qs.name == "Ответственный" || qs.name == "Принадлежность")
+              if (qs.name == "Наименование изделия" || qs.name == "Заводской номер" || qs.name == "Обозначение" || qs.name == "Местонахождение на складе" || qs.name == "Система" || qs.name == "Ответственный" || qs.name == "Принадлежность")
               {
                   if (qs.value == "1")
                       sort += "/" + qs.name.Replace(" ", "_");
@@ -725,6 +725,29 @@ namespace Warehouse.Core.Repositories
             }
             return list;
         }
+        public int GetCountRowsFilterByDate(bool flag, string q)
+        {
+            int count = 0;
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?" + q + "&reduce=true";
+            if (!flag)
+                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?" + q + "&reduce=true";
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+        
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<RootObject<EventCouch>>(res);
+
+                count = lucene.rows.First().value;
+
+
+            }
+            return count;
+        }
         //true - datepr; false- datevd;
         public CouchRequest<EventCouch> FilterByDateDocumentsCR(bool flag, int page = 1, int limit = 10, bool archive = false, string startkey = "", string endkey = "")
         {
@@ -757,12 +780,18 @@ namespace Warehouse.Core.Repositories
                 current_date2 = current_date2.AddDays(1);
                 endkey = "" + current_date2.Date.Year + "-" + current_date2.Month.ToString().PadLeft(2, '0') + "-" + current_date2.Day.ToString().PadLeft(2, '0');
             }
+            int count = 0;
 
-
-            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+            
+            var url = "http://localhost:5984/events/_design/bydate/_view/bydatepr?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit +"&reduce=false";
             if (!flag)
-                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit;
+                url = "http://localhost:5984/events/_design/bydate/_view/bydatevd?startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" + "&skip=" + skip + "&limit=" + limit + "&reduce=false";
 
+            if (flag)
+               count= GetCountRowsFilterByDate(flag,"startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]" );
+            else
+                count = GetCountRowsFilterByDate(flag, "startkey=[" + "\"" + startkey + "\"," + archive.ToString().ToLower() + "]&endkey=[" + "\"" + endkey + "\"," + archive.ToString().ToLower() + "]");
+       
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.Credentials = new NetworkCredential("admin", "root");
@@ -784,7 +813,7 @@ namespace Warehouse.Core.Repositories
 
 
                 var couch = new CouchRequest<EventCouch>();
-                couch.total_rows = lucene.total_rows;
+                couch.total_rows = count;
                 couch.offset = lucene.offset;
 
                 couch.rows = new List<RowCouch<EventCouch>>();
