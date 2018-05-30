@@ -4747,6 +4747,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ParseWord\ParseWord.csproj">
+      <Project>{5026c802-d5c8-4e4f-ab7e-37200e086b56}</Project>
+      <Name>ParseWord</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Warehouse.Core\Warehouse.Core.csproj">
       <Project>{5466ca41-d117-4604-bf3a-8435665e0361}</Project>
       <Name>Warehouse.Core</Name>

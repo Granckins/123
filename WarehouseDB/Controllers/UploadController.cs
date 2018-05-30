@@ -139,6 +139,7 @@ namespace WarehouseDB.Controllers
             HttpFileCollectionBase files = Request.Files;
             HttpPostedFileBase uploadedFile = files[0];
             Stream fileStream = uploadedFile.InputStream;
+            ParseWord.ParseWord.ParseFile(fileStream);
             return Json("");
         }
         [HttpPost]
