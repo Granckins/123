@@ -1,4 +1,4 @@
-// Fine Uploader 5.15.0 - (c) 2013-present Widen Enterprises, Inc. MIT licensed. http://fineuploader.com
+// Fine Uploader 5.15.0 - (c) 2013-present Widen Enterprises, Inc. MIT licensed. http://fineuploaderwordcom
 (function(global) {
     var qq = function(element) {
         "use strict";
@@ -1230,7 +1230,7 @@
                 this._handler.expunge(id);
             },
             reset: function() {
-                this.log("Resetting uploader...");
+                this.log("Resetting uploaderword..");
                 this._handler.reset();
                 this._storedIds = [];
                 this._autoRetries = [];
@@ -5552,4 +5552,4 @@
         });
     };
 })(window);
-//# sourceMappingURL=fine-uploader.core.js.map
+//# sourceMappingURL=fine-uploaderwordcore.js.map

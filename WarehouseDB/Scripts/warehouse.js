@@ -48,6 +48,7 @@ var app = angular.module('app', ['ui.router', 'bw.paging', 'ngAnimate', 'ngMater
 
 app.controller('appCtrl', appCtrl);
 app.controller('ImportController', ImportController);
+app.controller('ImportWordController', ImportController);
 app.controller('ExportController', ExportController);
 app.controller('UpdateController', UpdateController);
 app.controller('LoginController', LoginController);
@@ -120,6 +121,13 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     .state('uploadpreview', {
         url: '/uploadpreview',
         templateUrl: '/Upload/UploadPreview'
+    }).state('uploadword', {
+        url: '/uploadword',
+        templateUrl: '/Upload/UploadWordFile' 
+    })
+    .state('uploadwordpreview', {
+        url: '/uploadwordpreview',
+        templateUrl: '/Upload/UploadWordPreview'
     }). state('work', {
         url: '/work',
         templateUrl: 'Scripts/Templates/work.html',

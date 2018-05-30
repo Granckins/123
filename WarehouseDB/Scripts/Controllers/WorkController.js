@@ -1,4 +1,4 @@
-﻿var WorkController = function ($scope, $http, DTOptionsBuilder, DTColumnBuilder, $compile, SweetAlert, moment, HistoryUpdateFactory) {
+﻿var WorkController = function ($scope, $http, DTOptionsBuilder, DTColumnBuilder, $compile, SweetAlert, moment, HistoryUpdateFactory ,$q, $timeout,FileUploader)  {
     $scope.message = "fdf";
     $scope.vm = {};
     $scope.vm.dtInstance = {};
@@ -1260,6 +1260,197 @@ function (isConfirm) {
             return false;
 
     }
+
+
+
+
+
+
+
+
+    $scope.showWord = false;
+    $scope.IsShowWord = function () {
+        return  $scope.showWord;
+
+    }
+
+    $scope.SetShowWord = function () {
+        $scope.showWord = $scope.showWord ? false : true;
+        if (!$scope.showWord)
+            $scope.restart();
+    }
+    $scope.selectedStep = 0;
+    $scope.logimport = [];
+    $scope.stepProgress = 1;
+    $scope.maxStep = 2;
+    $scope.showBusyText = false;
+    $scope.stepData = [
+        { step: 1, completed: false, optional: false, data: {} },
+        { step: 2, completed: false, optional: false, data: {} }, 
+    ];
+    $scope.upload = function () {
+        angular.element(document.querySelector('#fileInput')).click();
+    };
+    $scope.enableNextStep = function nextStep() {
+        //do not exceed into max step
+        if ( $scope.selectedStep >=  $scope.maxStep) {
+            return;
+        }
+        //do not increment  $scope.stepProgress when submitting from previously completed step
+        if ( $scope.selectedStep ===  $scope.stepProgress - 1) {
+             $scope.stepProgress =  $scope.stepProgress + 1;
+        }
+         $scope.selectedStep =  $scope.selectedStep + 1;
+    }
+
+     $scope.moveToPreviousStep = function moveToPreviousStep() {
+        if ( $scope.selectedStep > 0) {
+             $scope.selectedStep =  $scope.selectedStep - 1;
+        }
+    }
+
+
+     $scope.submitCurrentStep = function submitCurrentStep(stepData, isSkip) {
+        var deferred = $q.defer();
+         $scope.showBusyText = true;
+        console.log('On before submit');
+        if (!stepData.completed && !isSkip) {
+            //simulate $http
+            $timeout(function () {
+                 $scope.showBusyText = false;
+                console.log('On submit success');
+                deferred.resolve({ status: 200, statusText: 'success', data: {} });
+                //move to next step when success
+                stepData.completed = true;
+                 $scope.enableNextStep();
+            }, 1000)
+        } else {
+             $scope.showBusyText = false;
+             $scope.enableNextStep();
+        }
+    }
+     $scope.NextStep = function NextStep() {
+
+
+
+         $scope.showBusyText = false;
+
+
+         $scope.enableNextStep();
+
+
+    }
+     $scope.restart = function restart() {
+         $scope.selectedStep = 0;
+         $scope.stepProgress = 1;
+        uploader.clearQueue();
+         $scope.logimport = [];
+    }
+     $scope.preview = function preview() {
+
+         $scope.showBusyText = false;
+         $scope.enableNextStep();
+
+    }
+    var uploader = $scope.uploader = new FileUploader({
+        type: "POST",
+        url: 'Upload/UploadWord',
+        headers: [{ name: 'Accept', value: 'application/json' }],
+
+    });
+    var uploaderpreview = $scope.uploaderpreview = new FileUploader({
+        type: "POST",
+        url: 'Upload/UploadWordPreview',
+        headers: [{ name: 'Accept', value: 'application/json' }],
+
+    });
+
+    // FILTERS
+
+    // a sync filter
+    uploader.filters.push({
+        name: 'syncFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            console.log('syncFilter');
+
+            return this.queue.length < 10;
+        }
+    });
+
+    // an async filter
+    uploader.filters.push({
+        name: 'asyncFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options, deferred) {
+            console.log('asyncFilter');
+            setTimeout(deferred.resolve, 1e3);
+        }
+    });
+
+    // CALLBACKS
+
+    uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+    uploader.onAfterAddingFile = function (fileItem) {
+
+    };
+    uploader.onAfterAddingAll = function (addedFileItems) {
+        console.info('onAfterAddingAll', addedFileItems);
+    };
+    uploader.onBeforeUploadItem = function (item) {
+        console.info('onBeforeUploadItem', item);
+    };
+    uploader.onProgressItem = function (fileItem, progress) {
+        console.info('onProgressItem', fileItem, progress);
+    };
+    uploader.onProgressAll = function (progress) {
+
+        console.info('onProgressAll', progress);
+    };
+    uploader.onSuccessItem = function (fileItem, response, status, headers) {
+     
+    };
+     $scope.numberToDisplay = 5;
+     $scope.loadMore = function () {
+        if ( $scope.logimport + 5 <  $scope.logimport.length) {
+             $scope.logimport += 5;
+        } else {
+             $scope.logimport =  $scope.logimport.length;
+        }
+    };
+     $scope.HasErrorResp = function () {
+        var counter = 0;
+        for (var i = 0; i <  $scope.logimport.length; i++) {
+            if ( $scope.logimport[i].result == false) {
+                counter++;
+            }
+        }
+        if (counter == 0)
+            return 1;
+        else {
+            if (counter ==  $scope.logimport.length)
+                return 3;
+            else
+                return 2;
+        }
+    };
+    uploader.onErrorItem = function (fileItem, response, status, headers) {
+    
+    };
+    uploader.onCancelItem = function (fileItem, response, status, headers) {
+        console.info('onCancelItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteItem = function (fileItem, response, status, headers) {
+        console.info('onCompleteItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteAll = function () {
+         $scope.selectedStep = 1;
+         $scope.stepProgress = 1;
+         $scope.SetShowWord();
+        console.info('onCompleteAll');
+    };
+
+    console.info('uploader', uploader);
 }
 
-WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert', 'moment', 'HistoryUpdateFactory'];
+WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert', 'moment', 'HistoryUpdateFactory', '$q', '$timeout', 'FileUploader'];

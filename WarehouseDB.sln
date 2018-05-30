@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.Model", "Warehous
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.Model.Db", "Warehouse.Model.Db\Warehouse.Model.Db.csproj", "{864EA8D9-1E26-4168-A352-903941B3A0CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParseWord", "ParseWord\ParseWord.csproj", "{5026C802-D5C8-4E4F-AB7E-37200E086B56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{864EA8D9-1E26-4168-A352-903941B3A0CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{864EA8D9-1E26-4168-A352-903941B3A0CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{864EA8D9-1E26-4168-A352-903941B3A0CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5026C802-D5C8-4E4F-AB7E-37200E086B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5026C802-D5C8-4E4F-AB7E-37200E086B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5026C802-D5C8-4E4F-AB7E-37200E086B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5026C802-D5C8-4E4F-AB7E-37200E086B56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

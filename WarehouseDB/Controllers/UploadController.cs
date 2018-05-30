@@ -20,6 +20,11 @@ namespace WarehouseDB.Controllers
         WarehouseRequestsRepository Repository = new WarehouseRequestsRepository();
 
         [HttpPost]
+        public JsonResult UploadWordPreview()
+        {
+            return Json("");
+        }
+        [HttpPost]
         public JsonResult UploadPreview(   )
         {
             HttpFileCollectionBase files = Request.Files;
@@ -128,6 +133,14 @@ namespace WarehouseDB.Controllers
         }
        
         // GET: /Upload/ 
+         [HttpPost]
+        public JsonResult UploadWord()
+        {
+            HttpFileCollectionBase files = Request.Files;
+            HttpPostedFileBase uploadedFile = files[0];
+            Stream fileStream = uploadedFile.InputStream;
+            return Json("");
+        }
         [HttpPost]
         public JsonResult Upload( )
         {

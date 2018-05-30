@@ -1262,6 +1262,7 @@
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\Controllers\ExportController.js" />
+    <Content Include="Scripts\Controllers\ImportWordController.js" />
     <Content Include="Scripts\Controllers\UpdateController.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="fonts\roboto\Roboto-Bold.eot" />

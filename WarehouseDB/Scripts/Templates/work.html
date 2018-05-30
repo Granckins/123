@@ -148,6 +148,30 @@
     .ng-hide.ng-hide-animate {
         display: none !important;
     }
+
+            
+.file_input_div {
+  margin: auto;
+  width: 250px;
+  height: 40px;
+}
+
+.file_input {
+  float: left;
+}
+
+#file_input_text_div {
+  width: 200px;
+  margin-top: -8px;
+  margin-left: 5px;
+}
+
+.none {
+  display: none;
+}
+         md-icon svg {
+  fill: inherit;
+}
 </style>
 <div class="container-fluid">
 
@@ -163,7 +187,223 @@
                   
                 </div>
                 <div class="body table-responsive js-sweetalert   chipsdemobasicusage">
+                    <div ng-show="IsShowWord()">
 
+                        <md-stepper-card-content class="md-no-padding">
+                            <md-steppers md-dynamic-height md-disable-tabs-behavior="true" md-stretch-steppers="always" md-selected="selectedStep" md-busy-text="'Processing...'">
+
+                                <md-step label="Выбор файлов" md-complete="stepData[0].data.completed" ng-disabled="stepProgress < 1"
+                                         nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+                                    <md-step-body>
+
+                                        <md-content class="md-padding">
+                                            <div class="row" style="
+       margin-right: 0px;
+    margin-left: 0px; ">
+
+                                                <div class=" row" style="
+    color: #555;    ">
+
+
+
+                                                    <div ng-show="uploader.isHTML5">
+                                                        <div class="dropzone">
+                                                            <div nv-file-drop="" uploader="uploader" options="{ url: '/foo' }">
+                                                                <div class="dz-message">
+                                                                    <div nv-file-over="" uploader="uploader" over-class="another-file-over-class  " class="well my-drop-zone">
+                                                                        <div class="drag-icon-cph ">
+                                                                            <style>
+                                                                                #file {
+                                                                                    display: none;
+                                                                                    cursor: pointer;
+                                                                                }
+
+                                                                                .pointert {
+                                                                                    cursor: pointer;
+                                                                                }
+                                                                            </style>
+
+
+                                                                            <label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
+                                                                                <i class="material-icons pointert">file_upload</i>
+                                                                                <input type="file" id="file" nv-file-select="" uploader="uploader" multiple>
+                                                                            </label>
+                                                                        </div>
+                                                                        <h3>Для загрузки перетащите сюда файл или нажмите на значок загрузки</h3>
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+                                                <div class="row" style="margin-bottom: 40px;    color: #555;">
+
+                                                    <h2>Очередь для загрузки</h2>
+                                                    <p>Длина очереди: {{ uploader.queue.length }}</p>
+
+                                                    <table class="table table-striped" style="    color: #555;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th ng-show="uploader.isHTML5">Size</th>
+
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="item in uploader.queue">
+                                                                <td><strong>{{ item.file.name }}</strong></td>
+                                                                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+
+                                                                <td nowrap>
+
+
+                                                                    <md-button class="md-icon-button md-primary " aria-label="Удалить" ng-click="item.remove()">
+                                                                        <md-icon style=" color :red;">delete</md-icon>
+                                                                    </md-button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </md-content>
+                                        <md-step-actions layout="row" layout-align="start top">
+                                            <div flex>
+                                                <md-button class="md-primary md-raised" ng-click="SetShowWord()">
+                                                    Отмена
+                                                </md-button>
+                                            </div>
+
+                                            <div flex layout="row" layout-align="end top">
+                                                <md-button ng-disabled="showBusyText||!uploader.queue.length" ng-click="preview()" class="md-primary md-raised">
+                                                    Далее
+                                                </md-button>
+                                            </div>
+                                        </md-step-actions>
+
+
+
+                                    </md-step-body>
+                                </md-step>
+                                <md-step label="Контроль данных" md-complete="stepData[1].data.completed" ng-disabled="stepProgress < 2">
+                                    <md-step-body>
+                                        <form name="step2">
+                                            <md-content class="md-padding">
+                                                <div class="row" style="
+       margin-right: 0px;
+    margin-left: 0px; ">
+
+
+                                                    <div class="row" style="margin-bottom: 40px;    color: #555;">
+
+                                                        <h2>Очередь для загрузки</h2>
+                                                        <p class="align-center">Длина очереди: {{ uploader.queue.length }}</p>
+
+                                                        <table class="table table-striped" style="    color: #555;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th ng-show="uploader.isHTML5">Size</th>
+                                                                    <th ng-show="uploader.isHTML5">Progress</th>
+                                                                    <th>Status</th>
+                                                                    <th>Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="item in uploader.queue">
+                                                                    <td><strong>{{ item.file.name }}</strong></td>
+                                                                    <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                                    <td ng-show="uploader.isHTML5">
+                                                                        <div class="progress" style="margin-bottom: 0;">
+                                                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                                    </td>
+                                                                    <td nowrap>
+
+                                                                        <!--<md-button class="md-icon-button md-primary " aria-label="Загрузить" ng-click=" item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                <md-icon style=" color : green;">file_upload</md-icon>
+                            </md-button>-->
+                                                                        <!--<md-button class="md-icon-button md-primary " aria-label="Отмена" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                <md-icon style=" color :orange;">do_not_disturb_alt</md-icon>
+                            </md-button>-->
+                                                                        <md-button class="md-icon-button md-primary " aria-label="Удалить" ng-click="item.remove()">
+                                                                            <md-icon style=" color :red;">delete</md-icon>
+                                                                        </md-button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                        <div>
+                                                            <div>
+                                                                Queue progress:
+                                                                <div class="progress" style="">
+                                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!--<button type="button" class="btn bg-orange waves-effect" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                    <i class="material-icons">do_not_disturb_alt</i>
+                    <span>Отменить все</span>
+                </button>-->
+                                                            <!--<button type="button" class="btn bg-red waves-effect" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                    <i class="material-icons">delete</i>
+                    <span>Удалить все</span>
+                </button>-->
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </md-content>
+                                            <md-step-actions layout="row" layout-align="start top">
+                                                <div flex>
+                                                    <!--<md-button ng-click="moveToPreviousStep()">PREVIOUS</md-button>-->
+
+                                                    <md-button class="md-primary md-raised md-button md-ink-ripple align-left" ng-click="moveToPreviousStep()">
+                                                        Назад
+                                                    </md-button>
+                                                </div>
+                                                <div flex layout="row" layout-align="end top">
+
+                                                    <button type="button" class="btn bg-green waves-effect" ng-click="uploader.uploadAll()" ng-disabled="showBusyText||!uploader.getNotUploadedItems().length">
+                                                        <i class="material-icons">file_upload</i>
+                                                        <span>Загрузить все</span>
+                                                    </button>
+                                                </div>
+                                            </md-step-actions>
+                                        </form>
+                                    </md-step-body>
+                                </md-step>
+                        
+                            </md-steppers>
+                        </md-stepper-card-content>
+
+                    </div>
+
+                <div class="row" style="    padding-bottom: 25px;">
+                </div>
                     <table class="table table-header-rotated  table-condensed  " style="border-collapse:collapse;">
                         <md-input-container style="margin: 18px 0 0 0;">
                             <label>Кол-во</label>
@@ -245,6 +485,7 @@
                     <tr>
                         <th>
                             <md-icon style=" color : green;" ng-click="addRow()" data-type="cancel">  add</md-icon>
+                            <md-icon style=" color : #00B0FF;" ng-click="SetShowWord()">insert_link</md-icon>
                         </th>
 
 
@@ -974,13 +1215,6 @@
                             </table>
 
                         </td>
-
-
-
-
-
-
-
                     </tr>
 
 
