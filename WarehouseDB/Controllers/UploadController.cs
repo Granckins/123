@@ -136,11 +136,14 @@ namespace WarehouseDB.Controllers
          [HttpPost]
         public JsonResult UploadWord()
         {
-            HttpFileCollectionBase files = Request.Files;
+            HttpFileCollectionBase files = Request.Files; 
             HttpPostedFileBase uploadedFile = files[0];
             Stream fileStream = uploadedFile.InputStream;
-            ParseWord.ParseWord.ParseFile(fileStream);
-            return Json("");
+            var doc = ParseWord.ParseWord.ParseFile(fileStream);
+            CouchRequest<EventCouch> list = new CouchRequest<EventCouch>();
+            list.rows = new List<RowCouch<EventCouch>>();
+            list.rows.Add(new RowCouch<EventCouch>() { value = doc});
+            return Json(new RowCouch<EventCouch>() { value = doc });
         }
         [HttpPost]
         public JsonResult Upload( )

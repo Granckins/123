@@ -47,6 +47,12 @@
     <Compile Include="ParseWord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Warehouse.Model.Db\Warehouse.Model.Db.csproj">
+      <Project>{864ea8d9-1e26-4168-a352-903941b3a0ca}</Project>
+      <Name>Warehouse.Model.Db</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

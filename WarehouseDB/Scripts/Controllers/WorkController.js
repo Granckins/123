@@ -1260,14 +1260,6 @@ function (isConfirm) {
             return false;
 
     }
-
-
-
-
-
-
-
-
     $scope.showWord = false;
     $scope.IsShowWord = function () {
         return  $scope.showWord;
@@ -1330,15 +1322,8 @@ function (isConfirm) {
         }
     }
      $scope.NextStep = function NextStep() {
-
-
-
          $scope.showBusyText = false;
-
-
          $scope.enableNextStep();
-
-
     }
      $scope.restart = function restart() {
          $scope.selectedStep = 0;
@@ -1408,6 +1393,14 @@ function (isConfirm) {
         console.info('onProgressAll', progress);
     };
     uploader.onSuccessItem = function (fileItem, response, status, headers) {
+        obj = new Object(response);
+        obj["showEdit"] = false;
+        obj["IsHistory"] = false;
+        obj["showSub"] = false;
+        obj["History"] = [];
+        obj["showHistory"] = false;
+
+        $scope.userList.unshift(obj);
      
     };
      $scope.numberToDisplay = 5;
@@ -1443,11 +1436,12 @@ function (isConfirm) {
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
         console.info('onCompleteItem', fileItem, response, status, headers);
     };
-    uploader.onCompleteAll = function () {
+    uploader.onCompleteAll = function (fileItem, response, status, headers) {
          $scope.selectedStep = 1;
          $scope.stepProgress = 1;
          $scope.SetShowWord();
-        console.info('onCompleteAll');
+         console.info('onCompleteAll');
+        
     };
 
     console.info('uploader', uploader);
