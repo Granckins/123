@@ -39,10 +39,11 @@ namespace WarehouseDB.Controllers
 
             foreach (var e in ListE)
             {
-          
+                //найти есть ли _id уже в базе
                 var dsd = Repository.GetEventDocument(e.value._id);
+                // _id нет в базе
                 if (dsd._id == null)
-                {
+                {   // в добавляемом есть ревизии
                     if (e.value._revs.Count > 1)
                     {
                         int i = 0;
@@ -61,17 +62,26 @@ namespace WarehouseDB.Controllers
                 }
                 else
                 {
-                    if (e.value._revs.Count > 1)
+                    // получение в существующем БД ревизий
+                    var revs_info = Repository.GetRevisionListEvent(dsd._id, false);
+                   
+                    if (e.value._revs.Count > 0)
                     {
                         int i = 0;
                         int count = e.value._revs.Count;
-                        for (i = count - 1; i > 0; i--)
+                        for (i = count-1 ; i >=0; i--)
                         {
-                             
+                            // получение полей ревизий записи существующей в БД
+                            var revis = Repository.GetRevisionFiesldsEvent(dsd._id, revs_info);
+                            // получение полей ревизий записи существующей в БД
+
+                         var hy=   Repository.CompareEvent(revis.ToEventCouch(), e.value._revs[i]);
+                            if(!hy)
                                 Repository.SetEventDocument(e.value._revs[i], e.value.Dobavil, e.value._id);
                              
 
                         }
+                        Repository.SetEventDocument(EventManager.ConvertEventCouchFullToEventCouch(e.value), e.value.Dobavil, e.value._id);
                     }
                     else
                         Repository.SetEventDocument(EventManager.ConvertEventCouchFullToEventCouch(e.value), e.value.Dobavil, e.value._id);

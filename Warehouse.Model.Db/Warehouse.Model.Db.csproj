@@ -59,6 +59,7 @@
     <Compile Include="PostRequest.cs" />
     <Compile Include="Reduce.cs" />
     <Compile Include="ResponseCouch.cs" />
+    <Compile Include="Revisions.cs" />
     <Compile Include="RevsInfo.cs" />
     <Compile Include="Roles.cs" />
     <Compile Include="SubEvent.cs" />

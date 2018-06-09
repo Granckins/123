@@ -202,12 +202,69 @@ namespace WarehouseDB.Controllers
         [HttpPost]
         public JsonResult DeleteEventDocument(PostRequest<RowCouch<EventCouch>> res)
         {
-            var FS = new FilterSort();
-            FS.FromStringToObject(res.filtername, res.filtervalue, "", "");
+           
             var f = Repository.DeleteEventDocument(res.entity.value, res.entity.id);
-            var rep = Repository.GetFilterSortDocuments(res.page, res.limit, res.archive_str, FS);
 
-            return Json(rep, JsonRequestBehavior.AllowGet);
+            var FS = new FilterSort();
+            FS.FromStringToObject(res.filtername, res.filtervalue, res.sortname, res.sortvalue);
+            if (FS.Filters.Count == 0)
+            {
+                if (FS.Sorts.Count > 0)
+                {
+                    if (FS.Sorts[0].name == "Дата приёма" && res.archive_str != true)
+                    {
+                        var res3 = Repository.OrderByDateDocumentsCR(true, res.page, res.limit, res.archive_str);
+                        return Json(res3, JsonRequestBehavior.AllowGet);
+                    }
+                    if (FS.Sorts[0].name == "Дата выдачи" && res.archive_str != true)
+                    {
+                        var res3 = Repository.OrderByDateDocumentsCR(false, res.page, res.limit, res.archive_str);
+                        return Json(res3, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            var res1 = new CouchRequest<EventCouch>();
+            if (FS.Filters.Count <= 2 && (res.datepr != ";" || res.datevd != ";"))
+            {
+                if (res.datepr != ";")
+                    FS.FromStringToObject(true, res.datepr);
+                if (res.datevd != ";")
+                    FS.FromStringToObject(false, res.datevd);
+                var fgfdg1 = new CouchRequest<EventCouch>();
+                var fgfdg2 = new CouchRequest<EventCouch>();
+
+
+                if (res.datepr != ";")
+                    fgfdg1 = Repository.FilterByDateDocumentsCR(true, res.page, res.limit, res.archive_str, FS.datepr1, FS.datepr2);
+                if (res.datevd != ";")
+                    fgfdg2 = Repository.FilterByDateDocumentsCR(false, res.page, res.limit, res.archive_str, FS.datevd1, FS.datevd2);
+                if (res.datepr != ";" && fgfdg1.rows.Count == 0)
+                    fgfdg1 = fgfdg1;
+                if (res.datevd != ";" && fgfdg2.rows.Count == 0)
+                    fgfdg1 = fgfdg2;
+                if ((res.datepr != ";" && fgfdg1.rows != null && fgfdg1.rows.Count == 0) && (res.datevd != ";" && fgfdg2.rows != null && fgfdg2.rows.Count == 0))
+                {
+                    res1 = Repository.CompareResultFilter(fgfdg1, fgfdg2);
+
+                }
+                else
+                {
+                    if (res.datepr != ";" && fgfdg1.rows.Count != 0)
+                        fgfdg1 = fgfdg1;
+                    if (res.datevd != ";" && fgfdg2.rows.Count != 0)
+                        fgfdg1 = fgfdg2;
+                    res1 = fgfdg1;
+                }
+                if (res1.total_rows == 0)
+                    res1.total_rows = 1;
+                return Json(res1, JsonRequestBehavior.AllowGet);
+            }
+
+
+
+            res1 = Repository.GetFilterSortDocuments(res.page, res.limit, res.archive_str, FS);
+
+            return Json(res1, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -133,6 +133,21 @@ namespace Warehouse.Core.Repositories
           bool count= CouchDataSet.Soderzhimoe.Count == last.Soderzhimoe.Count;
             return main&&child&&count;
         }
+        public bool CompareEvent(List<EventCouch> revs, EventCouch last)
+        { 
+            foreach(var CouchDataSet in revs)
+            {
+            var comp = EventManager.ToListWitoutSoder(CouchDataSet);
+            var complast = EventManager.ToListWitoutSoder(last);
+
+            bool main = comp.SequenceEqual(complast);
+            bool child = EventManager.ToListSoder(CouchDataSet).SequenceEqual(EventManager.ToListSoder(last));
+            bool count = CouchDataSet.Soderzhimoe.Count == last.Soderzhimoe.Count;
+            if (main && child && count)
+                return true;
+        }
+            return false;
+        }
         public List<ImportResultResponse> UpdateEventDocumentRevs(EventCouch CouchDataSet, string user, string id)
         {
             List<ImportResultResponse> list = new List<ImportResultResponse>();
@@ -1131,7 +1146,26 @@ namespace Warehouse.Core.Repositories
         {
             return true;
         }
-        public List<RevsInfo> GetRevisionListEvent(string id)
+        public List<string> GetAllRevisionListEvent(string id)
+        {
+            var list = new List<string>();
+            var url = "http://localhost:5984/events/" + id + "?revs=true&open_revs=all";
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                string[] stringSeparators = new string[] {"\r\n","\r\nr\n"};
+                var arr = res.Split(stringSeparators, StringSplitOptions.None);
+                var lucene = JsonConvert.DeserializeObject<RootRevisions>(arr[3]);
+                list = lucene._revisions.ids;
+            }
+            return list;
+        }
+        public List<RevsInfo> GetRevisionListEvent(string id, bool flag=true)
         {
             var list= new List<RevsInfo>();
             var url = "http://localhost:5984/events/"+id+"?revs_info=true";
@@ -1151,27 +1185,66 @@ namespace Warehouse.Core.Repositories
             int max = 0;
             for (int i = 0; i < list.Count; i++)
             {
-                if (list[i].status == "available")
+                if (flag)
                 {
-                    var idx = list[i].rev.IndexOf("-");
-                    var substr = list[i].rev.Substring(0,idx);
-                    if(Convert.ToInt32(substr)>max)
+                    if (list[i].status == "available")
                     {
-                        max = Convert.ToInt32(substr);
-                        maxidx = i;
+                        var idx = list[i].rev.IndexOf("-");
+                        var substr = list[i].rev.Substring(0, idx);
+                        if (Convert.ToInt32(substr) > max)
+                        {
+                            max = Convert.ToInt32(substr);
+                            maxidx = i;
+                        }
                     }
+                }
+                else
+                {
+                     
+                        var idx = list[i].rev.IndexOf("-");
+                        var substr = list[i].rev.Substring(0, idx);
+                        if (Convert.ToInt32(substr) > max)
+                        {
+                            max = Convert.ToInt32(substr);
+                            maxidx = i;
+                        }
+                    
                 }
             }
             list.RemoveAt(maxidx);
                 return list;
         }
-        public CouchRequest<EventCouch> GetRevisionFiesldsEvent(string id, List<RevsInfo> revs)
+        public CouchRequest<EventCouch> GetRevisionFiesldsEvent(string id, List<RevsInfo> revs, bool flag = true)
         {
             var list = new CouchRequest<EventCouch>();
             var list1= new List<EventCouch>();
            var param="";
             foreach(var r in revs){
-                if (r.status == "available")
+                if (flag)
+                {
+                    if (r.status == "available")
+                    {
+                        param = "\"" + r.rev + "\"";
+                        var url = "http://localhost:5984/events/" + id + "?open_revs=[" + param + "]";
+                        var request = (HttpWebRequest)WebRequest.Create(url);
+
+                        request.Credentials = new NetworkCredential("admin", "root");
+                        var response = request.GetResponse();
+                        using (var responseStream = response.GetResponseStream())
+                        {
+                            var reader = new StreamReader(responseStream, Encoding.UTF8);
+                            var res = reader.ReadToEnd();
+                            var str1 = res.IndexOf("{");
+                            var str2 = res.LastIndexOf("}");
+                            var substr = res.Substring(str1, str2 - str1 + 1);
+                            var lucene = JsonConvert.DeserializeObject<EventCouch>(substr);
+
+                            list1.Add(lucene);
+
+                        }
+                    }
+                }
+                else
                 {
                     param = "\"" + r.rev + "\"";
                     var url = "http://localhost:5984/events/" + id + "?open_revs=[" + param + "]";
@@ -1185,7 +1258,7 @@ namespace Warehouse.Core.Repositories
                         var res = reader.ReadToEnd();
                         var str1 = res.IndexOf("{");
                         var str2 = res.LastIndexOf("}");
-                        var substr = res.Substring(str1,str2-str1+1);
+                        var substr = res.Substring(str1, str2 - str1 + 1);
                         var lucene = JsonConvert.DeserializeObject<EventCouch>(substr);
 
                         list1.Add(lucene);
@@ -1203,6 +1276,46 @@ namespace Warehouse.Core.Repositories
             }
             list = couch;
            
+            return list;
+        }
+        public CouchRequest<EventCouch> GetRevisionFiesldsEvent(string id, List<string> revs)
+        {
+            var list = new CouchRequest<EventCouch>();
+            var list1 = new List<EventCouch>();
+            var param = "";
+            foreach (var r in revs)
+            {
+               
+                    param = "\"" + r + "\"";
+                    var url = "http://localhost:5984/events/" + id + "?open_revs=[" + param + "]";
+                    var request = (HttpWebRequest)WebRequest.Create(url);
+
+                    request.Credentials = new NetworkCredential("admin", "root");
+                    var response = request.GetResponse();
+                    using (var responseStream = response.GetResponseStream())
+                    {
+                        var reader = new StreamReader(responseStream, Encoding.UTF8);
+                        var res = reader.ReadToEnd();
+                        var str1 = res.IndexOf("{");
+                        var str2 = res.LastIndexOf("}");
+                        var substr = res.Substring(str1, str2 - str1 + 1);
+                        var lucene = JsonConvert.DeserializeObject<EventCouch>(substr);
+
+                        list1.Add(lucene);
+
+                    }
+                
+            }
+            var couch = new CouchRequest<EventCouch>();
+            couch.total_rows = 0;
+            couch.offset = 0;
+            couch.rows = new List<RowCouch<EventCouch>>();
+            foreach (var r in list1)
+            {
+                couch.rows.Add(new RowCouch<EventCouch>() { id = id, key = id, value = r });
+            }
+            list = couch;
+
             return list;
         }
         public EventCouch SearchEventByNameAndNumber(string name, string number, Boolean? archive = null)

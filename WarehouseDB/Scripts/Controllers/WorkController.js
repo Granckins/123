@@ -775,7 +775,7 @@
         obj["sortvalue"] = $scope.sortfiltervalue;
         obj["datepr"] = $scope.getdatepr();
         obj["datevd"] = $scope.getdatevd();
-
+        obj["History"] = [];
         SweetAlert.swal({
             title: "Вы уверены, что хотите удалить запись безвозвратно из базы данных?",
             text: "",
@@ -801,7 +801,7 @@ function (isConfirm) {
                        $scope.userList = [];
                        $scope.totalCount = response.data.total_rows;
                        var i = 0;
-                       var lcount = $scope.userList.length;
+                       var lcount = response.data.rows.length;
                        for (var i = 0; i < lcount; i++) {
                            obj = response.data.rows[i];
                            //   angular.forEach(response.data.rows, function (obj) {
@@ -816,15 +816,9 @@ function (isConfirm) {
                                obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                            if (obj.value.Data_ismenen != null)
                                obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
-                           if (i == 0)
-                               $scope.userList = [];
-                           if (i < lcount) {
-                               $scope.userList[i] = obj;
-                           }
-                           else {
+                          
                                $scope.userList.push(obj);
-                           }
-                           i++;
+                          
                        }
                        angular.forEach($scope.userList, function (obj) {
 
@@ -901,15 +895,9 @@ function (isConfirm) {
                          obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
                      if (obj.value.Data_ismenen != null)
                          obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
-                     if (i == 0)
-                         $scope.userList = [];
-                     if (i < lcount) {
-                         $scope.userList[i] = obj;
-                     }
-                     else {
-                         $scope.userList.push(obj);
-                     }
-                     i++;
+                    
+                       
+                     
                  })
 
              });
@@ -1152,13 +1140,14 @@ function (isConfirm) {
     };
     $scope.acceptEdit = function (emp) {
         if ($scope.checkevent(emp)) {
+            emp.History = [];
             emp.showEdit = emp.showEdit ? false : true;
             var idx = $scope.buferList.indexOf(emp.key);
             $scope.buferList.splice(idx);
             var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
             var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
             var post = new Object();
-            if (emp.value.Data_vydachi != null) {
+            if (emp.value.Data_vydachi != null && !$scope.NullDate(emp.value.Data_vydachi)) {
                 $scope.archive = true;
                 $scope.archive_str = $scope.archive;
             }
@@ -1399,7 +1388,14 @@ function (isConfirm) {
         obj["showSub"] = false;
         obj["History"] = [];
         obj["showHistory"] = false;
-
+            if (obj.value.Data_priyoma != null)
+                obj.value.Data_priyoma = new Date(parseInt(obj.value.Data_priyoma.substr(6)));
+            if (obj.value.Data_vydachi != null)
+                obj.value.Data_vydachi = new Date(parseInt(obj.value.Data_vydachi.substr(6)));
+            if (obj.value.Data_ismenen != null)
+                obj.value.Data_ismenen = new Date(parseInt(obj.value.Data_ismenen.substr(6)));
+           
+       
         $scope.userList.unshift(obj);
      
     };
