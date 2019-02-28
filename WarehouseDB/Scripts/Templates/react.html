@@ -1,0 +1,84 @@
+﻿
+<style>
+    .row {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    :focus {
+        outline: 0 !important;
+    }
+
+    span:focus {
+        outline: none !important;
+        border: 0 !important;
+    }
+
+    .ng-submitted md-select.ng-invalid .md-select-value {
+        color: rgb(221,44,0) !important;
+        border-bottom-color: rgb(221,44,0) !important;
+    }
+
+    md-content {
+        text-align: center !important;
+    }
+
+        md-content.md-default-theme, md-content {
+            color: rgba(0,0,0,0.87) !important;
+            background-color: rgb(255,255,255) !important;
+        }
+
+    .my-drop-zone {
+        border: dotted 3px lightgray;
+    }
+
+    .nv-file-over {
+        border: dotted 3px red;
+    }
+    /* Default class applied to drop zones on over */
+    .another-file-over-class {
+        border: dotted 3px green;
+    }
+
+    .file_input_div {
+        margin: auto;
+        width: 250px;
+        height: 40px;
+    }
+
+    .file_input {
+        float: left;
+    }
+
+    #file_input_text_div {
+        width: 200px;
+        margin-top: -8px;
+        margin-left: 5px;
+    }
+
+    .none {
+        display: none;
+    }
+
+    md-icon svg {
+        fill: inherit;
+    }
+</style>
+<div class="container-fluid">
+    <div class=" card" ng-controller="ReactController">
+        <h1>Using ReactJS with AngularJS</h1>
+
+        <div id='app1'>
+            <pics></pics>
+        </div>
+
+        <div id='app2'>
+            <pics></pics>
+        </div>
+
+        <div id='app3'>
+            <pics></pics>
+        </div>
+
+    </div>
+</div>

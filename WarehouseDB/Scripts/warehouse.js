@@ -55,11 +55,16 @@ app.controller('LoginController', LoginController);
 app.controller('WorkController', WorkController);
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 app.factory('LoginFactory', LoginFactory);
+app.controller('ReactController', ReactController);
 app.factory('PreviewFactory', PreviewFactory);
 app.factory('WorkFactory', WorkFactory);
 app.factory('HistoryUpdateFactory', HistoryUpdateFactory);
 app.directive('tmpl', testComp);
-
+app.directive('pics', () => {
+    return {
+        template: `<h2>AngularJS is here!</h2>`
+    };
+});
 
 function testComp($compile) {
     console.log('sss');
@@ -113,7 +118,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                templateUrl: '/Account/Login',
                controller: LoginController
            })
-           
+      
+
          .state('upload', {
              url: '/upload',
              templateUrl: '/Upload/UploadFile' 
@@ -132,7 +138,13 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         url: '/work',
         templateUrl: 'Scripts/Templates/work.html',
         controller: WorkController
-    })
+        })
+        .state('test', {
+            url: '/test',
+            templateUrl: 'Scripts/Templates/react.html',
+            controller: ReactController
+        })
+
     ;
 
     $httpProvider.interceptors.push('AuthHttpResponseInterceptor');

@@ -1,0 +1,32 @@
+{
+  "name": "WHreact",
+  "version": "1.0.0",
+  "description": " warehouse react",
+  "main": "app.js",
+  "scripts": {
+    "dev": "webpack --mode development --env.dist=false",
+    "dev:dist": "webpack --mode development",
+    "build": "webpack --mode production",
+    "webpack": "webpack",
+    "webpack-dev": "webpack --mode=development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Grankina Olga",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
+  }
+}
