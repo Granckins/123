@@ -72,6 +72,49 @@ namespace Warehouse.Model.Db
             Soderzhimoe = new List<SubEvent>();
             this.archive = false;
         }
+       public string ToString()
+       {
+           var sod="";
+           var str="";
+                   foreach(var s in Soderzhimoe){
+                       sod += "( " + s.Kolichestvo_sostavnyh_edinic + "," + (s.Naimenovanie_sostavnoj_edinicy == null ? "" : s.Naimenovanie_sostavnoj_edinicy).Replace(';', ',') + ","
+                           + (s.Oboznachenie_sostavnoj_edinicy == null ? "" : s.Oboznachenie_sostavnoj_edinicy).Replace(';', ',') + ")\n";
+           }
+             
+
+                   str = Nomer_upakovki.ToString().Replace(';', ',') + ";" +
+                    (Naimenovanie_izdeliya == null ? "" : Naimenovanie_izdeliya).Replace(';', ',') + ";" +
+                 (Zavodskoj_nomer == null ? "" : Zavodskoj_nomer).Replace(';', ',') + ";" +
+                     Kolichestvo.ToString().Replace(';', ',') + ";" +
+                 (Oboznachenie == null ? "" : Oboznachenie).Replace(';', ',') + ";" +
+                sod + ";" +
+                (Sistema == null ? "" : Sistema).Replace(';', ',') + ";" +
+                (Prinadlezhnost == null ? "" : Prinadlezhnost).Replace(';', ',') + ";" +
+                   Stoimost.ToString().Replace(';', ',') + ";" +
+                  (Otvetstvennyj == null ? "" : Otvetstvennyj).Replace(';', ',') + ";" +
+                   (Mestonahozhdenie_na_sklade == null ? "" : Mestonahozhdenie_na_sklade).Replace(';', ',') + ";" +
+                     Ves_brutto.ToString().Replace(';', ',') + ";" +
+                  Ves_netto.ToString().Replace(';', ',') + ";" +
+                     Dlina.ToString().Replace(';', ',') + ";" +
+             Shirina.ToString().Replace(';', ',') + ";" +
+                 Vysota.ToString().Replace(';', ',') + ";";
+
+                   if (Data_priyoma != null)
+                       str += (Data_priyoma.Value.Date == new DateTime(1, 1, 1).Date ? "" : Data_priyoma.ToString()) + ";";
+                   else
+                       str +=   ";";
+
+                   str += (Otkuda == null ? "" : Otkuda).Replace(';', ',') + ";";
+
+                   if (Data_vydachi != null)
+                       str += (Data_vydachi.Value.Date == new DateTime(1, 1, 1).Date ? "" : Data_vydachi.ToString()) + ";";
+                   else
+                       str += ";";
+
+                   str += (Kuda == null ? "" : Kuda).Replace(';', ',') + ";" +
+                     (Nomer_plomby == null ? "" : Nomer_plomby).Replace(';', ',') + ";" +                   (Primechanie == null ? "" : Primechanie).Replace(';', ',') + ";" +              (Dobavil == null ? "" : Dobavil).Replace(';', ',') + ";";    
+          return str;
+       }
      
      
     }

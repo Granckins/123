@@ -1,4 +1,4 @@
-﻿var WorkController = function ($scope, $http, DTOptionsBuilder, DTColumnBuilder, $compile, SweetAlert, moment, HistoryUpdateFactory ,$q, $timeout,FileUploader)  {
+﻿var WorkController = function ($scope, $http, DTOptionsBuilder, DTColumnBuilder, $compile, SweetAlert, moment, HistoryUpdateFactory, $q, $timeout, FileUploader, FileSaver, Blob) {
     $scope.message = "fdf";
     $scope.vm = {};
     $scope.vm.dtInstance = {};
@@ -1238,7 +1238,47 @@ function (isConfirm) {
         return emp.showSub;
 
     }
+    $scope.$on('$viewContentLoaded', function () {
+        var button = document.getElementById('cn-button'),
+      wrapper = document.getElementById('cn-wrapper'),
+      overlay = document.getElementById('cn-overlay');
 
+        //open and close menu when the button is clicked
+        var open = false;
+        button.addEventListener('click', handler, false);
+        button.addEventListener('focus', handler, false);
+        wrapper.addEventListener('click', cnhandle, false);
+
+        function cnhandle(e) {
+            e.stopPropagation();
+        }
+
+        function handler(e) {
+            if (!e) var e = window.event;
+            e.stopPropagation();//so that it doesn't trigger click event on document
+
+            if (!open) {
+                openNav();
+            }
+            else {
+                closeNav();
+            }
+        }
+        function openNav() {
+            open = true;
+            button.innerHTML = "-";
+      //      classie.add(overlay, 'on-overlay');
+            classie.add(wrapper, 'opened-nav');
+        }
+        function closeNav() {
+            open = false;
+            button.innerHTML = "+";
+         //   classie.remove(overlay, 'on-overlay');
+            classie.remove(wrapper, 'opened-nav');
+        }
+        document.addEventListener('click', closeNav);
+
+    });
     $scope.NullDate = function (date) {
         var df = new Date('0001-01-01T00:00:00.000Z');
         if (date != null) {
@@ -1259,6 +1299,57 @@ function (isConfirm) {
         $scope.showWord = $scope.showWord ? false : true;
         if (!$scope.showWord)
             $scope.restart();
+    }
+    $scope.DownloadData = function () {
+        obj = new Object();
+        obj["page"] = $scope.pageIndex;
+        obj["limit"] = $scope.pageSizeSelected;
+
+        obj["archive_str"] = $scope.archive_str;
+        obj["Nomer_upakovki_str"] = $scope.Nomer_upakovki_str;
+        obj["Naimenovanie_izdeliya_str"] = $scope.Naimenovanie_izdeliya_str;
+        obj["Zavodskoj_nomer_str"] = $scope.Zavodskoj_nomer_str;
+        obj["Oboznachenie_str"] = $scope.Oboznachenie_str;
+        obj["Soderzhimoe_str"] = $scope.Soderzhimoe_str;
+        obj["Sistema_str"] = $scope.Sistema_str;
+        obj["Prinadlezhnost_str"] = $scope.Prinadlezhnost_str;
+        obj["Mestonahozhdenie_na_sklade_str"] = $scope.Mestonahozhdenie_na_sklade_str;
+        obj["Data_priyoma_str1"] = $scope.Data_priyoma_str1;
+        obj["Data_vydachi_str1"] = $scope.Data_vydachi_str1;
+        obj["Data_priyoma_str2"] = $scope.Data_priyoma_str2;
+        obj["Data_vydachi_str2"] = $scope.Data_vydachi_str2;
+        obj["Primechanie_str"] = $scope.Primechanie_str;
+        var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
+        var searchfiltervalueString = Array.prototype.join.call($scope.searchfiltervalue, ";");
+        obj["filtername"] = searchfilternameString;
+        obj["filtervalue"] = searchfiltervalueString;
+        obj["sortname"] = $scope.sortfiltername;
+        obj["sortvalue"] = $scope.sortfiltervalue;
+        obj["datepr"] = $scope.getdatepr();
+        obj["datevd"] = $scope.getdatevd();
+        obj["entity"] = null;
+        $http({
+            url: "/Work/DownloadData",
+            method: "POST",
+            data: obj
+        }).
+           then(function (response) {
+
+               var file = new Blob([(response.data)], { type: 'application/octet-stream;' });
+               var filename = "";
+               var currentdate = new Date();
+               var datetime = currentdate.getDate() + "/"
+                   + (currentdate.getMonth() + 1) + "/"
+                   + currentdate.getFullYear() + " @ "
+                   + currentdate.getHours() + ":"
+                   + currentdate.getMinutes() + ":"
+                   + currentdate.getSeconds();
+               FileSaver.saveAs(file, 'backup-' + datetime + '.csv');
+
+              
+           })    ;
+      
+
     }
     $scope.selectedStep = 0;
     $scope.logimport = [];
@@ -1443,4 +1534,4 @@ function (isConfirm) {
     console.info('uploader', uploader);
 }
 
-WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert', 'moment', 'HistoryUpdateFactory', '$q', '$timeout', 'FileUploader'];
+WorkController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'SweetAlert', 'moment', 'HistoryUpdateFactory', '$q', '$timeout', 'FileUploader', 'FileSaver', 'Blob'];

@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Warehouse.Core.Repositories;
@@ -265,6 +269,118 @@ namespace WarehouseDB.Controllers
             res1 = Repository.GetFilterSortDocuments(res.page, res.limit, res.archive_str, FS);
 
             return Json(res1, JsonRequestBehavior.AllowGet);
+        }
+       [HttpPost]
+        public FileResult DownloadData(PostRequest<RowCouch<EventCouch>> res)
+        {
+            var FS = new FilterSort();
+            FS.FromStringToObject(res.filtername, res.filtervalue, res.sortname, res.sortvalue);
+            if (FS.Filters.Count == 0)
+            {
+                if (FS.Sorts.Count > 0)
+                {
+                    if (FS.Sorts[0].name == "Дата приёма" && res.archive_str != true)
+                    {
+                        var res3 = Repository.OrderByDateDocumentsCR(true, res.page, res.limit, res.archive_str);
+                        string output1 = "";
+                       
+                        byte[] contents = System.Text.Encoding.UTF8.GetBytes(output1);
+
+                        HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
+                        httpResponseMessage.Content = new ByteArrayContent(contents);
+                        httpResponseMessage.Content.Headers.Add("x-filename", "test.csv");
+                        httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                        httpResponseMessage.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                        httpResponseMessage.Content.Headers.ContentDisposition.FileName = "test.csv";
+                        httpResponseMessage.StatusCode = HttpStatusCode.OK;
+                        string xmlString = "my test xml data";
+                        string fileName = "test" + ".csv";
+                        return File(Encoding.UTF8.GetBytes(xmlString), "application/csv", fileName);
+                    }
+                    if (FS.Sorts[0].name == "Дата выдачи" && res.archive_str != true)
+                    {
+                        var res3 = Repository.OrderByDateDocumentsCR(false, res.page, res.limit, res.archive_str);
+                        string output2 = "";
+                       
+                        byte[] contents = System.Text.Encoding.UTF8.GetBytes(output2);
+                        HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
+                        httpResponseMessage.Content = new ByteArrayContent(contents);
+                        httpResponseMessage.Content.Headers.Add("x-filename", "test.csv");
+                        httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                        httpResponseMessage.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                        httpResponseMessage.Content.Headers.ContentDisposition.FileName = "test.csv";
+                        httpResponseMessage.StatusCode = HttpStatusCode.OK;
+                        string xmlString = "my test xml data";
+                        string fileName = "test" + ".csv";
+                        return File(Encoding.UTF8.GetBytes(xmlString), "application/csv", fileName);
+                    }
+                }
+            }
+            var res1 = new CouchRequest<EventCouch>();
+            if (FS.Filters.Count <= 2 && (res.datepr != ";" || res.datevd != ";"))
+            {
+                if (res.datepr != ";")
+                    FS.FromStringToObject(true, res.datepr);
+                if (res.datevd != ";")
+                    FS.FromStringToObject(false, res.datevd);
+                var fgfdg1 = new CouchRequest<EventCouch>();
+                var fgfdg2 = new CouchRequest<EventCouch>();
+
+
+                if (res.datepr != ";")
+                    fgfdg1 = Repository.FilterByDateDocumentsCR(true, res.page, res.limit, res.archive_str, FS.datepr1, FS.datepr2);
+                if (res.datevd != ";")
+                    fgfdg2 = Repository.FilterByDateDocumentsCR(false, res.page, res.limit, res.archive_str, FS.datevd1, FS.datevd2);
+                if (res.datepr != ";" && fgfdg1.rows.Count == 0)
+                    fgfdg1 = fgfdg1;
+                if (res.datevd != ";" && fgfdg2.rows.Count == 0)
+                    fgfdg1 = fgfdg2;
+                if ((res.datepr != ";" && fgfdg1.rows != null && fgfdg1.rows.Count == 0) && (res.datevd != ";" && fgfdg2.rows != null && fgfdg2.rows.Count == 0))
+                {
+                    res1 = Repository.CompareResultFilter(fgfdg1, fgfdg2);
+
+                }
+                else
+                {
+                    if (res.datepr != ";" && fgfdg1.rows.Count != 0)
+                        fgfdg1 = fgfdg1;
+                    if (res.datevd != ";" && fgfdg2.rows.Count != 0)
+                        fgfdg1 = fgfdg2;
+                    res1 = fgfdg1;
+                }
+                if (res1.total_rows == 0)
+                    res1.total_rows = 1;
+                string output3 = "";
+                 
+                byte[] contents = System.Text.Encoding.UTF8.GetBytes(output3);
+
+                HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
+                httpResponseMessage.Content = new ByteArrayContent(contents);
+                httpResponseMessage.Content.Headers.Add("x-filename", "test.csv");
+                httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                httpResponseMessage.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                httpResponseMessage.Content.Headers.ContentDisposition.FileName = "test.csv";
+                httpResponseMessage.StatusCode = HttpStatusCode.OK;
+                string xmlString = "my test xml data";
+                string fileName = "test" + ".csv";
+                return File(Encoding.UTF8.GetBytes(xmlString), "application/csv", fileName);
+            }
+
+
+
+            res1 = Repository.GetFilterSortDocuments(res.page, res.limit, res.archive_str, FS);
+            string output4 = "";
+            foreach(var s in res1.rows)
+            {
+                output4 += s.value.ToString();
+            } 
+           
+
+            var data = Encoding.UTF8.GetBytes(output4);
+            var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
+          
+            string fileName2 = "myfile1.csv";
+            return File(result, System.Net.Mime.MediaTypeNames.Application.Octet, fileName2);
         }
     }
 }
