@@ -274,6 +274,8 @@ namespace WarehouseDB.Controllers
         public FileResult DownloadData(PostRequest<RowCouch<EventCouch>> res)
         {
             var FS = new FilterSort();
+            res.page = 1;
+            res.limit = 1;
             FS.FromStringToObject(res.filtername, res.filtervalue, res.sortname, res.sortvalue);
             if (FS.Filters.Count == 0)
             {
@@ -282,37 +284,62 @@ namespace WarehouseDB.Controllers
                     if (FS.Sorts[0].name == "Дата приёма" && res.archive_str != true)
                     {
                         var res3 = Repository.OrderByDateDocumentsCR(true, res.page, res.limit, res.archive_str);
-                        string output1 = "";
-                       
-                        byte[] contents = System.Text.Encoding.UTF8.GetBytes(output1);
+                        var total = res3.total_rows;
+                        string output4 = "";
+                        output4 += "Номер упаковки;Наименование изделия;Заводской номер;Количество;Местонахождение на складе;Обозначение;Содержимое;Система;Ответственный;Принадлежность;Дата приёма;Откуда;Дата выдачи;Куда;Номер пломбы;Стоимость;Вес брутто;Вес нетто;Длина;Ширина;Высота;Примечание;Добавил\n";
+                        if (total > 1)
+                        {
+                              res3 = Repository.OrderByDateDocumentsCR(true, res.page,total, res.archive_str);
+                            foreach (var s in res3.rows)
+                            {
+                               
+                                output4 += s.value.ToString();
+                            }
+                        }
 
-                        HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
-                        httpResponseMessage.Content = new ByteArrayContent(contents);
-                        httpResponseMessage.Content.Headers.Add("x-filename", "test.csv");
-                        httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                        httpResponseMessage.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                        httpResponseMessage.Content.Headers.ContentDisposition.FileName = "test.csv";
-                        httpResponseMessage.StatusCode = HttpStatusCode.OK;
-                        string xmlString = "my test xml data";
-                        string fileName = "test" + ".csv";
-                        return File(Encoding.UTF8.GetBytes(xmlString), "application/csv", fileName);
+
+                        string lvCSV = output4;
+
+                        string lvFileName = "myfile.csv";
+
+                        // UTF8 with BOM (byte order mark)
+                        UTF8Encoding lvUtf8EncodingWithBOM = new UTF8Encoding(true, true);
+
+                        // Byte Order Mark -  \x00EF\x00BB\x00BF
+                        string lvBOM =
+                        Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+
+                        return File(lvUtf8EncodingWithBOM.GetBytes(lvBOM + lvCSV), "text/csv;charset=utf-8", lvFileName);
                     }
                     if (FS.Sorts[0].name == "Дата выдачи" && res.archive_str != true)
                     {
                         var res3 = Repository.OrderByDateDocumentsCR(false, res.page, res.limit, res.archive_str);
-                        string output2 = "";
-                       
-                        byte[] contents = System.Text.Encoding.UTF8.GetBytes(output2);
-                        HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
-                        httpResponseMessage.Content = new ByteArrayContent(contents);
-                        httpResponseMessage.Content.Headers.Add("x-filename", "test.csv");
-                        httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                        httpResponseMessage.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                        httpResponseMessage.Content.Headers.ContentDisposition.FileName = "test.csv";
-                        httpResponseMessage.StatusCode = HttpStatusCode.OK;
-                        string xmlString = "my test xml data";
-                        string fileName = "test" + ".csv";
-                        return File(Encoding.UTF8.GetBytes(xmlString), "application/csv", fileName);
+                        var total = res3.total_rows;
+                        string output4 = "";
+                        output4 += "Номер упаковки;Наименование изделия;Заводской номер;Количество;Местонахождение на складе;Обозначение;Содержимое;Система;Ответственный;Принадлежность;Дата приёма;Откуда;Дата выдачи;Куда;Номер пломбы;Стоимость;Вес брутто;Вес нетто;Длина;Ширина;Высота;Примечание;Добавил\n";
+                        if (total > 1)
+                        {
+                            res3 = Repository.OrderByDateDocumentsCR(false, res.page,total, res.archive_str);
+                            foreach (var s in res3.rows)
+                            {
+                                
+                                output4 += s.value.ToString();
+                            }
+                        }
+
+
+                        string lvCSV = output4;
+
+                        string lvFileName = "myfile.csv";
+
+                        // UTF8 with BOM (byte order mark)
+                        UTF8Encoding lvUtf8EncodingWithBOM = new UTF8Encoding(true, true);
+
+                        // Byte Order Mark -  \x00EF\x00BB\x00BF
+                        string lvBOM =
+                        Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+
+                        return File(lvUtf8EncodingWithBOM.GetBytes(lvBOM + lvCSV), "text/csv;charset=utf-8", lvFileName);
                     }
                 }
             }
@@ -350,37 +377,95 @@ namespace WarehouseDB.Controllers
                 }
                 if (res1.total_rows == 0)
                     res1.total_rows = 1;
-                string output3 = "";
+               
                  
-                byte[] contents = System.Text.Encoding.UTF8.GetBytes(output3);
+                var total = res1.total_rows;
+                string output4 = "";
+                output4 += "Номер упаковки;Наименование изделия;Заводской номер;Количество;Местонахождение на складе;Обозначение;Содержимое;Система;Ответственный;Принадлежность;Дата приёма;Откуда;Дата выдачи;Куда;Номер пломбы;Стоимость;Вес брутто;Вес нетто;Длина;Ширина;Высота;Примечание;Добавил\n";
+                if (total > 1)
+                {
+                    if (res.datepr != ";")
+                        FS.FromStringToObject(true, res.datepr);
+                    if (res.datevd != ";")
+                        FS.FromStringToObject(false, res.datevd);
+                    fgfdg1 = new CouchRequest<EventCouch>();
+                    fgfdg2 = new CouchRequest<EventCouch>();
 
-                HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
-                httpResponseMessage.Content = new ByteArrayContent(contents);
-                httpResponseMessage.Content.Headers.Add("x-filename", "test.csv");
-                httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                httpResponseMessage.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                httpResponseMessage.Content.Headers.ContentDisposition.FileName = "test.csv";
-                httpResponseMessage.StatusCode = HttpStatusCode.OK;
-                string xmlString = "my test xml data";
-                string fileName = "test" + ".csv";
-                return File(Encoding.UTF8.GetBytes(xmlString), "application/csv", fileName);
+
+                    if (res.datepr != ";")
+                        fgfdg1 = Repository.FilterByDateDocumentsCR(true, res.page, total, res.archive_str, FS.datepr1, FS.datepr2);
+                    if (res.datevd != ";")
+                        fgfdg2 = Repository.FilterByDateDocumentsCR(false, res.page, total, res.archive_str, FS.datevd1, FS.datevd2);
+                    if (res.datepr != ";" && fgfdg1.rows.Count == 0)
+                        fgfdg1 = fgfdg1;
+                    if (res.datevd != ";" && fgfdg2.rows.Count == 0)
+                        fgfdg1 = fgfdg2;
+                    if ((res.datepr != ";" && fgfdg1.rows != null && fgfdg1.rows.Count == 0) && (res.datevd != ";" && fgfdg2.rows != null && fgfdg2.rows.Count == 0))
+                    {
+                        res1 = Repository.CompareResultFilter(fgfdg1, fgfdg2);
+
+                    }
+                    else
+                    {
+                        if (res.datepr != ";" && fgfdg1.rows.Count != 0)
+                            fgfdg1 = fgfdg1;
+                        if (res.datevd != ";" && fgfdg2.rows.Count != 0)
+                            fgfdg1 = fgfdg2;
+                        res1 = fgfdg1;
+                    }
+                    if (res1.total_rows == 0)
+                        res1.total_rows = 1;
+               
+                    foreach (var s in res1.rows)
+                    {
+                      
+                        output4 += s.value.ToString();
+                    }
+                }
+
+
+                string lvCSV = output4;
+
+                string lvFileName = "myfile.csv";
+
+                // UTF8 with BOM (byte order mark)
+                UTF8Encoding lvUtf8EncodingWithBOM = new UTF8Encoding(true, true);
+
+                // Byte Order Mark -  \x00EF\x00BB\x00BF
+                string lvBOM =
+                Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+
+                return File(lvUtf8EncodingWithBOM.GetBytes(lvBOM + lvCSV), "text/csv;charset=utf-8", lvFileName);
             }
 
 
 
             res1 = Repository.GetFilterSortDocuments(res.page, res.limit, res.archive_str, FS);
-            string output4 = "";
-            foreach(var s in res1.rows)
+            var total1 = res1.total_rows;
+            string output = "";
+            output += "Номер упаковки;Наименование изделия;Заводской номер;Количество;Местонахождение на складе;Обозначение;Содержимое;Система;Ответственный;Принадлежность;Дата приёма;Откуда;Дата выдачи;Куда;Номер пломбы;Стоимость;Вес брутто;Вес нетто;Длина;Ширина;Высота;Примечание;Добавил\n";
+            if (total1>1)
             {
-                output4 += s.value.ToString();
-            } 
-           
-
-            var data = Encoding.UTF8.GetBytes(output4);
-            var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
+                res1 = Repository.GetFilterSortDocuments(res.page, total1, res.archive_str, FS);
+                foreach (var s in res1.rows)
+                {  
+                    output += s.value.ToString();
+                }
+            }
           
-            string fileName2 = "myfile1.csv";
-            return File(result, System.Net.Mime.MediaTypeNames.Application.Octet, fileName2);
+            
+           string lvCSV1 = output;
+
+           string lvFileName1 = "myfile.csv";
+
+           // UTF8 with BOM (byte order mark)
+           UTF8Encoding lvUtf8EncodingWithBOM1 = new UTF8Encoding(true, true);
+
+           // Byte Order Mark -  \x00EF\x00BB\x00BF
+           string lvBOM1 =
+           Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+
+           return File(lvUtf8EncodingWithBOM1.GetBytes(lvBOM1 + lvCSV1), "text/csv;charset=utf-8", lvFileName1);
         }
     }
 }

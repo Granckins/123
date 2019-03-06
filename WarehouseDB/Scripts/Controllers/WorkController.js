@@ -1335,7 +1335,7 @@ function (isConfirm) {
         }).
            then(function (response) {
 
-               var file = new Blob([(response.data)], { type: 'application/octet-stream;' });
+               var file = new Blob([(response.data)], { type: 'text/csv;charset=utf-8' });
                var filename = "";
                var currentdate = new Date();
                var datetime = currentdate.getDate() + "/"
@@ -1344,7 +1344,7 @@ function (isConfirm) {
                    + currentdate.getHours() + ":"
                    + currentdate.getMinutes() + ":"
                    + currentdate.getSeconds();
-               FileSaver.saveAs(file, 'backup-' + datetime + '.csv');
+               FileSaver.saveAs(file, 'data-' + datetime + '.csv');
 
               
            })    ;
