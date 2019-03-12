@@ -18,5 +18,7 @@ namespace Warehouse.Model.Db
         public int length { get; set; }
            [JsonProperty("stub")]
         public bool stub { get; set; }
+        [JsonProperty("name")]
+           public string name { get; set; }
     }
 }

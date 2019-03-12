@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Warehouse.Model.Db
 {
-    public class Unit
+    public class Unit<Obj>
     {
         [JsonProperty("archive")]
         public bool archive { get; set; }
@@ -13,6 +13,7 @@ namespace Warehouse.Model.Db
         public string _id { get; set; }
         [JsonProperty("_attachments")]
         public string _attachments { get; set; }
+        public Obj? entity { get; set; }
     public List<Attachment> attachments { get; set; }
     public Unit()
     {

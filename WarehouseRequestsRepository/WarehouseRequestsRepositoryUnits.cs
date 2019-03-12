@@ -66,6 +66,11 @@ namespace Warehouse.Core.Repositories
                     foreach (var a in st)
                     {
                         name.Add(a.Replace("\"", ""));
+                      
+                    }
+                    for(int i=0;i<l.fields.attachments.Count;i++)
+                    {
+                        l.fields.attachments[i].name = name[i];
                     }
                 }
 
