@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attachment.cs" />
     <Compile Include="CouchRequest.cs" />
     <Compile Include="DeleteCouchResp.cs" />
     <Compile Include="EventCouchFull.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="EventWar.cs" />
     <Compile Include="Loaders\Roles.cs" />
     <Compile Include="LuceneRequest.cs" />
+    <Compile Include="Place.cs" />
     <Compile Include="PostRequestExport.cs" />
     <Compile Include="PostRequest.cs" />
     <Compile Include="Reduce.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="RevsInfo.cs" />
     <Compile Include="Roles.cs" />
     <Compile Include="SubEvent.cs" />
+    <Compile Include="Unit.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UUID.cs" />
     <Compile Include="WarehouseEntities.cs" />

@@ -52,6 +52,7 @@ app.controller('ImportWordController', ImportController);
 app.controller('ExportController', ExportController);
 app.controller('UpdateController', UpdateController);
 app.controller('LoginController', LoginController);
+app.controller('UnitController', UnitController);
 app.controller('WorkController', WorkController);
 app.factory('AuthHttpResponseInterceptor', AuthHttpResponseInterceptor);
 app.factory('LoginFactory', LoginFactory);
@@ -119,7 +120,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
                controller: LoginController
            })
       
-
+        .state('unit', {
+            url: '/unit',
+            templateUrl: 'Scripts/Templates/unit.html',
+            controller: UnitController
+        })
          .state('upload', {
              url: '/upload',
              templateUrl: '/Upload/UploadFile' 

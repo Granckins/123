@@ -295,8 +295,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TodoController.cs" />
     <Compile Include="Controllers\TodoListController.cs" />
+    <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="Controllers\WarehouseRequestsRepositoryUnit.cs" />
     <Compile Include="Controllers\WorkController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
@@ -1290,6 +1292,7 @@
     <Content Include="Scripts\Controllers\ImportWordController.js" />
     <Content Include="Scripts\Controllers\ReactController.js" />
     <Content Include="Scripts\Controllers\UpdateController.js" />
+    <Content Include="Scripts\Controllers\UnitController.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="fonts\roboto\Roboto-Bold.eot" />
     <Content Include="fonts\roboto\Roboto-Bold.ttf" />
@@ -4610,6 +4613,7 @@
     <Content Include="Scripts\react\src\app.js" />
     <Content Include="Scripts\react\webpack.config.js" />
     <Content Include="Scripts\Templates\export.html" />
+    <Content Include="Scripts\Templates\unit.html" />
     <Content Include="Scripts\Templates\react.html" />
     <Content Include="Scripts\Templates\update.html" />
     <Content Include="Scripts\Templates\work.html" />

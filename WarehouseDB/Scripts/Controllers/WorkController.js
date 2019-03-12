@@ -375,7 +375,7 @@
     $scope.filters = ("Дата приёма;Дата выдачи").split(';').map(function (state) { return { abbrev: state }; });
     $scope.searchfilters = "";
     $scope.searchsorts = "";
-    $scope.getList();
+  
 
     $scope.changePageSize = function () {
         $scope.pageIndex = 1;
