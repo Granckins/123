@@ -13,7 +13,13 @@ namespace WarehouseDB.Controllers
         //
         // GET: /Unit/
         WarehouseRequestsRepositoryUnits Repository = new WarehouseRequestsRepositoryUnits();
+        [HttpPost]
+        public bool IsEventHistory(string id)
+        {
+            var res = Repository.GetRevisionListEvent(id);
 
+            return res.Count > 0 ? true : false;
+        }
         [HttpPost]
         public JsonResult GetUnits(PostRequest<RowCouch<EventCouch>> rep)
         {

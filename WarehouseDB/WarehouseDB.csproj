@@ -4588,6 +4588,7 @@
     <Content Include="Scripts\Directives\xmdWizard.directive.js" />
     <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\Factories\AuthHttpResponseInterceptor.js" />
+    <Content Include="Scripts\Factories\HistoryUpdateFactoryUnit.js" />
     <Content Include="Scripts\Factories\HistoryUpdateFactory.js" />
     <Content Include="Scripts\Factories\LogoffFactory .js" />
     <Content Include="Scripts\Factories\LoginFactory.js" />

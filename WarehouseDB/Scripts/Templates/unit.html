@@ -1,44 +1,154 @@
-﻿
-<style>
-    .row {
-        margin-right: 0px !important;
-        margin-left: 0px !important;
+﻿<style>
+    tr td input {
+        min-width: 55px;
+    }
+
+    .table-header-rotated th.row-header {
+        width: auto;
+    }
+
+    .link-btn /deep/ .mat-button-focus-overlay {
+        background-color: transparent;
+    }
+
+    .chipsdemoBasicUsage .errors {
+        font-size: 12px;
+        color: #dd2c00;
+        margin-top: 10px;
+    }
+
+    .chipsdemoBasicUsage .custom-chips md-chip {
+        position: relative;
+    }
+
+        .chipsdemoBasicUsage .custom-chips md-chip .md-chip-remove-container {
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            margin-right: 0;
+            height: 24px;
+        }
+
+            .chipsdemoBasicUsage .custom-chips md-chip .md-chip-remove-container button.vegetablechip {
+                position: relative;
+                height: 24px;
+                width: 24px;
+                line-height: 30px;
+                text-align: center;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 50%;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+                transition: background 0.15s linear;
+                display: block;
+            }
+
+                .chipsdemoBasicUsage .custom-chips md-chip .md-chip-remove-container button.vegetablechip md-icon {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate3d(-50%, -50%, 0) scale(0.7);
+                    color: white;
+                    fill: white;
+                }
+
+                .chipsdemoBasicUsage .custom-chips md-chip .md-chip-remove-container button.vegetablechip:hover, .chipsdemoBasicUsage .custom-chips md-chip .md-chip-remove-container button.vegetablechip:focus {
+                    background: rgba(255, 0, 0, 0.8);
+                }
+
+    .chipsdemoBasicUsage .custom-chips md-chips-wrap.md-removable md-chip md-chip-template {
+        padding-right: 5px;
+    }
+
+    .table-header-rotated td {
+        width: auto;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table tbody tr td {
+        padding: 0 2px 0 2px !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+
+    .table-header-rotated th.rotate-45 {
+        height: 100px;
+        width: 40px;
+        min-width: 100px;
+        max-width: 40px;
+        position: relative;
+        vertical-align: middle;
+        text-align: center;
+        padding: 0;
+        font-size: 12px;
+        line-height: 0.8;
+        white-space: inherit !important;
+    }
+
+        .table-header-rotated th.rotate-45 > div {
+            position: relative;
+            top: 0px;
+            left: 40px; /* 80 * tan(45) / 2 = 40 where 80 is the height on the cell and 45 is the transform angle*/
+            height: 100%;
+            -ms-transform: skew(-45deg,0deg);
+            -moz-transform: skew(-45deg,0deg);
+            -webkit-transform: skew(-45deg,0deg);
+            -o-transform: skew(-45deg,0deg);
+            transform: skew(-45deg,0deg);
+            overflow: hidden;
+            border-left: 1px solid #dddddd;
+            border-right: 1px solid #dddddd;
+        }
+
+        .table-header-rotated th.rotate-45 span {
+            -ms-transform: skew(45deg,0deg) rotate(315deg);
+            -moz-transform: skew(45deg,0deg) rotate(315deg);
+            -webkit-transform: skew(45deg,0deg) rotate(315deg);
+            -o-transform: skew(45deg,0deg) rotate(315deg);
+            transform: skew(45deg,0deg) rotate(315deg);
+            position: absolute;
+            bottom: 30px; /* 40 cos(45) = 28 with an additional 2px margin*/
+            left: -25px; /*Because it looked good, but there is probably a mathematical link here as well*/
+            display: inline-block;
+            /*// width: 100%;*/
+            width: 85px; /* 80 / cos(45) - 40 cos (45) = 85 where 80 is the height of the cell, 40 the width of the cell and 45 the transform angle*/
+            text-align: left;
+            white-space: inherit !important;
+            /*// white-space: nowrap;whether to display in one line or not*/
+        }
+
+    .green {
+        color: #8BC34A !important;
+    }
+
+    .red {
+        color: #FFC107 !important;
     }
 
     :focus {
         outline: 0 !important;
     }
 
-    span:focus {
-        outline: none !important;
-        border: 0 !important;
+    .noPadding {
+        padding: 0 !important;
     }
 
-    .ng-submitted md-select.ng-invalid .md-select-value {
-        color: rgb(221,44,0) !important;
-        border-bottom-color: rgb(221,44,0) !important;
+    td p {
+        padding: 10px;
+        margin: 0;
     }
 
-    md-content {
-        text-align: center !important;
+    td.special {
+        border: 1px solid #eee;
     }
 
-        md-content.md-default-theme, md-content {
-            color: rgba(0,0,0,0.87) !important;
-            background-color: rgb(255,255,255) !important;
-        }
-
-    .my-drop-zone {
-        border: dotted 3px lightgray;
+    .ng-hide.ng-hide-animate {
+        display: none !important;
     }
 
-    .nv-file-over {
-        border: dotted 3px red;
-    }
-    /* Default class applied to drop zones on over */
-    .another-file-over-class {
-        border: dotted 3px green;
-    }
 
     .file_input_div {
         margin: auto;
@@ -63,10 +173,669 @@
     md-icon svg {
         fill: inherit;
     }
-</style>
-<div class="container-fluid">
-    <div class=" card" ng-controller="UnitController" data-ng-init="getUnits()">
 
+    .circular-menu {
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.circle {
+  width: 250px;
+  height: 250px;
+  opacity: 0;
+  
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  transform: scale(0);
+
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
+}
+
+.open.circle {
+  opacity: 1;
+
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  transform: scale(1);
+}
+
+.circle a {
+  text-decoration: none;
+  color: #a93c3c;
+  display: block;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
+  position: absolute;
+  text-align: center;
+
+}
+
+.circle a:hover {
+  color: #eef;
+}
+.special{
+
+}
+.menu-button {
+  position: absolute;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  text-decoration: none;
+  text-align: center;
+  color: #444;
+  border-radius: 50%;
+  display: block;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  padding: 10px;
+  background: #dde;
+}
+
+.menu-button:hover {
+  background-color: #eef;
+}
+ 
+</style>
+<div class="container-fluid" ng-controller="UnitController" data-ng-init="getUnits()">
+
+    <!-- Basic Table -->
+    <div class=" row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Cведения О МТЦ
+                        <small>Сведения о МТЦ, поступающих, хранящихся и выдаваемых со склада КТ</small>
+                    </h2>
+
+                </div>
+                <div class="body table-responsive js-sweetalert   chipsdemobasicusage">
+
+                    <table class="table table-header-rotated  table-condensed  " style="border-collapse:collapse;">
+                        <md-input-container style="margin: 18px 0 0 0;">
+                            <label>Кол-во</label>
+                            <md-select ng-model="pageSizeSelected" ng-change="changePageSize()">
+
+                                <md-option ng-repeat="pageSize in  pageSizes" ng-value="pageSize.abbrev" ng-selected="$first">
+                                    {{pageSize.abbrev}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+
+                        <md-button aria-label="Custom Icon Button" ng-show="archive" class=" md-icon-button md-accent  waves-effect waves-pink " ng-click="showarchive()">
+                            <md-icon> archive</md-icon>
+
+                        </md-button>
+
+                        <md-button ng-show="!archive" class="md-icon-button  waves-effect waves-pink " ng-click="showarchive()">
+                            <md-icon> archive</md-icon>
+                        </md-button>
+                        <label style="padding-right: 10px ;">Просмотр архива</label>
+
+
+
+
+                        <div class="row" style="padding-bottom: 20px;">
+                            <md-chips md-transform-chip="newVeg($chip)" ng-model="launchAPIQueryParams.types" md-on-remove="chipdelete($chip)">
+
+                                <md-autocomplete style="width:100%" md-selected-item="selectedOption"
+                                                 md-search-text="searchText"
+                                                 md-items="typeOption in launchTypeOptions"
+                                                 md-item-text="typeOption.name"
+                                                 md-min-length="0"
+                                                 md-search-text-change="searchTextChange(searchText)"
+                                                 placeholder="Поиск по....">
+                                    <span md-highlight-text="searchText">{{typeOption.name}}</span>
+                                </md-autocomplete>
+                                <md-chip-template>
+                                    <span>{{$chip.name}}</span>
+                                </md-chip-template>
+                            </md-chips>
+                        </div>
+                        <div class="row" style="padding-bottom: 20px;" ng-show="Data_priyoma">
+                            <label>Дата приёма (Начало периода):</label>
+
+                            <md-input-container style="margin: 0 0; padding-right: 10px;" dividercolor="primary" ng-model="Data_priyoma_str1 ">
+                                <md-datepicker ng-model="Data_priyoma_str1 " ng-change="updateCalcs()" md-placeholder="Введите дату"></md-datepicker>
+
+
+                            </md-input-container>
+                            <label>Дата приёма (Конец периода):</label>
+
+                            <md-input-container style="margin: 0 0; " dividercolor="primary">
+                                <md-datepicker ng-model="Data_priyoma_str2 " md-placeholder="Введите дату" ng-change="updateCalcs()"></md-datepicker>
+
+
+                            </md-input-container>
+                        </div>
+                        <div class="row" style="padding-bottom: 20px;" ng-show="Data_vydachi">
+                            <label>Дата выдачи (Начало периода):</label>
+
+                            <md-input-container style="margin: 0 0; padding-right: 10px;" dividercolor="primary">
+                                <md-datepicker ng-model="Data_vydachi_str1 " md-placeholder="Введите дату" ng-change="updateCalcs()"></md-datepicker>
+
+
+                            </md-input-container>
+                            <label>Дата выдачи (Конец периода):</label>
+
+                            <md-input-container style="margin: 0 0; " dividercolor="primary">
+                                <md-datepicker ng-model="Data_vydachi_str2 " md-placeholder="Введите дату" ng-change="updateCalcs()"></md-datepicker>
+
+
+                            </md-input-container>
+                        </div>
+
+                        <!--<div class="row" style="margin-top:60px;">-->
+
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    <!--<md-icon style=" color : green;" ng-click="addRow()" data-type="cancel">  add</md-icon>
+                                    <md-icon style=" color : #00B0FF;" ng-click="SetShowWord()">insert_link</md-icon>
+                                    <md-icon style=" color : #5f6368;" ng-click="DownloadData()">print</md-icon>-->
+                                </th>
+
+                                <th class="rotate-45">
+                                    <div>
+
+                                        <span>Номер упаковки</span>
+                                    </div>
+                                </th>
+                                <th class="rotate-45">
+                                    <div><span>Наименование изделия</span><span> </span></div>
+
+
+                                </th>
+                                <th class="rotate-45"><div><span>Заводской номер</span></div></th>
+                                <th class="rotate-45"><div><span>Количество</span></div></th>
+                                <th class="rotate-45"><div><span>Местонахождение на складе</span></div></th>
+                                <th class="rotate-45"><div><span>Обозначение</span></div></th>
+                                <th class="rotate-45"><div><span>Система</span></div></th>
+                                <th class="rotate-45"><div><span>Ответственный</span></div></th>
+                                <th class="rotate-45"><div><span>Принадлежность</span></div></th>
+                                <th class="rotate-45"><div><span>Дата приёма</span></div></th>
+                                <th class="rotate-45"><div><span>Откуда</span></div></th>
+                                <th class="rotate-45"><div><span>Дата выдачи</span></div></th>
+                                <th class="rotate-45"><div><span>Куда</span></div></th>
+                                <th class="rotate-45"><div><span>Номер пломбы</span></div></th>
+                                <th class="rotate-45"><div><span>Стоимость</span></div></th>
+                                <th class="rotate-45"><div><span>Вес брутто</span></div></th>
+                                <th class="rotate-45"><div><span>Вес нетто</span></div></th>
+                                <th class="rotate-45"><div><span>Длина</span></div></th>
+                                <th class="rotate-45"><div><span>Ширина</span></div></th>
+                                <th class="rotate-45"><div><span>Высота</span></div></th>
+
+                                <th class="rotate-45"><div><span>Примечание</span></div></th>
+                                <th class="rotate-45"><div><span>Добавил</span></div></th>
+                                <th class="rotate-45"><div><span>Дата изменения</span></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td></td>
+
+
+                                <td>
+
+
+                                    <md-button ng-show="GetStatusSort('Номер упаковки')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Номер упаковки')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Номер упаковки')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Номер упаковки')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Номер упаковки')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Номер упаковки')">
+                                        <md-icon> sort</md-icon>
+                                    </md-button>
+                                </td>
+                                <td>
+                                    <md-button ng-show="GetStatusSort('Наименование изделия')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Наименование изделия')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Наименование изделия')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Наименование изделия')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Наименование изделия')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Наименование изделия')">
+                                        <md-icon> sort</md-icon>
+                                    </md-button>
+                                </td>
+                                <td>
+                                    <md-button ng-show="GetStatusSort('Заводской номер')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Заводской номер')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Заводской номер')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Заводской номер')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Заводской номер')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Заводской номер')">
+                                        <md-icon> sort</md-icon>
+                                    </md-button>
+                                </td>
+                                <td>
+                                    <md-button ng-show="GetStatusSort('Количество')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Количество')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Количество')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Количество')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Количество')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Количество')">
+                                        <md-icon> sort</md-icon>
+                                    </md-button>
+                                </td>
+                                <td>
+                                    <md-button ng-show="GetStatusSort('Местонахождение на складе')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Местонахождение на складе')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Местонахождение на складе')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Местонахождение на складе')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Местонахождение на складе')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Местонахождение на складе')">
+                                        <md-icon> sort</md-icon>
+                                    </md-button>
+                                </td>
+                                <td>
+                                    <md-button ng-show="GetStatusSort('Обозначение')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Обозначение')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Обозначение')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Обозначение')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Обозначение')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Обозначение')">
+                                        <md-icon> sort</md-icon>
+                                    </md-button>
+                                </td>
+                                <td>
+                                    <md-button ng-show="GetStatusSort('Система')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Система')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Система')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Система')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Система')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Система')">
+                                        <md-icon> sort</md-icon>
+                                    </md-button>
+                                </td>
+                                <td>
+                                    <md-button ng-show="GetStatusSort('Ответственный')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Ответственный')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Ответственный')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Ответственный')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Ответственный')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Ответственный')">
+                                        <md-icon> sort</md-icon>
+                                    </md-button>
+                                </td>
+                                <td>
+                                    <md-button ng-show="GetStatusSort('Принадлежность')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Принадлежность')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Принадлежность')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Принадлежность')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Принадлежность')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Принадлежность')">
+                                        <md-icon> sort</md-icon>
+                                    </md-button>
+                                </td>
+                                <td>
+                                    <md-button ng-show="GetStatusSort('Дата приёма')==0&&GetLengthFilter()==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приёма')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Дата приёма')==1&&GetLengthFilter()==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата приёма')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+
+                                </td>
+                                <td></td>
+                                <td>
+                                    <md-button ng-show="GetStatusSort('Дата выдачи')==0&&GetLengthFilter()==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
+                                        <md-icon> import_export</md-icon>
+                                    </md-button>
+                                    <md-button ng-show="GetStatusSort('Дата выдачи')==1&&GetLengthFilter()==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Дата выдачи')">
+                                        <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                                    </md-button>
+
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr ng-repeat-start="user in userList track by $index" class="accordion-toggle">
+
+                                <td style="display: inline-flex !important; border-bottom: 0px !important;">
+
+                                    <nav class="circular-menu">
+
+                                        <div class="circle" >
+                                            <a href="" class="circle1">1</a>
+                                            <a href="" class="circle">2</a>
+                                            <a href="" class="circle">3</a>
+                                            <a href="" class="circlefa"></a>
+                                            <a href="" class="circlefa"></a>
+                                            <a href="" class="circlefa"></a>
+                                            <a href="" class="circlefa"></a>
+                                            <a href="" class="circlefa"></a>
+                                        </div>
+
+                                        <a href="" class="menu-button fa fa-bars fa-2x" ng-click="do($event)"> </a>
+
+</nav>
+                                </td>
+
+
+                                <td scope="row" class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Nomer_upakovki}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Номер упаковки" ng-show="!user.showEdit" type="text" ng-model="user.value.Nomer_upakovki">
+                                        <div ng-show="!isNumber(user.value.Nomer_upakovki)||!user.value.Nomer_upakovki||!isInteger(user.value.Nomer_upakovki)">
+
+                                            <div ng-message="required" ng-show=" !user.value.Nomer_upakovki">Обязательное поле</div>
+                                            <div ng-message="required" ng-show=" !isNumber(user.value.Nomer_upakovki)&&user.value.Nomer_upakovki">Числовое поле</div>
+                                            <div ng-message="required" ng-show=" isNumber(user.value.Nomer_upakovki)&&user.value.Nomer_upakovki&&!isInteger(user.value.Nomer_upakovki)">Целое число</div>
+
+                                        </div>
+                                    </md-input-container>
+
+
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Naimenovanie_izdeliya}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Наименование изделия" ng-show="!user.showEdit" type="text" ng-model="user.value.Naimenovanie_izdeliya">
+                                        <div ng-show="!user.value.Naimenovanie_izdeliya">
+
+                                            <div ng-message="required" ng-show=" !user.value.Naimenovanie_izdeliya">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
+
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Zavodskoj_nomer}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Заводской номер" ng-show="!user.showEdit" type="text" ng-model="user.value.Zavodskoj_nomer">
+                                        <div ng-show="!user.value.Zavodskoj_nomer">
+
+                                            <div ng-message="required" ng-show=" !user.value.Zavodskoj_nomer">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Kolichestvo}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Количество" ng-show="!user.showEdit" type="text" ng-model="user.value.Kolichestvo">
+                                        <div ng-show="!isNumber(user.value.Kolichestvo)||!user.value.Kolichestvo||user.value.Kolichestvo==0||!isInteger(user.value.Kolichestvo)">
+
+                                            <div ng-message="required" ng-show=" !user.value.Kolichestvo">Обязательное поле</div>
+                                            <div ng-message="required" ng-show=" (!isNumber(user.value.Kolichestvo)||user.value.Kolichestvo==0)&&user.value.Kolichestvo">Числовое положительное поле</div>
+                                            <div ng-message="required" ng-show=" isNumber(user.value.Kolichestvo)&&user.value.Kolichestvo&&!isInteger(user.value.Kolichestvo)">Целое число</div>
+
+                                        </div>
+                                    </md-input-container>
+                                </td>
+
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Mestonahozhdenie_na_sklade}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Адрес" ng-show="!user.showEdit" type="text" ng-model="user.value.Mestonahozhdenie_na_sklade">
+                                        <div ng-show="!user.value.Mestonahozhdenie_na_sklade ">
+
+                                            <div ng-message="required" ng-show=" !user.value.Mestonahozhdenie_na_sklade">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
+
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Oboznachenie}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Обозначение" ng-show="!user.showEdit" type="text" ng-model="user.value.Oboznachenie">
+
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Sistema}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Система" ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema">
+                                        <div ng-show="!user.value.Sistema ">
+
+                                            <div ng-message="required" ng-show=" !user.value.Sistema">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Otvetstvennyj}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Ответственный" ng-show="!user.showEdit" type="text" ng-model="user.value.Otvetstvennyj">
+                                        <div ng-show="!user.value.Otvetstvennyj ">
+
+                                            <div ng-message="required" ng-show=" !user.value.Otvetstvennyj">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Prinadlezhnost}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Принадлежность" ng-show="!user.showEdit" type="text" ng-model="user.value.Prinadlezhnost">
+                                        <div ng-show="!user.value.Prinadlezhnost ">
+
+                                            <div ng-message="required" ng-show=" !user.value.Prinadlezhnost">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Data_priyoma |  amDateFormat:'DD.MM.YYYY' }}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <md-datepicker ng-model="user.value.Data_priyoma" md-placeholder="Enter date"></md-datepicker>
+
+                                        <div ng-show="!user.value.Data_priyoma ">
+
+                                            <div ng-message="required" ng-show=" !user.value.Data_priyoma">Обязательное поле</div>
+                                        </div>
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Otkuda}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Откуда" ng-show="!user.showEdit" type="text" ng-model="user.value.Otkuda">
+
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit" ng-if=" !NullDate(user.value.Data_vydachi)">
+                                        {{user.value.Data_vydachi  |  amDateFormat:'DD.MM.YYYY'}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <md-datepicker ng-model="user.value.Data_vydachi" md-placeholder="Enter date"></md-datepicker>
+
+
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Kuda}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Куда" ng-show="!user.showEdit" type="text" ng-model="user.value.Kuda">
+
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Nomer_plomby}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Номер пломбы" ng-show="!user.showEdit" type="text" ng-model="user.value.Nomer_plomby">
+
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Stoimost}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Стоимость" ng-show="!user.showEdit" type="text" ng-model="user.value.Stoimost">
+                                        <div ng-show="!isNumber(user.value.Stoimost)&&user.value.Stoimost ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
+                                </td>
+
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Ves_brutto}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Вес брутто" ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_brutto">
+                                        <div ng-show="!isNumber(user.value.Ves_brutto)&&user.value.Ves_brutto ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
+
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Ves_netto}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Вес нетто" ng-show="!user.showEdit" type="text" ng-model="user.value.Ves_netto">
+                                        <div ng-show="!isNumber(user.value.Ves_netto)&&user.value.Ves_netto ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Dlina}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Длина" ng-show="!user.showEdit" type="text" ng-model="user.value.Dlina">
+                                        <div ng-show="!isNumber(user.value.Dlina)&&user.value.Dlina ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Shirina}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Ширина" ng-show="!user.showEdit" type="text" ng-model="user.value.Shirina">
+                                        <div ng-show="!isNumber(user.value.Shirina)&&user.value.Shirina ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
+                                </td>
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Vysota}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Высота" ng-show="!user.showEdit" type="text" ng-model="user.value.Vysota">
+                                        <div ng-show="!isNumber(user.value.Vysota)&&user.value.Vysota ">
+
+                                            <div ng-message="required">Числовое поле</div>
+                                        </div>
+                                    </md-input-container>
+                                </td>
+
+                                <td class="special">
+                                    <span ng-show="user.showEdit">
+                                        {{user.value.Primechanie}}
+                                    </span>
+                                    <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                                        <input aria-label="Примечание" ng-show="!user.showEdit" type="text" ng-model="user.value.Primechanie">
+
+                                    </md-input-container>
+                                </td>
+                                <td ng-show="user.showEdit" class="special">
+                                    <span>
+                                        {{user.value.Dobavil}}
+                                    </span>
+
+                                </td>
+                                <td ng-show="user.showEdit" class="special">
+                                    <span>
+                                        {{user.value.Data_ismenen |  amDateFormat:'DD.MM.YYYY' }}
+                                    </span>
+
+                                </td>
+                            </tr>
+                            <tr ng-repeat-end></tr>
+
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+
+
+                                <td align="left" colspan="6   " style="    text-align: left;">
+
+
+
+
+                                    <paging ng page="pageIndex"
+                                            page-size="pageSizeSelected"
+                                            total="totalCount"
+                                            show-prev-next="true"
+                                            show-first-last="true">
+                                    </paging>
+
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
 
     </div>
+
 </div>
+<!-- #END# Basic Table -->
+</div>
+
+ 

@@ -66,6 +66,7 @@
     <Compile Include="Roles.cs" />
     <Compile Include="SubEvent.cs" />
     <Compile Include="Unit.cs" />
+    <Compile Include="UnitEntity.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UUID.cs" />
     <Compile Include="WarehouseEntities.cs" />

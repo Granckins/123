@@ -60,6 +60,7 @@ app.controller('ReactController', ReactController);
 app.factory('PreviewFactory', PreviewFactory);
 app.factory('WorkFactory', WorkFactory);
 app.factory('HistoryUpdateFactory', HistoryUpdateFactory);
+app.factory('HistoryUpdateFactoryUnit', HistoryUpdateFactoryUnit);
 app.directive('tmpl', testComp);
 app.directive('pics', () => {
     return {

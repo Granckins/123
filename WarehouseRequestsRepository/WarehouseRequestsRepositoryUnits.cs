@@ -11,7 +11,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using System.Xml;
-using System.Text.RegularExpressions; 
+using System.Text.RegularExpressions;
 namespace Warehouse.Core.Repositories
 {
     public class WarehouseRequestsRepositoryUnits : IRepositoryRequestsUnits
@@ -19,7 +19,7 @@ namespace Warehouse.Core.Repositories
         public CouchRequest<Unit> GetUnits()
         {
             CouchRequest<Unit> list = new CouchRequest<Unit>();
-            var url = "http://localhost:5984/_fti/local/units/_design/getunits/by_archive?q=archive:" + false ;
+            var url = "http://localhost:5984/_fti/local/units/_design/getunits/by_archive?q=archive:" + false;
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.Credentials = new NetworkCredential("admin", "root");
@@ -38,14 +38,15 @@ namespace Warehouse.Core.Repositories
                 {
                     var str = l.fields._attachments;
                     string pattern = @"^(\{){1}(.*?)(\}){1}$";
-                    str=Regex.Replace(str, pattern, "$2");
+                    str = Regex.Replace(str, pattern, "$2");
                     string s = str;
-                                     
-                                   Regex regex = new Regex(@"(?<=\{)[^}]*(?=\})", RegexOptions.IgnoreCase);
+
+                    Regex regex = new Regex(@"(?<=\{)[^}]*(?=\})", RegexOptions.IgnoreCase);
                     MatchCollection matches = regex.Matches(str);
 
-                  List<String> st = matches.Cast<Match>().Select(m => m.Value).Distinct().ToList();
-                    foreach(var a in st){
+                    List<String> st = matches.Cast<Match>().Select(m => m.Value).Distinct().ToList();
+                    foreach (var a in st)
+                    {
                         l.fields.AddAttachment(a);
                     }
 
@@ -62,13 +63,13 @@ namespace Warehouse.Core.Repositories
                     regex = new Regex("\"([^\"]*)\"", RegexOptions.IgnoreCase);
                     matches = regex.Matches(dsds);
 
-                   st = matches.Cast<Match>().Select(m => m.Value).Distinct().ToList();
+                    st = matches.Cast<Match>().Select(m => m.Value).Distinct().ToList();
                     foreach (var a in st)
                     {
                         name.Add(a.Replace("\"", ""));
-                      
+
                     }
-                    for(int i=0;i<l.fields.attachments.Count;i++)
+                    for (int i = 0; i < l.fields.attachments.Count; i++)
                     {
                         l.fields.attachments[i].name = name[i];
                     }
@@ -87,6 +88,55 @@ namespace Warehouse.Core.Repositories
             }
             return list;
 
+        }
+        public List<RevsInfo> GetRevisionListEvent(string id, bool flag = true)
+        {
+            var list = new List<RevsInfo>();
+            var url = "http://localhost:5984/units/" + id + "?revs_info=true";
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+            using (var responseStream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<EventCouch>(res);
+
+                list = lucene._revs_info;
+            }
+            int maxidx = 0;
+            int max = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (flag)
+                {
+                    if (list[i].status == "available")
+                    {
+                        var idx = list[i].rev.IndexOf("-");
+                        var substr = list[i].rev.Substring(0, idx);
+                        if (Convert.ToInt32(substr) > max)
+                        {
+                            max = Convert.ToInt32(substr);
+                            maxidx = i;
+                        }
+                    }
+                }
+                else
+                {
+
+                    var idx = list[i].rev.IndexOf("-");
+                    var substr = list[i].rev.Substring(0, idx);
+                    if (Convert.ToInt32(substr) > max)
+                    {
+                        max = Convert.ToInt32(substr);
+                        maxidx = i;
+                    }
+
+                }
+            }
+            list.RemoveAt(maxidx);
+            return list;
         }
         public void Dispose()
         {
