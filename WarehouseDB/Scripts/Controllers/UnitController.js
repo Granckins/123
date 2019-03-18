@@ -38,6 +38,15 @@
     $scope.searchfiltervalue = [];
     $scope.sortfiltername = "Номер упаковки";
     $scope.sortfiltervalue = "1";
+ 
+
+    $scope.isOpen = false;
+ 
+    $scope.selectedMode = 'md-fling';
+
+   
+    $scope.selectedDirection = 'right';
+
     $scope.getUnits= function () {
           obj = new Object();
         obj["page"] = $scope.pageIndex;
@@ -112,22 +121,19 @@
                    });
 
                })
-           
-               var items = angular.element(document.querySelectorAll('.circle1'));
-               for (var i = 0, l = items.length; i < l; i++) {
-                   items[i].style.left = (50 - 35 * Math.cos(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-
-                   items[i].style.top = (50 + 35 * Math.sin(-0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
-               }
+          
 
            });
 
 
     }
+    $scope.ClassButton = true;
+    $scope.ClassButtonEdit = function () {
+        $scope.ClassButton  =  $scope.ClassButton ? false : true;
+    };
     $scope.do = function ($event) {
         $event.preventDefault();
-        var myEl = angular.element(document.querySelector('.circle'));
-        myEl.addClass('open');
+        $scope.ClassButtonEdit();
     };
     $scope.GetStatusSort = function (name) {
         for (var i = 0; i < $scope.SortOptions.length ; i++) {
