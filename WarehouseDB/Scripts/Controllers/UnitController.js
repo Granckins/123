@@ -46,7 +46,23 @@
 
    
     $scope.selectedDirection = 'right';
+    $scope.getattachment= function (emp) {
+ 
+            $http({
+                url: "/Unit/GetAttachmentById",
+                method: "GET",
+                params: {
+                    id: emp.id,
+                    number: 0
+                }
+            }).
+             then(function (response) {
 
+                 var file = new Blob([(response.data)], { type: 'text/csv;charset=utf-8' });
+
+             });
+      
+    };
     $scope.getUnits= function () {
           obj = new Object();
         obj["page"] = $scope.pageIndex;

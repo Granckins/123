@@ -43,7 +43,7 @@
     $scope.searchfiltervalue = [];
     $scope.buferList = [];
     $scope.userList = [];
-    $scope.sortfiltername = "Номер упаковки";
+    $scope.sortfiltername = "Все поля";
     $scope.sortfiltervalue = "1";
     $scope.Data_vydachi = false;
     $scope.Data_priyoma = false;
@@ -52,7 +52,8 @@
     $scope.Data_priyoma_str2 = null;
     $scope.Data_vydachi_str2 = null;
     $scope.launchTypeOptions = [
-      { name: 'Номер упаковки', value: 'Номер упаковки' },
+        { name: 'Все поля', value: 'Все поля' },
+        { name: 'Номер упаковки', value: 'Номер упаковки' },
       { name: 'Наименование', value: 'Наименование изделия' },
       { name: 'Заводской номер', value: 'Заводской номер' },
        { name: 'Обозначение', value: 'Обозначение' },
@@ -66,7 +67,8 @@
     ];
 
     $scope.SortOptions = [
-           { name: 'Номер упаковки', value: 1 },
+        { name: 'Все поля', value: 1 },
+           { name: 'Номер упаковки', value: 0 },
         { name: 'Наименование изделия', value: 0 },
       { name: 'Заводской номер', value: 0 },
            { name: 'Обозначение', value: 0 },

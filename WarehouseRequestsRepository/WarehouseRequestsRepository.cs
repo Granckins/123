@@ -102,7 +102,7 @@ namespace Warehouse.Core.Repositories
         {
 
             List<ImportResultResponse> list = new List<ImportResultResponse>();
-            var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id + "?rev=" + CouchDataSet._rev);
+            var request = (HttpWebRequest)WebRequest.Create("http://localhost:5984/events/" + id + "?rev=" + GetRevisionList(id).First().rev);
 
             ServicePointManager.DefaultConnectionLimit = 1000; 
             request.Credentials = new NetworkCredential("admin", "root");
@@ -488,7 +488,15 @@ namespace Warehouse.Core.Repositories
                 {
                 if (qq.value == "Наименование")
                     qq.value = "Наименование_изделия";
-                 if (qq.value!="")
+                if (qq.name == "Все поля")
+                {
+                    q += "(Номер_упаковки:" + qq.value + "~" + " OR Наименование_изделия: " + qq.value + "~" + " OR " + "Заводской_номер: " + qq.value + "~0.8" +
+         " OR " + "Обозначение:" + qq.value + "~0.8" + " OR " + "Система: " + qq.value + "~" + " OR " + "Принадлежность:" + qq.value + "~" + " OR " + "Ответственный: "
+         + qq.value + "~" + "OR " + "Местонахождение_на_складе:" + qq.value + "~0.8" + " OR " + "Откуда: " + qq.value + "~" + "OR " + "Куда: " + qq.value + "~" + " OR " + "Примечание: "
+         + qq.value + "~" + " OR " + "Добавил: " + qq.value + "~"+ " OR " + "Содержимое: " + qq.value +  " ) AND";
+                    break;
+                }
+                    if (qq.value!="")
                     if(qq.value.Contains("-"))
                         q += qq.name.Replace(" ", "_") + ":" + qq.value + "^1 AND ";
                     else
@@ -516,7 +524,8 @@ namespace Warehouse.Core.Repositories
                       sort += "\\" + qs.name.Replace(" ", "_");
               }
           }
-           
+            if (sort == "&sort=")
+                sort = "";
             var url = "http://localhost:5984/_fti/local/events/_design/searchdocuments/by_fields?q=" + q + sort+"&skip=" + skip + "&limit=" + limit;
              var request = (HttpWebRequest)WebRequest.Create(url);
 
@@ -1165,42 +1174,89 @@ namespace Warehouse.Core.Repositories
             }
             return list;
         }
+        public List<RevsInfo> GetRevisionList(string id, bool flag = true)
+        {
+            var list = new List<RevsInfo>();
+            var url = "http://localhost:5984/events/" + id + "?revs_info=true";
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            try
+            {
+                request.Credentials = new NetworkCredential("admin", "root");
+                var response = request.GetResponse();
+                using (var responseStream = response.GetResponseStream())
+                {
+                    var reader = new StreamReader(responseStream, Encoding.UTF8);
+                    var res = reader.ReadToEnd();
+                    var lucene = JsonConvert.DeserializeObject<EventCouch>(res);
+
+                    list = lucene._revs_info;
+                }
+               
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (flag)
+                    {
+                        if (list[i].status == "available")
+                        {
+                            var idx = list[i].rev.IndexOf("-");
+                            var substr = list[i].rev.Substring(0, idx);
+                           
+                        }
+                    }
+                    else
+                    {
+
+                        var idx = list[i].rev.IndexOf("-");
+                        var substr = list[i].rev.Substring(0, idx);
+                       
+
+                    }
+                }
+             
+            }
+            catch (Exception e)
+            {
+
+            }
+            return list;
+        }
         public List<RevsInfo> GetRevisionListEvent(string id, bool flag=true)
         {
             var list= new List<RevsInfo>();
             var url = "http://localhost:5984/events/"+id+"?revs_info=true";
             var request = (HttpWebRequest)WebRequest.Create(url);
-
-            request.Credentials = new NetworkCredential("admin", "root");
-            var response = request.GetResponse();
-            using (var responseStream = response.GetResponseStream())
+            try
             {
-                var reader = new StreamReader(responseStream, Encoding.UTF8);
-                var res = reader.ReadToEnd();
-                var lucene = JsonConvert.DeserializeObject<EventCouch>(res);
-
-                list = lucene._revs_info;
-            }
-            int maxidx = 0;
-            int max = 0;
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (flag)
+                request.Credentials = new NetworkCredential("admin", "root");
+                var response = request.GetResponse();
+                using (var responseStream = response.GetResponseStream())
                 {
-                    if (list[i].status == "available")
+                    var reader = new StreamReader(responseStream, Encoding.UTF8);
+                    var res = reader.ReadToEnd();
+                    var lucene = JsonConvert.DeserializeObject<EventCouch>(res);
+
+                    list = lucene._revs_info;
+                }
+                int maxidx = 0;
+                int max = 0;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (flag)
                     {
-                        var idx = list[i].rev.IndexOf("-");
-                        var substr = list[i].rev.Substring(0, idx);
-                        if (Convert.ToInt32(substr) > max)
+                        if (list[i].status == "available")
                         {
-                            max = Convert.ToInt32(substr);
-                            maxidx = i;
+                            var idx = list[i].rev.IndexOf("-");
+                            var substr = list[i].rev.Substring(0, idx);
+                            if (Convert.ToInt32(substr) > max)
+                            {
+                                max = Convert.ToInt32(substr);
+                                maxidx = i;
+                            }
                         }
                     }
-                }
-                else
-                {
-                     
+                    else
+                    {
+
                         var idx = list[i].rev.IndexOf("-");
                         var substr = list[i].rev.Substring(0, idx);
                         if (Convert.ToInt32(substr) > max)
@@ -1208,10 +1264,14 @@ namespace Warehouse.Core.Repositories
                             max = Convert.ToInt32(substr);
                             maxidx = i;
                         }
-                    
+
+                    }
                 }
+                list.RemoveAt(maxidx);
             }
-            list.RemoveAt(maxidx);
+            catch(Exception e){
+
+            }
                 return list;
         }
         public CouchRequest<EventCouch> GetRevisionFiesldsEvent(string id, List<RevsInfo> revs, bool flag = true)

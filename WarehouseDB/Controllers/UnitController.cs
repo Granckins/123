@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -26,6 +27,23 @@ namespace WarehouseDB.Controllers
             var res = Repository.GetUnits(); 
             return Json(res, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public FileResult GetAttachmentById(string id, int number = 0)
+{
+   var res = Repository.GetAttachmentById(id,number);
+  
 
+        if (res!=null)
+        {
+              return File(res, "image/jpeg");
+        
+        }
+
+        //file is empty, so return null
+        return null;
+ 
+ 
+}
+         
     }
 }

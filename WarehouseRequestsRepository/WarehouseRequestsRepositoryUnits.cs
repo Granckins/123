@@ -16,6 +16,90 @@ namespace Warehouse.Core.Repositories
 {
     public class WarehouseRequestsRepositoryUnits : IRepositoryRequestsUnits
     {
+        public Byte[] GetAttachmentById(string id, int number = 0)
+        {
+
+
+
+             CouchRequest<Unit> list = new CouchRequest<Unit>();
+            var url = "http://localhost:5984/_fti/local/units/_design/getunits/by_index?q=_id:" + id;
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Credentials = new NetworkCredential("admin", "root");
+            var response = request.GetResponse();
+
+            var user = new User();
+            var lucene1 = new LuceneRequest<Unit>();
+            lucene1.rows = new List<Row<Unit>>();
+            var responseStream = response.GetResponseStream();
+             
+                var reader = new StreamReader(responseStream, Encoding.UTF8);
+                var res = reader.ReadToEnd();
+                var lucene = JsonConvert.DeserializeObject<LuceneRequest<Unit>>(res);
+                if (lucene.rows.Count == 0)
+                    return null;
+                var l = lucene.rows[0];
+                var str = l.fields._attachments;
+                string pattern = @"^(\{){1}(.*?)(\}){1}$";
+                str = Regex.Replace(str, pattern, "$2");
+                string s = str;
+
+                Regex regex = new Regex(@"(?<=\{)[^}]*(?=\})", RegexOptions.IgnoreCase);
+                MatchCollection matches = regex.Matches(str);
+
+                List<String> st = matches.Cast<Match>().Select(m => m.Value).Distinct().ToList();
+                foreach (var a in st)
+                {
+                    l.fields.AddAttachment(a);
+                }
+
+                Regex regex1 = new Regex("(?<counter>{)(?>(?<counter>{)|(?<-counter>})|[^{}]+)+?(?(counter)(?!))");
+                MatchCollection matches1 = regex1.Matches(s);
+                List<String> st1 = matches1.Cast<Match>().Select(m => m.Value).Distinct().ToList();
+
+                List<string> name = new List<string>();
+                var dsds = str;
+                foreach (var dd in st1)
+                {
+                    dsds = dsds.Replace(dd, "");
+                }
+                regex = new Regex("\"([^\"]*)\"", RegexOptions.IgnoreCase);
+                matches = regex.Matches(dsds);
+
+                st = matches.Cast<Match>().Select(m => m.Value).Distinct().ToList();
+                foreach (var a in st)
+                {
+                    name.Add(a.Replace("\"", ""));
+
+                }
+                for (int i = 0; i < l.fields.attachments.Count; i++)
+                {
+                    l.fields.attachments[i].name = name[i];
+                }
+
+
+
+                Byte[] lnByte;
+       
+            url = "http://localhost:5984/units/" + id + "/" + l.fields.attachments[number].name;
+            HttpWebRequest lxRequest = (HttpWebRequest)WebRequest.Create(url);
+
+            lxRequest.Credentials = new NetworkCredential("admin", "root");
+     
+            // returned values are returned as a stream, then read into a string
+            String lsResponse = string.Empty;
+            using (HttpWebResponse lxResponse = (HttpWebResponse)lxRequest.GetResponse())
+            {
+                using (BinaryReader reader1 = new BinaryReader(lxResponse.GetResponseStream()))
+                {
+                    lnByte = reader1.ReadBytes(1 * 1024 * 1024 * 10);
+                   
+
+                }
+            }
+            return lnByte;
+        }
+
         public CouchRequest<Unit> GetUnits()
         {
             CouchRequest<Unit> list = new CouchRequest<Unit>();

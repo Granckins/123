@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Warehouse.Model;
@@ -17,7 +18,7 @@ namespace Warehouse.Core
 
         CouchRequest<Unit> GetUnits();
 
-
+        Byte[] GetAttachmentById(string id, int number);
         //int GetBalance(string userId);
 
     }
