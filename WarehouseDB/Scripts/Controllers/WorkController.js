@@ -56,10 +56,11 @@
         { name: 'Номер упаковки', value: 'Номер упаковки' },
       { name: 'Наименование', value: 'Наименование изделия' },
       { name: 'Заводской номер', value: 'Заводской номер' },
-       { name: 'Обозначение', value: 'Обозначение' },
+       { name: 'Децимальный номер', value: 'Обозначение' },
       { name: 'Ответственный', value: 'Ответственный' },
       { name: 'Принадлежность', value: 'Принадлежность' },
-          { name: 'Система', value: 'Система' },
+        { name: 'Система', value: 'Номер_пломбы' },
+        { name: 'Проект', value: 'Система' },
                       { name: 'Содержимое', value: 'Содержимое' },
                           { name: 'Местонахождение на складе', value: 'Местонахождение на складе' },
                                          { name: 'Примечание', value: 'Примечание' }, { name: 'Дата приёма', value: 'Дата приёма' },
@@ -77,7 +78,7 @@
       { name: 'Местонахождение на складе', value: 0 },
       { name: 'Система', value: 0 },
       { name: 'Ответственный', value: 0 },
-      { name: 'Принадлежность', value: 0 },
+        { name: 'Принадлежность', value: 0 }, { name: 'Номер_пломбы', value: 0 },
                                          { name: 'Дата приёма', value: 0 },
                                             { name: 'Дата выдачи', value: 0 }
     ];
@@ -553,6 +554,19 @@
     $scope.chipdelete = function (chip) {
         for (var i = 0; i < $scope.launchTypeOptions.length ; i++) {
             if ($scope.launchTypeOptions[i].$$hashKey === chip.$$hashKey) {
+           
+
+
+ if ($scope.launchTypeOptions[i].value == 'Номер_пломбы')
+           $scope.launchTypeOptions[i].name =  "Система" ;
+        else
+            if ($scope.launchTypeOptions[i].value== 'Система')
+              $scope.launchTypeOptions[i].name =  "Проект" ;
+        else
+              if ($scope.launchTypeOptions[i].value == 'Обозначение')
+                $scope.launchTypeOptions[i].name =   "Децимальный номер";
+else
+
                 $scope.launchTypeOptions[i].name = $scope.launchTypeOptions[i].value;
                 break;
             }
@@ -660,8 +674,16 @@
             $scope.archive_str = $scope.archive;
 
         }
+        if (obj.value == 'Номер_пломбы')
+            obj.name = $scope.searchText + " (Система)";
+        else
+            if (obj.value == 'Система')
+                obj.name = $scope.searchText + " (Проект)";
+        else
+              if (obj.value == 'Обозначение')
+                obj.name = $scope.searchText + " (Децимальный номер)";
+        else 
         obj.name = $scope.searchText + " (" + obj.value + ")";
-
         $scope.searchfiltername.push(obj.value);
         $scope.searchfiltervalue.push($scope.searchText);
         var searchfilternameString = Array.prototype.join.call($scope.searchfiltername, ";");
