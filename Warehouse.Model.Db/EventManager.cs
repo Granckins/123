@@ -48,7 +48,8 @@ namespace Warehouse.Model.Db
            list.Add( EC.Oboznachenie == "" ? null :EC.Oboznachenie );
          
            list.Add( EC.Sistema== "" ? null :EC.Sistema );
-           list.Add( EC.Prinadlezhnost == "" ? null :EC.Prinadlezhnost  );
+            list.Add(EC.Project == "" ? null : EC.Project);
+            list.Add( EC.Prinadlezhnost == "" ? null :EC.Prinadlezhnost  );
             list.Add( EC.Stoimost.ToString());
            list.Add( EC.Otvetstvennyj== "" ? null : EC.Otvetstvennyj );
            list.Add( EC.Mestonahozhdenie_na_sklade== "" ? null : EC.Mestonahozhdenie_na_sklade);
@@ -95,6 +96,7 @@ namespace Warehouse.Model.Db
             EC.Oboznachenie= e.Обозначение;
             EC.Soderzhimoe = new List<SubEvent>();
             EC.Sistema= e.Система;
+            EC.Project = e.Проект;
             EC.Prinadlezhnost= e.Принадлежность;
              EC.Stoimost = e.Стоимость;
             EC.Otvetstvennyj= e.Ответственный;
@@ -127,6 +129,7 @@ namespace Warehouse.Model.Db
             EC.Oboznachenie = e.Обозначение;
             EC.Soderzhimoe = new List<SubEvent>();
             EC.Sistema = e.Система;
+            EC.Project = e.Проект;
             EC.Prinadlezhnost = e.Принадлежность;
             EC.Stoimost = e.Стоимость;
             EC.Otvetstvennyj = e.Ответственный;
@@ -160,6 +163,7 @@ namespace Warehouse.Model.Db
             EC.Soderzhimoe = new List<SubEvent>();
             EC.Soderzhimoe = e.Soderzhimoe;
             EC.Sistema = e.Sistema;
+            EC.Project = e.Project;
             EC.Prinadlezhnost = e.Prinadlezhnost;
             EC.Stoimost = e.Stoimost;
             EC.Otvetstvennyj = e.Otvetstvennyj;

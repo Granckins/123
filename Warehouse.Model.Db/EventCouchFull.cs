@@ -29,6 +29,8 @@ namespace Warehouse.Model.Db
        public List<SubEvent> Soderzhimoe { get; set; }
         [JsonProperty("Система")]
          public string Sistema { get; set; }
+        [JsonProperty("Проект")]
+        public string Project { get; set; }
         [JsonProperty("Принадлежность")]
         public string Prinadlezhnost { get; set; }
        

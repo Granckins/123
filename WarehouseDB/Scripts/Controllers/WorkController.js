@@ -59,7 +59,7 @@
        { name: 'Децимальный номер', value: 'Обозначение' },
       { name: 'Ответственный', value: 'Ответственный' },
       { name: 'Принадлежность', value: 'Принадлежность' },
-        { name: 'Система', value: 'Номер_пломбы' },
+        { name: 'Система', value: 'Проект' },
         { name: 'Проект', value: 'Система' },
                       { name: 'Содержимое', value: 'Содержимое' },
                           { name: 'Местонахождение на складе', value: 'Местонахождение на складе' },
@@ -75,8 +75,9 @@
            { name: 'Обозначение', value: 0 },
       { name: 'Количество', value: 0 },
       { name: 'Заводской номер', value: 0 },
-      { name: 'Местонахождение на складе', value: 0 },
-      { name: 'Система', value: 0 },
+      { name: 'Местонахождение на складе', valяue: 0 },
+        { name: 'Система', value: 0 },
+        { name: 'Проект', valяue: 0 },
       { name: 'Ответственный', value: 0 },
         { name: 'Принадлежность', value: 0 }, { name: 'Номер_пломбы', value: 0 },
                                          { name: 'Дата приёма', value: 0 },
@@ -557,7 +558,7 @@
            
 
 
- if ($scope.launchTypeOptions[i].value == 'Номер_пломбы')
+ if ($scope.launchTypeOptions[i].value == 'Проект')
            $scope.launchTypeOptions[i].name =  "Система" ;
         else
             if ($scope.launchTypeOptions[i].value== 'Система')
@@ -674,7 +675,7 @@ else
             $scope.archive_str = $scope.archive;
 
         }
-        if (obj.value == 'Номер_пломбы')
+        if (obj.value == 'Проект')
             obj.name = $scope.searchText + " (Система)";
         else
             if (obj.value == 'Система')

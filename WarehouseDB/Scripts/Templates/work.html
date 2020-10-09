@@ -500,11 +500,12 @@
 
 
                     </th>
-                    <th class="rotate-45"><div><span>Заводской номер</span></div></th>
+                    <th class="rotate-45"><div><span>Заводской номер изделия</span></div></th>
                     <th class="rotate-45"><div><span>Количество</span></div></th>
                     <th class="rotate-45"><div><span>Местонахождение на складе</span></div></th>
-                    <th class="rotate-45"><div><span>Обозначение</span></div></th>
+                    <th class="rotate-45"><div><span>Децимальный номер изделия</span></div></th>
                     <th class="rotate-45"><div><span>Система</span></div></th>
+                    <th class="rotate-45"><div><span>Проект</span></div></th>
                     <th class="rotate-45"><div><span>Ответственный</span></div></th>
                     <th class="rotate-45"><div><span>Принадлежность</span></div></th>
                     <th class="rotate-45"><div><span>Дата приёма</span></div></th>
@@ -598,6 +599,17 @@
                             <md-icon> sort</md-icon>
                         </md-button>
                     </td>
+                       <td>
+                        <md-button ng-show="GetStatusSort('Проект')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Проект')">
+                            <md-icon> import_export</md-icon>
+                        </md-button>
+                        <md-button ng-show="GetStatusSort('Проект')==1" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Проект')">
+                            <md-icon style="transform: rotate(180deg);"> sort</md-icon>
+                        </md-button>
+                        <md-button ng-show="GetStatusSort('Проект')==2" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Проект')">
+                            <md-icon> sort</md-icon>
+                        </md-button>
+                    </td>
                     <td>
                         <md-button ng-show="GetStatusSort('Система')==0" class="md-icon-button  waves-effect waves-blue " ng-click="SortChange('Система')">
                             <md-icon> import_export</md-icon>
@@ -670,12 +682,12 @@
 
 
                         <!--<a ng-show="!user.showSub" class="green shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
-                            <i class="material-icons" data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
+            <i class="material-icons" data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
 
-                        </a>
-                        <a ng-show="user.showSub" class="red shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
-                            <i class="material-icons " data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
-                        </a>-->
+        </a>
+        <a ng-show="user.showSub" class="red shortinfo" href="javascript:;" ng-click="childInfo(user )" title="Click to view more">
+            <i class="material-icons " data-toggle="collapse" data-target="#row-{{$index}}">storage</i>
+        </a>-->
                         <md-icon data-toggle="collapse" class=" float-icon" style="    color: #555;" data-target="#rowH-{{$index}}" ng-show="!user.showHistory && user.IsHistory  " ng-click="gethistory(user )">schedule</md-icon>
                         <md-icon style=" color :orange;" data-toggle="collapse" data-target="#rowH-{{$index}}" ng-show="user.showHistory && user.IsHistory  " ng-click="gethistory(user )">schedule</md-icon>
                         <!--<md-icon style=" color :orange;" data-toggle="collapse" data-target="#row-{{$index}}" ng-show="user.showSub" ng-click="childInfo(user )">schedule</md-icon>-->
@@ -786,10 +798,19 @@
                     </td>
                     <td class="special">
                         <span ng-show="user.showEdit">
+                            {{user.value.Project}}
+                        </span>
+                        <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
+                            <input aria-label="Система" ng-show="!user.showEdit" type="text" ng-model="user.value.Project">
+                            
+                        </md-input-container>
+                    </td>
+                    <td class="special">
+                        <span ng-show="user.showEdit">
                             {{user.value.Sistema}}
                         </span>
                         <md-input-container ng-show="!user.showEdit" style="margin: 0 0; " dividercolor="primary">
-                            <input aria-label="Система" ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema">
+                            <input aria-label="Проект" ng-show="!user.showEdit" type="text" ng-model="user.value.Sistema">
                             <div ng-show="!user.value.Sistema ">
 
                                 <div ng-message="required" ng-show=" !user.value.Sistema">Обязательное поле</div>
@@ -1046,6 +1067,7 @@
                                 <th class="rotate-45"><div><span>Местонахождение на складе</span></div></th>
                                 <th class="rotate-45"><div><span>Обозначение</span></div></th>
                                 <th class="rotate-45"><div><span>Система</span></div></th>
+                                <th class="rotate-45"><div><span>Проект</span></div></th>
                                 <th class="rotate-45"><div><span>Ответственный</span></div></th>
                                 <th class="rotate-45"><div><span>Принадлежность</span></div></th>
                                 <th class="rotate-45"><div><span>Дата приёма</span></div></th>
@@ -1111,6 +1133,9 @@
                                 </td>
                                 <td class="special">
                                     {{his.value.Oboznachenie}}
+                                </td>
+                                <td class="special">
+                                    {{his.value.Project}}
                                 </td>
                                 <td class="special">
                                     {{his.value.Sistema}}

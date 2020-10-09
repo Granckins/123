@@ -26,6 +26,8 @@ namespace Warehouse.Model.Db
         public List<SubEvent> Soderzhimoe { get; set; }
         [JsonProperty("Система")]
         public string Sistema { get; set; }
+        [JsonProperty("Проект")]
+        public string Project { get; set; }
         [JsonProperty("Принадлежность")]
         public string Prinadlezhnost { get; set; }
 
@@ -90,6 +92,7 @@ namespace Warehouse.Model.Db
           (Oboznachenie == null ? "" : Oboznachenie).Replace(';', ',') + ";" +
          sod + ";" +
          (Sistema == null ? "" : Sistema).Replace(';', ',') + ";" +
+         (Project == null ? "" : Project).Replace(';', ',') + ";" +
              (Otvetstvennyj == null ? "" : Otvetstvennyj).Replace(';', ',') + ";" +
          (Prinadlezhnost == null ? "" : Prinadlezhnost).Replace(';', ',') + ";";
             if (Data_priyoma != null)

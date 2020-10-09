@@ -491,7 +491,7 @@ namespace Warehouse.Core.Repositories
                 if (qq.name == "Все поля")
                 {
                     q += "(Номер_упаковки:" + qq.value + "~" + " OR Наименование_изделия: " + qq.value + "~" + " OR " + "Заводской_номер: " + qq.value + "~0.8" +
-         " OR " + "Обозначение:" + qq.value + "~0.8" + " OR " + "Система: " + qq.value + "~" + " OR " + "Принадлежность:" + qq.value + "~" + " OR " + "Ответственный: "
+         " OR " + "Обозначение:" + qq.value + "~0.8" + " OR " + "Система: " + qq.value + "~" + " OR " + "Проект: " + qq.value + "~" + " OR " + "Принадлежность:" + qq.value + "~" + " OR " + "Ответственный: "
          + qq.value + "~" + "OR " + "Местонахождение_на_складе:" + qq.value + "~0.8" + " OR " + "Откуда: " + qq.value + "~" + "OR " + "Куда: " + qq.value + "~" + " OR " + "Примечание: "
          + qq.value + "~" + " OR " + "Добавил: " + qq.value + "~"+ " OR " + "Содержимое: " + qq.value +  " ) AND";
                     break;
@@ -516,7 +516,7 @@ namespace Warehouse.Core.Repositories
                   else
                       sort += "\\" + qs.name.Replace(" ", "_") + "<int>";
               }
-              if (qs.name == "Наименование изделия" || qs.name == "Заводской номер" || qs.name == "Обозначение" || qs.name == "Местонахождение на складе" || qs.name == "Система" || qs.name == "Ответственный" || qs.name == "Принадлежность")
+              if (qs.name == "Наименование изделия" || qs.name == "Заводской номер" || qs.name == "Обозначение" || qs.name == "Местонахождение на складе" || qs.name == "Система" || qs.name == "Проект" || qs.name == "Ответственный" || qs.name == "Принадлежность")
               {
                   if (qs.value == "1")
                       sort += "/" + qs.name.Replace(" ", "_");

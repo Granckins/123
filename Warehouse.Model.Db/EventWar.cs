@@ -37,7 +37,9 @@ namespace Warehouse.Model.Db
                    public int      Количество_составных_единиц { get; set; }
         [JsonProperty("Система")]
                      public string        Система { get; set; }
-          [JsonProperty("Принадлежность")]
+        [JsonProperty("Проект")]
+        public string Проект { get; set; }
+        [JsonProperty("Принадлежность")]
                              public string    Принадлежность { get; set; } 
            [JsonProperty("Стоимость")]
                                     public float   Стоимость { get; set; }
