@@ -22,7 +22,7 @@ namespace Warehouse.Model
         }
         //true - pr, false - vd
         public void FromStringToObject(bool flag, string filterdate)
-        {
+        {  
 
             var Filters = new List<string>();
             try { Filters = filterdate.Split(';').ToList(); }

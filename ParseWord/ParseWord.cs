@@ -57,7 +57,7 @@ namespace ParseWord
                         {
                             if (row == 1)
                             {
-                                var cell = tb.Cell(row, 2);
+                                var cell = tb.Cell(row, 3);
                                 var text = cell.Range.Text;
                                 text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
                                 int Nomer_upakovki;
@@ -71,7 +71,7 @@ namespace ParseWord
                                 }
                             }
 
-                            if (row == 2)
+                            if (row == 3)
                             {
                                 var cell = tb.Cell(row, 2);
                                 var text = cell.Range.Text;
@@ -83,12 +83,12 @@ namespace ParseWord
                                 EC.Mestonahozhdenie_na_sklade = text;
                             }
 
-                            if (row == 3)
+                            if (row == 5)
                             {
                                 var cell = tb.Cell(row, 2);
                                 var text = cell.Range.Text;
                                 text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
-                                EC.Naimenovanie_izdeliya = text;
+                                EC.Project = text;
                                 cell = tb.Cell(row, 4);
                                 text = cell.Range.Text;
                                 text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
@@ -102,14 +102,14 @@ namespace ParseWord
                                 {
                                 }
                             }
-                            if (row == 4)
+                            if (row == 7)
                             {
                                 var cell = tb.Cell(row, 2);
                                 var text = cell.Range.Text;
                                 text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
                                 EC.Zavodskoj_nomer = text;
                             }
-                            if (row == 5)
+                            if (row == 9)
                             {
                                 var cell = tb.Cell(row, 2);
                                 var text = cell.Range.Text;
@@ -128,7 +128,7 @@ namespace ParseWord
                                 {
                                 }
                             }
-                            if (row == 6)
+                            if (row == 11)
                             {
                                 var cell = tb.Cell(row, 2);
                                 var text = cell.Range.Text;
@@ -147,7 +147,7 @@ namespace ParseWord
                                 {
                                 }
                             }
-                            if (row == 7 )
+                            if (row == 13 )
                             {
                                 var cell = tb.Cell(row, 5);
                                 var text = cell.Range.Text;
@@ -162,98 +162,98 @@ namespace ParseWord
                                 {
                                 }
                             }
-                            if (row > 10 && row < 31)
-                            {
+                            //if (row > 10 && row < 31)
+                            //{
                               
-                                var cell = tb.Cell(row, 2);
-                                var text = cell.Range.Text;
-                                text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
-                                var Naimenovanie_sostavnoj_edinicy = text;
-                                cell = tb.Cell(row, 3);
-                                text = cell.Range.Text;
-                                text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
-                                var Oboznachenie_sostavnoj_edinicy = text;
-                                cell = tb.Cell(row, 4);
-                                text = cell.Range.Text;
-                                text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
-                                int Kolichestvo_sostavnyh_edinic=0;
-                                try
-                                {
-                                    Kolichestvo_sostavnyh_edinic = Convert.ToInt32(text);
+                            //    var cell = tb.Cell(row, 2);
+                            //    var text = cell.Range.Text;
+                            //    text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
+                            //    var Naimenovanie_sostavnoj_edinicy = text;
+                            //    cell = tb.Cell(row, 3);
+                            //    text = cell.Range.Text;
+                            //    text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
+                            //    var Oboznachenie_sostavnoj_edinicy = text;
+                            //    cell = tb.Cell(row, 4);
+                            //    text = cell.Range.Text;
+                            //    text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
+                            //    int Kolichestvo_sostavnyh_edinic=0;
+                            //    try
+                            //    {
+                            //        Kolichestvo_sostavnyh_edinic = Convert.ToInt32(text);
 
-                                }
-                                catch (Exception e)
-                                {
-                                }
-                                if (!(String.IsNullOrWhiteSpace(Naimenovanie_sostavnoj_edinicy) && String.IsNullOrWhiteSpace(Oboznachenie_sostavnoj_edinicy) && Kolichestvo_sostavnyh_edinic == 0))
-                                {
-                                    EC.Soderzhimoe.Add(new SubEvent() { Naimenovanie_sostavnoj_edinicy = Naimenovanie_sostavnoj_edinicy, Kolichestvo_sostavnyh_edinic = Kolichestvo_sostavnyh_edinic, Oboznachenie_sostavnoj_edinicy = Oboznachenie_sostavnoj_edinicy });
-                                }
-                            }
-                            if (row == 33)
-                            {
-                                var cell = tb.Cell(row, 4);
-                                var text = cell.Range.Text;
-                                text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
-                                DateTime Data_priyoma = DateTime.Now.Date;
-                                try
-                                {
-                                    Data_priyoma = Convert.ToDateTime(text).Date;
-                                    EC.Data_priyoma = Data_priyoma;
-                                }
-                                catch (Exception e)
-                                {
-                                }
-                                flag = true;
-                            }
+                            //    }
+                            //    catch (Exception e)
+                            //    {
+                            //    }
+                            //    if (!(String.IsNullOrWhiteSpace(Naimenovanie_sostavnoj_edinicy) && String.IsNullOrWhiteSpace(Oboznachenie_sostavnoj_edinicy) && Kolichestvo_sostavnyh_edinic == 0))
+                            //    {
+                            //        EC.Soderzhimoe.Add(new SubEvent() { Naimenovanie_sostavnoj_edinicy = Naimenovanie_sostavnoj_edinicy, Kolichestvo_sostavnyh_edinic = Kolichestvo_sostavnyh_edinic, Oboznachenie_sostavnoj_edinicy = Oboznachenie_sostavnoj_edinicy });
+                            //    }
+                            //}
+                            //if (row == 33)
+                            //{
+                            //    var cell = tb.Cell(row, 4);
+                            //    var text = cell.Range.Text;
+                            //    text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
+                            //    DateTime Data_priyoma = DateTime.Now.Date;
+                            //    try
+                            //    {
+                            //        Data_priyoma = Convert.ToDateTime(text).Date;
+                            //        EC.Data_priyoma = Data_priyoma;
+                            //    }
+                            //    catch (Exception e)
+                            //    {
+                            //    }
+                            //    flag = true;
+                            //}
 
                         }
-                        else
+                        if (t == 1)
                         {
-                            if (row > 2 && row < 22)
-                            {
-                                var cell = tb.Cell(row, 2);
-                                var text = cell.Range.Text;
-                                text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
-                                var Naimenovanie_sostavnoj_edinicy = text;
-                                cell = tb.Cell(row, 3);
-                                text = cell.Range.Text;
-                                text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
-                                var Oboznachenie_sostavnoj_edinicy = text;
-                                cell = tb.Cell(row, 4);
-                                text = cell.Range.Text;
-                                text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
-                                int Kolichestvo_sostavnyh_edinic = 0;
-                                try
-                                {
-                                    Kolichestvo_sostavnyh_edinic = Convert.ToInt32(text);
+                            //if (row > 2 && row < 22)
+                            //{
+                            //    var cell = tb.Cell(row, 2);
+                            //    var text = cell.Range.Text;
+                            //    text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
+                            //    var Naimenovanie_sostavnoj_edinicy = text;
+                            //    cell = tb.Cell(row, 3);
+                            //    text = cell.Range.Text;
+                            //    text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
+                            //    var Oboznachenie_sostavnoj_edinicy = text;
+                            //    cell = tb.Cell(row, 4);
+                            //    text = cell.Range.Text;
+                            //    text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
+                            //    int Kolichestvo_sostavnyh_edinic = 0;
+                            //    try
+                            //    {
+                            //        Kolichestvo_sostavnyh_edinic = Convert.ToInt32(text);
 
-                                }
-                                catch (Exception e)
-                                {
-                                }
-                                if (!(String.IsNullOrWhiteSpace(Naimenovanie_sostavnoj_edinicy) && String.IsNullOrWhiteSpace(Oboznachenie_sostavnoj_edinicy) && Kolichestvo_sostavnyh_edinic == 0))
-                                {
-                                    EC.Soderzhimoe.Add(new SubEvent() { Naimenovanie_sostavnoj_edinicy = Naimenovanie_sostavnoj_edinicy, Kolichestvo_sostavnyh_edinic = Kolichestvo_sostavnyh_edinic, Oboznachenie_sostavnoj_edinicy = Oboznachenie_sostavnoj_edinicy });
-                                }
-                            }
-                            if (t==countT-1)
-                            {
+                            //    }
+                            //    catch (Exception e)
+                            //    {
+                            //    }
+                            //    if (!(String.IsNullOrWhiteSpace(Naimenovanie_sostavnoj_edinicy) && String.IsNullOrWhiteSpace(Oboznachenie_sostavnoj_edinicy) && Kolichestvo_sostavnyh_edinic == 0))
+                            //    {
+                            //        EC.Soderzhimoe.Add(new SubEvent() { Naimenovanie_sostavnoj_edinicy = Naimenovanie_sostavnoj_edinicy, Kolichestvo_sostavnyh_edinic = Kolichestvo_sostavnyh_edinic, Oboznachenie_sostavnoj_edinicy = Oboznachenie_sostavnoj_edinicy });
+                            //    }
+                            //}
+                            //if (t==countT-1)
+                            //{
 
-                                var cell = tb.Cell(24, 4);
-                                var text = cell.Range.Text;
-                                text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
-                                DateTime Data_priyoma = DateTime.Now.Date;
-                                try
-                                {
-                                    Data_priyoma = Convert.ToDateTime(text).Date;
-                                    EC.Data_priyoma = Data_priyoma;
-                                }
-                                catch (Exception e)
-                                {
-                                }
-                                flag = true;
-                            }
+                            //    var cell = tb.Cell(24, 4);
+                            //    var text = cell.Range.Text;
+                            //    text = text.Replace("\r\a", "").Replace("\r", "").Replace("\a", "");
+                            //    DateTime Data_priyoma = DateTime.Now.Date;
+                            //    try
+                            //    {
+                            //        Data_priyoma = Convert.ToDateTime(text).Date;
+                            //        EC.Data_priyoma = Data_priyoma;
+                            //    }
+                            //    catch (Exception e)
+                            //    {
+                            //    }
+                            //    flag = true;
+                            //}
                         }
                     }
                     if (flag)
